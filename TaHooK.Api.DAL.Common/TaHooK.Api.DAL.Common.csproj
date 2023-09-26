@@ -13,4 +13,8 @@
       <PackageReference Include="Serilog.Sinks.Console" Version="4.2.0-dev-00918" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TaHooK.Common\TaHooK.Common.csproj" />
+    </ItemGroup>
+
 </Project>
