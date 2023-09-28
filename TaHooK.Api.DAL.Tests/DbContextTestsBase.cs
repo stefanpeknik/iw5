@@ -1,6 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
 using TaHooK.Api.Common.Tests;
+using TaHooK.Api.Common.Tests.Factories;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -8,12 +9,12 @@ namespace TaHooK.Api.DAL.Tests
 {
     public class DbContextTestsBase : IAsyncLifetime
     {
-        protected IDbContextFactory<TaHooKDbContext> DbContextFactory { get; }
-        protected TaHooKDbContext DbContextInstance { get; }
+        protected IDbContextFactory<TestingDbContext> DbContextFactory { get; }
+        protected TestingDbContext DbContextInstance { get; }
 
         protected DbContextTestsBase(ITestOutputHelper output)
         {
-            DbContextFactory = new DbContextTestingFactory(GetType().FullName!, seedTestingData: true);
+            DbContextFactory = new DbContextTestingFactory(GetType().FullName!, true);
             DbContextInstance = DbContextFactory.CreateDbContext();
         }
 

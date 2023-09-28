@@ -1,9 +1,8 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using TaHooK.Api.DAL.Tests;
 using Xunit;
 using Xunit.Abstractions;
 
-namespace Project.DAL.Tests
+namespace TaHooK.Api.DAL.Tests
 {
     public class DbContextAnswerTests : DbContextTestsBase
     {
@@ -11,14 +10,14 @@ namespace Project.DAL.Tests
         public DbContextAnswerTests(ITestOutputHelper output) : base(output) { }
 
         [Fact]
-        public async Task GetCount_User()
+        public async Task GetCount_Answers()
         {
             //Act
-            var users = await DbContextInstance.Answers
+            var answers = await DbContextInstance.Answers
                 .CountAsync();
 
             //Assert
-            Assert.Equal(1, users);
+            Assert.Equal(1, answers);
         }
     }
 }

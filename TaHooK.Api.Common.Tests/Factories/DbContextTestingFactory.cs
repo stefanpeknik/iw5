@@ -3,9 +3,9 @@ using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.Configuration;
 using TaHooK.Api.DAL.Factories;
 
-namespace TaHooK.Api.Common.Tests
+namespace TaHooK.Api.Common.Tests.Factories
 {
-    public class DbContextTestingFactory : IDbContextFactory<TaHooKDbContext>
+    public class DbContextTestingFactory : IDbContextFactory<TestingDbContext>
     {
         private readonly string _databaseName;
         private readonly bool _seedTestingData;
@@ -16,7 +16,7 @@ namespace TaHooK.Api.Common.Tests
             _seedTestingData = seedTestingData;
         }
 
-        public TaHooKDbContext CreateDbContext()
+        public TestingDbContext CreateDbContext()
         {
             var configuration = new ConfigurationBuilder()
                 .AddUserSecrets<TaHooKDbContextFactory>(optional: true)
@@ -25,7 +25,7 @@ namespace TaHooK.Api.Common.Tests
             var optionsBuilder = new DbContextOptionsBuilder<TaHooKDbContext>();
             optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 
-            return new TaHooKDbContext(optionsBuilder.Options);
+            return new TestingDbContext(optionsBuilder.Options, seedTestingData: _seedTestingData);
         }
     }
 }

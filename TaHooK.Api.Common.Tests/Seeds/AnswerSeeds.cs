@@ -10,7 +10,7 @@ namespace TaHooK.Api.Common.Tests.Seeds
         public static readonly AnswerEntity DefaultAnswer = new()
         {
             Id = Guid.Parse("DE80D56E-DDCA-4500-9E7C-7E72C3838E50"),
-            IsCorrect = false,
+            IsCorrect = true,
             Picture = new Uri(
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Bananas_white_background_DS.jpg/220px-Bananas_white_background_DS.jpg"),
             Question = QuestionSeeds.DefaultQuestion,
