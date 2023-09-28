@@ -1,4 +1,6 @@
-﻿namespace TaHooK.Api.DAL.Entities;
+﻿using AutoMapper;
+
+namespace TaHooK.Api.DAL.Entities;
 
 public record ScoreEntity : EntityBase
 {
@@ -9,4 +11,13 @@ public record ScoreEntity : EntityBase
 
     public required Guid QuizId { get; set; }
     public required QuizEntity Quiz { get; set; }
+    
+    
+    public class ScoreEntityMapperProfile : Profile
+    {
+        public ScoreEntityMapperProfile()
+        {
+            CreateMap<ScoreEntity, ScoreEntity>();
+        }
+    }
 }
