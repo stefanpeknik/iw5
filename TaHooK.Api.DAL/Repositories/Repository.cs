@@ -4,12 +4,12 @@ using TaHooK.Api.DAL.Entities.Interfaces;
 
 namespace TaHooK.Api.DAL.Repositories;
 
-public class RepositoryBase<TEntity>: IRepository<TEntity> where TEntity : class, IEntity
+public class Repository<TEntity>: IRepository<TEntity> where TEntity : class, IEntity
 {
     private readonly IMapper _mapper;
     private readonly DbSet<TEntity> _dbSet;
 
-    public RepositoryBase(
+    public Repository(
             DbContext dbContext, 
             IMapper mapper)
     {
