@@ -23,7 +23,9 @@ namespace TaHooK.Api.Common.Tests.Factories
                 .Build();
 
             var optionsBuilder = new DbContextOptionsBuilder<TaHooKDbContext>();
-            optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+            optionsBuilder.UseSqlServer(
+                configuration.GetConnectionString("TestConnection") 
+                + $"Database={_databaseName};");
 
             return new TestingDbContext(optionsBuilder.Options, seedTestingData: _seedTestingData);
         }
