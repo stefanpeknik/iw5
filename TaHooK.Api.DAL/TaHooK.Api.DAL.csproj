@@ -23,11 +23,11 @@
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TaHooK.Api.DAL.Common\TaHooK.Api.DAL.Common.csproj" />
+      <Folder Include="Migrations\" />
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Migrations\" />
+      <ProjectReference Include="..\TaHooK.Common\TaHooK.Common.csproj" />
     </ItemGroup>
 
 </Project>

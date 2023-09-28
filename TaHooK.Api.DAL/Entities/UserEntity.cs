@@ -1,4 +1,4 @@
-﻿namespace TaHooK.Api.DAL.Common.Entities;
+﻿namespace TaHooK.Api.DAL.Entities;
 
 public record UserEntity : EntityBase
 {

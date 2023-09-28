@@ -1,4 +1,4 @@
-using TaHooK.Api.DAL.Common.Entities.Interfaces;
+using TaHooK.Api.DAL.Entities.Interfaces;
 
 namespace TaHooK.Api.DAL.Repositories;
 

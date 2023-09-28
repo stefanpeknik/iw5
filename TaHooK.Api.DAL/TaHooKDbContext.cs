@@ -1,5 +1,5 @@
-﻿using TaHooK.Api.DAL.Common.Entities;
-using Microsoft.EntityFrameworkCore;
+﻿using Microsoft.EntityFrameworkCore;
+using TaHooK.Api.DAL.Entities;
 
 namespace TaHooK.Api.DAL;
 

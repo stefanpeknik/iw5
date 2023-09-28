@@ -1,5 +1,5 @@
-using TaHooK.Api.DAL.Common.Entities.Interfaces;
 using Microsoft.EntityFrameworkCore;
+using TaHooK.Api.DAL.Entities.Interfaces;
 
 namespace TaHooK.Api.DAL.Repositories;
 
