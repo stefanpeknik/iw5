@@ -1,3 +1,4 @@
+using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using TaHooK.Api.DAL.Entities.Interfaces;
 
@@ -5,44 +6,44 @@ namespace TaHooK.Api.DAL.Repositories;
 
 public class RepositoryBase<TEntity>: IRepository<TEntity> where TEntity : class, IEntity
 {
-    private readonly DbContext _dbContext;
-    
-    public RepositoryBase(DbContext dbContext)
+    private readonly IMapper _mapper;
+    private readonly DbSet<TEntity> _dbSet;
+
+    public RepositoryBase(
+            DbContext dbContext, 
+            IMapper mapper)
     {
-        _dbContext = dbContext;
+        _mapper = mapper;
+        _dbSet = dbContext.Set<TEntity>();
     }
     
-    public IQueryable<TEntity> GetAll()
+    public IQueryable<TEntity> Get() => _dbSet;
+
+    public ValueTask<bool> ExistsAsync(TEntity entity)
     {
-        return _dbContext.Set<TEntity>();
+        throw new NotImplementedException();
     }
-    
-    public async Task<TEntity?> GetByIdAsync(Guid id)
-    {
-        var entity = await _dbContext.Set<TEntity>().FindAsync(id);
-        return entity;
-    }
-    
+
     public async Task<Guid> InsertAsync(TEntity entity)
     {
-        var createdEntity = await _dbContext.Set<TEntity>().AddAsync(entity);
+        var createdEntity = await _dbSet.AddAsync(entity);
         return createdEntity.Entity.Id;
     }
 
     public async Task<TEntity> UpdateAsync(TEntity entity)
     {
-        TEntity existingEntity = await _dbContext.Set<TEntity>().SingleAsync(e => e.Id == entity.Id);
-        //TODO: add mapping
+        TEntity existingEntity = await _dbSet.SingleAsync(e => e.Id == entity.Id);
+        _mapper.Map(entity, existingEntity);
         return existingEntity;
     }
     
     public async Task DeleteAsync(Guid id)
     {
-        var entity = await _dbContext.Set<TEntity>().FindAsync(id);
+        var entity = await _dbSet.FindAsync(id);
 
         if (entity != null)
         {
-            _dbContext.Set<TEntity>().Remove(entity);    
+            _dbSet.Remove(entity);    
         }
     }
 
