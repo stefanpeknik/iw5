@@ -13,7 +13,7 @@ namespace TaHooK.Api.Common.Tests.Seeds
             IsCorrect = true,
             Picture = new Uri(
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Bananas_white_background_DS.jpg/220px-Bananas_white_background_DS.jpg"),
-            Question = QuestionSeeds.DefaultQuestion,
+            Question = null!,
             QuestionId = Guid.Parse("574E8D70-47A1-4D76-B971-CAFB314540FD"),
             Text = "Banana",
             Type = default

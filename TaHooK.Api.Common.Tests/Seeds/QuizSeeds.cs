@@ -14,7 +14,7 @@ namespace TaHooK.Api.Common.Tests.Seeds
 
         public static void Seed(this ModelBuilder modelBuilder)
         {
-            modelBuilder.Entity<AnswerEntity>().HasData(
+            modelBuilder.Entity<QuizEntity>().HasData(
                 DefaultQuiz with { Questions = Array.Empty<QuestionEntity>(), Scores = Array.Empty<ScoreEntity>() }
             );
         }
