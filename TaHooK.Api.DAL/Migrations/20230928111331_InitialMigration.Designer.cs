@@ -12,7 +12,7 @@ using TaHooK.Api.DAL;
 namespace TaHooK.Api.DAL.Migrations
 {
     [DbContext(typeof(TaHooKDbContext))]
-    [Migration("20230928104324_InitialMigration")]
+    [Migration("20230928111331_InitialMigration")]
     partial class InitialMigration
     {
         /// <inheritdoc />
@@ -144,7 +144,7 @@ namespace TaHooK.Api.DAL.Migrations
                     b.HasOne("TaHooK.Api.DAL.Common.Entities.QuestionEntity", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Question");
@@ -155,7 +155,7 @@ namespace TaHooK.Api.DAL.Migrations
                     b.HasOne("TaHooK.Api.DAL.Common.Entities.QuizEntity", "Quiz")
                         .WithMany("Questions")
                         .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Quiz");

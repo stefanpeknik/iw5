@@ -35,10 +35,6 @@ public class TaHooKDbContext : DbContext
             entity.HasMany(i => i.Answers)
                 .WithOne(i => i.Question)
                 .OnDelete(DeleteBehavior.Cascade);
-
-            entity.HasOne(i => i.Quiz)
-                .WithMany(i => i.Questions)
-                .OnDelete(DeleteBehavior.SetNull);
         });
         
         modelBuilder.Entity<UserEntity>(entity =>
@@ -47,13 +43,5 @@ public class TaHooKDbContext : DbContext
                 .WithOne(i => i.User)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-
-        modelBuilder.Entity<AnswerEntity>(entity =>
-        {
-            entity.HasOne(i => i.Question)
-                .WithMany(i => i.Answers)
-                .OnDelete(DeleteBehavior.SetNull);
-        });
-
     }
 }

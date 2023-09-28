@@ -141,7 +141,7 @@ namespace TaHooK.Api.DAL.Migrations
                     b.HasOne("TaHooK.Api.DAL.Common.Entities.QuestionEntity", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Question");
@@ -152,7 +152,7 @@ namespace TaHooK.Api.DAL.Migrations
                     b.HasOne("TaHooK.Api.DAL.Common.Entities.QuizEntity", "Quiz")
                         .WithMany("Questions")
                         .HasForeignKey("QuizId")
-                        .OnDelete(DeleteBehavior.SetNull)
+                        .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
                     b.Navigation("Quiz");
