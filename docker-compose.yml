@@ -1,0 +1,10 @@
+version: '3.8'
+services:
+  local-mssql:
+    image: mcr.microsoft.com/mssql/server:2019-latest
+    restart: always
+    environment:
+      - ACCEPT_EULA=Y
+      - SA_PASSWORD=Password123
+    ports:
+      - 1433:1433
