@@ -14,10 +14,14 @@ namespace TaHooK.Api.Common.Tests.Seeds
             Text = "Test Question"
         };
 
+        public static readonly QuestionEntity QuestionToDelete =
+            DefaultQuestion with { Id = Guid.Parse("85A30A08-201D-4BD2-8804-A5EDCD205A8D") };
+
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<QuestionEntity>().HasData(
-                DefaultQuestion with { Answers = Array.Empty<AnswerEntity>() }
+                DefaultQuestion with { Answers = Array.Empty<AnswerEntity>() },
+                QuestionToDelete
             );
         }
     }
