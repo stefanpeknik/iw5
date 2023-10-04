@@ -4,7 +4,7 @@ namespace TaHooK.Common.Models.User
 {
     public record UserDetailModel : IWithId
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
         public required string Name { get; set; }
         public required string Email { get; set; }
         public required string Password { get; set; }

@@ -4,6 +4,6 @@ namespace TaHooK.Api.DAL.Entities
 {
     public abstract record EntityBase : IEntity
     {
-        public required Guid Id { get; init; }
+        public required Guid Id { get; set; }
     }
 }
