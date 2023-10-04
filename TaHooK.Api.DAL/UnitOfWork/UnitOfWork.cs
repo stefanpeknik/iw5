@@ -17,7 +17,7 @@ public sealed class UnitOfWork : IUnitOfWork
     }
 
     public IRepository<TEntity> GetRepository<TEntity>()
-        where TEntity : class, IEntity, new()
+        where TEntity : class, IEntity
         => new Repository<TEntity>(_dbContext, _mapper);
 
     public async Task CommitAsync() => await _dbContext.SaveChangesAsync();
