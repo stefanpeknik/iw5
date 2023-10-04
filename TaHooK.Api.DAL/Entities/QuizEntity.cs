@@ -4,7 +4,9 @@ namespace TaHooK.Api.DAL.Entities;
 
 public record QuizEntity : EntityBase
 {
+    public required string Title { get; set; }
     public required DateTime Schedule { get; set; }
+    public required bool Finished { get; set; }
 
     public ICollection<QuestionEntity> Questions { get; set; } = new List<QuestionEntity>();
 
