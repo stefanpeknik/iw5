@@ -9,6 +9,7 @@ namespace TaHooK.Common.Models.Quiz
         public Guid Id { get; init; }
         public required string Title { get; set; }
         public required DateTime Schedule { get; set; }
+        public required bool Finished { get; set; }
 
         public ObservableCollection<QuestionListModel> Questions { get; set; } = new();
 
