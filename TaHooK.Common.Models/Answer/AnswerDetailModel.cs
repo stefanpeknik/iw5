@@ -4,7 +4,7 @@ namespace TaHooK.Common.Models.Answer
 {
     public record AnswerDetailModel : IWithId
     {
-        public Guid Id { get; init; }
+        public Guid Id { get; set; }
         public required AnswerType Type { get; set; }
         public required string Text { get; set; }
         public Uri? Picture { get; set; }
