@@ -24,12 +24,26 @@ where TDetailModel : class, IWithId
         Mapper = mapper;
     }
 
+    public virtual List<string> NavigationPathDetails => new();
+
+    public void IncludeNavigationPathDetails(ref IQueryable<TEntity> query)
+    {
+        foreach (var navigationPathDetail in NavigationPathDetails)
+        {
+            query = string.IsNullOrWhiteSpace(navigationPathDetail)
+                ? query
+                : query.Include(navigationPathDetail);
+        }
+    }
+
     public virtual async Task<IEnumerable<TListModel>> GetAllAsync()
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
 
         IQueryable<TEntity> query = uow.GetRepository<TEntity>().Get();
-        
+
+        IncludeNavigationPathDetails(ref query);
+
         List<TEntity> entities = await query.ToListAsync();
         
         return Mapper.Map<IEnumerable<TListModel>>(entities);
@@ -40,31 +54,40 @@ where TDetailModel : class, IWithId
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();
         
         IQueryable<TEntity> query = uow.GetRepository<TEntity>().Get();
+
+        IncludeNavigationPathDetails(ref query);
         
         TEntity? entity = await query.SingleOrDefaultAsync(e => e.Id == id);
         
         return entity == null ? null : Mapper.Map<TDetailModel>(entity);
     }
 
-    public virtual async Task<Guid> CreateAsync(TDetailModel model)
+    public virtual async Task<TDetailModel> SaveAsync(TDetailModel model)
     {
+        TDetailModel result;
+        
         GuardCollectionsAreNotSet(model);
-        
-        await using IUnitOfWork uow = UnitOfWorkFactory.Create();
-        
-        IRepository<TEntity> repository = uow.GetRepository<TEntity>();
-        
-        // TODO: check if entity already exists
         
         TEntity entity = Mapper.Map<TEntity>(model);
         
-        entity.Id = Guid.NewGuid();
-        
-        Guid insertedEntity = await repository.InsertAsync(entity);
+        await using var uow = UnitOfWorkFactory.Create();
+        IRepository<TEntity> repository = uow.GetRepository<TEntity>();
+
+        if (await repository.ExistsAsync(entity))
+        {
+            TEntity updatedEntity = await repository.UpdateAsync(entity);
+            result = Mapper.Map<TDetailModel>(updatedEntity);
+        }
+        else
+        {
+            entity.Id = Guid.NewGuid();
+            TEntity insertedEntity = await repository.InsertAsync(entity);
+            result = Mapper.Map<TDetailModel>(insertedEntity);
+        }
         
         await uow.CommitAsync();
         
-        return insertedEntity;
+        return result;
     }
 
     public virtual async Task DeleteAsync(Guid id)

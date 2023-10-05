@@ -20,15 +20,15 @@ public class Repository<TEntity>: IRepository<TEntity>
     
     public IQueryable<TEntity> Get() => _dbSet;
 
-    public ValueTask<bool> ExistsAsync(TEntity entity)
+    public async ValueTask<bool> ExistsAsync(TEntity entity)
     {
-        throw new NotImplementedException();
+        return entity.Id != Guid.Empty && await _dbSet.AnyAsync(e => e.Id == entity.Id);
     }
 
-    public async Task<Guid> InsertAsync(TEntity entity)
+    public async Task<TEntity> InsertAsync(TEntity entity)
     {
         var createdEntity = await _dbSet.AddAsync(entity);
-        return createdEntity.Entity.Id;
+        return createdEntity.Entity;
     }
 
     public async Task<TEntity> UpdateAsync(TEntity entity)
