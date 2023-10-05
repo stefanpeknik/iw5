@@ -60,7 +60,7 @@ where TDetailModel : class, IWithId
         return entity == null ? null : Mapper.Map<TDetailModel>(entity);
     }
 
-    public virtual async Task<Guid> CreateAsync(TDetailModel model)
+    public virtual async Task<Guid> SaveAsync(TDetailModel model)
     {
         GuardCollectionsAreNotSet(model);
         
