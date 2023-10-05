@@ -13,7 +13,7 @@ namespace TaHooK.Api.Common.Tests.Seeds
             Email = "ferda@gmail.com",
             Name = "Ferda",
             Password = "Ferda123",
-            Photo = null!
+            Photo = new Uri("https://www.merchandising.cz/images/F01_2020_i.jpg")
         };
 
         public static void Seed(this ModelBuilder modelBuilder)

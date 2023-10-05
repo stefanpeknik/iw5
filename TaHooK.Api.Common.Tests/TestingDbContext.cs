@@ -23,6 +23,8 @@ namespace TaHooK.Api.Common.Tests
                 QuizSeeds.Seed(modelBuilder);
                 QuestionSeeds.Seed(modelBuilder);
                 AnswerSeeds.Seed(modelBuilder);
+                ScoreSeeds.Seed(modelBuilder);
+                UserSeeds.Seed(modelBuilder);
             }
         }
     }

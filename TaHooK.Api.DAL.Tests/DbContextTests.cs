@@ -6,10 +6,10 @@ using Xunit.Abstractions;
 
 namespace TaHooK.Api.DAL.Tests
 {
-    public class DbContextRepositoryTests : DbContextTestsBase
+    public class DbContextTests : DALTestsBase
     {
 
-        public DbContextRepositoryTests(ITestOutputHelper output) : base(output) { }
+        public DbContextTests(ITestOutputHelper output) : base(output) { }
 
         [Fact]
         public async Task GetById_Quiz_Including_Questions_And_Answers()

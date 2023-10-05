@@ -7,12 +7,12 @@ using Xunit.Abstractions;
 
 namespace TaHooK.Api.DAL.Tests
 {
-    public class DbContextTestsBase : IAsyncLifetime
+    public class DALTestsBase : IAsyncLifetime
     {
         protected IDbContextFactory<TestingDbContext> DbContextFactory { get; }
         protected TestingDbContext DbContextInstance { get; }
 
-        protected DbContextTestsBase(ITestOutputHelper output)
+        protected DALTestsBase(ITestOutputHelper output)
         {
             DbContextFactory = new DbContextTestingFactory(GetType().FullName!, true);
             DbContextInstance = DbContextFactory.CreateDbContext();
