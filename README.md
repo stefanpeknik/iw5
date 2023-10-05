@@ -9,6 +9,11 @@
 # Přidání connection stringu do User secrets
 dotnet user-secrets set "ConnectionStrings:DefaultConnection" "<connection string>"
 
+# Přidání testovacího connection stringu do User secrets
+dotnet user-secrets set "ConnectionStrings:TestConnection" "<connection string>"
+V connection stringu je potřeba oproti DefaultConnection vynechat "Database=..."
+Doplňuje se automaticky při testování, aby se předešlo kolizi za sebou vykonávaných testů
+
 # Migrace databaze
 dotnet ef database update
 ```

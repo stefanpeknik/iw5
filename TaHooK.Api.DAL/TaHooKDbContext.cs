@@ -5,14 +5,18 @@ namespace TaHooK.Api.DAL;
 
 public class TaHooKDbContext : DbContext
 {
+    private readonly bool _seedDemoData;
+
     public DbSet<AnswerEntity> Answers { get; set; } = null!;
     public DbSet<QuestionEntity> Questions { get; set; } = null!;
     public DbSet<QuizEntity> Quizes { get; set; } = null!;
     public DbSet<ScoreEntity> Scores { get; set; } = null!;
     public DbSet<UserEntity> Users { get; set; } = null!;
     
-    public TaHooKDbContext(DbContextOptions<TaHooKDbContext> options) : base(options)
+    public TaHooKDbContext(DbContextOptions<TaHooKDbContext> options, bool seedDemoData = false) 
+        : base(options)
     {
+        _seedDemoData = seedDemoData;
     }
     
     protected override void OnModelCreating(ModelBuilder modelBuilder)
@@ -43,5 +47,10 @@ public class TaHooKDbContext : DbContext
                 .WithOne(i => i.User)
                 .OnDelete(DeleteBehavior.Cascade);
         });
+
+        if (_seedDemoData)
+        {
+            // TODO: Setup seed data
+        }
     }
 }
