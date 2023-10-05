@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using TaHooK.Api.DAL.Common.Entities;
+using TaHooK.Api.DAL.Entities;
 
 namespace TaHooK.Api.Common.Tests.Seeds
 {

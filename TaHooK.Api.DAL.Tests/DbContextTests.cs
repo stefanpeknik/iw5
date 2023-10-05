@@ -1,6 +1,7 @@
-﻿using Microsoft.EntityFrameworkCore;
+﻿using AutoMapper;
+using Microsoft.EntityFrameworkCore;
 using TaHooK.Api.Common.Tests.Seeds;
-using TaHooK.Api.DAL.Common.Entities;
+using TaHooK.Api.DAL.Entities;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -9,7 +10,7 @@ namespace TaHooK.Api.DAL.Tests
     public class DbContextTests : DALTestsBase
     {
 
-        public DbContextTests(ITestOutputHelper output) : base(output) { }
+        public DbContextTests(ITestOutputHelper output, IMapper mapper) : base(output, mapper) { }
 
         [Fact]
         public async Task GetById_Quiz_Including_Questions_And_Answers()

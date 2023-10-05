@@ -1,6 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using System.Diagnostics;
-using TaHooK.Api.DAL.Common.Entities;
+using TaHooK.Api.DAL.Entities;
 
 namespace TaHooK.Api.Common.Tests.Seeds
 {
@@ -19,10 +19,14 @@ namespace TaHooK.Api.Common.Tests.Seeds
             Type = default
         };
 
+        public static readonly AnswerEntity AnswerUnderQuestionToDelete =
+            DefaultAnswer with { Id = Guid.Parse("2A14549B-3547-46A1-B4AF-8E398F0B55B0"), QuestionId = QuestionSeeds.QuestionToDelete.Id };
+
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AnswerEntity>().HasData(
-                DefaultAnswer
+                DefaultAnswer,
+                AnswerUnderQuestionToDelete
             );
         }
     }
