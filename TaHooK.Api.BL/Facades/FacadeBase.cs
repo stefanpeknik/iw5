@@ -24,6 +24,20 @@ where TDetailModel : class, IWithId
         Mapper = mapper;
     }
 
+    public virtual List<string> NavigationPathDetails => new();
+
+    public IQueryable IncludeNavigationPathDetails(IQueryable<TEntity> query)
+    {
+        foreach (var navigationPathDetail in NavigationPathDetails)
+        {
+            query = string.IsNullOrWhiteSpace(navigationPathDetail)
+                ? query
+                : query.Include(navigationPathDetail);
+        }
+
+        return query;
+    }
+
     public virtual async Task<IEnumerable<TListModel>> GetAllAsync()
     {
         await using IUnitOfWork uow = UnitOfWorkFactory.Create();

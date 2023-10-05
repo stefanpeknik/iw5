@@ -8,6 +8,8 @@ public interface IFacade<TEntity, TListModel, TDetailModel>
     where TListModel : IWithId
     where TDetailModel : class, IWithId
 {
+    IQueryable IncludeNavigationPathDetails(IQueryable<TEntity> query);
+    
     Task<IEnumerable<TListModel>> GetAllAsync();
     Task<TDetailModel?> GetByIdAsync(Guid id);
     Task<Guid> CreateAsync(TDetailModel model);
