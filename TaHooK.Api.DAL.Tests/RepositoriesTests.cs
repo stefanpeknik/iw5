@@ -43,11 +43,11 @@ namespace TaHooK.Api.DAL.Tests
             };
 
             // Act
-            var insertedId = await repository.InsertAsync(entity);
+            var insertedEntity = await repository.InsertAsync(entity);
             await UnitOfWork.CommitAsync();
 
             // Assert
-            var retrieved = await repository.Get().Where(i => i.Id == insertedId).SingleAsync();
+            var retrieved = await repository.Get().Where(i => i.Id == insertedEntity.Id).SingleAsync();
             Assert.True(retrieved.IsDeepEqual(entity));
         }
 
@@ -59,7 +59,7 @@ namespace TaHooK.Api.DAL.Tests
             var updated = ScoreSeeds.DefaultScore with { Score = 123 };
 
             // Act
-            var updated_test = await repository.UpdateAsync(updated);
+            await repository.UpdateAsync(updated);
             await UnitOfWork.CommitAsync();
 
             // Assert
