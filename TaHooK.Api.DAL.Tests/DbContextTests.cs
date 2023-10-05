@@ -10,7 +10,7 @@ namespace TaHooK.Api.DAL.Tests
     public class DbContextTests : DALTestsBase
     {
 
-        public DbContextTests(ITestOutputHelper output, IMapper mapper) : base(output, mapper) { }
+        public DbContextTests(ITestOutputHelper output) : base(output) { }
 
         [Fact]
         public async Task GetById_Quiz_Including_Questions_And_Answers()

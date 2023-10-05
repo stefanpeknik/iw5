@@ -14,7 +14,7 @@ namespace TaHooK.Api.DAL.Tests
     public class RepositoriesTests : DALTestsBase
     {
 
-        public RepositoriesTests(ITestOutputHelper output, IMapper mapper) : base(output, mapper) { }
+        public RepositoriesTests(ITestOutputHelper output) : base(output) { }
 
         [Fact]
         public void GetAll_Questions()

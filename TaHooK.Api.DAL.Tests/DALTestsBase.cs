@@ -1,8 +1,11 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Internal;
+using Moq;
 using TaHooK.Api.Common.Tests;
 using TaHooK.Api.Common.Tests.Factories;
+using TaHooK.Api.Common.Tests.Seeds;
+using TaHooK.Api.DAL.Entities;
 using TaHooK.Api.DAL.UnitOfWork;
 using Xunit;
 using Xunit.Abstractions;
@@ -15,11 +18,13 @@ namespace TaHooK.Api.DAL.Tests
         protected TestingDbContext DbContextInstance { get; }
         protected UnitOfWork.UnitOfWork UnitOfWork { get; }
 
-        protected DALTestsBase(ITestOutputHelper output, IMapper mapper)
+        protected DALTestsBase(ITestOutputHelper output)
         {
             DbContextFactory = new DbContextTestingFactory(GetType().FullName!, true);
             DbContextInstance = DbContextFactory.CreateDbContext();
-            UnitOfWork = new UnitOfWork.UnitOfWork(DbContextInstance, mapper);
+
+            var mapper = new Mock<IMapper>();
+            UnitOfWork = new UnitOfWork.UnitOfWork(DbContextInstance, mapper.Object);
         }
 
         public async Task InitializeAsync()
