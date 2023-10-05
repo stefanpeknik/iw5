@@ -1,6 +1,7 @@
-﻿using TaHooK.Common.Enums;
+﻿using AutoMapper;
+using TaHooK.Common.Enums;
 
-namespace TaHooK.Api.DAL.Common.Entities;
+namespace TaHooK.Api.DAL.Entities;
 
 public record AnswerEntity : EntityBase
 {
@@ -11,4 +12,13 @@ public record AnswerEntity : EntityBase
 
     public required Guid QuestionId { get; set; }
     public required QuestionEntity Question { get; set; }
+    
+    
+    public class AnswerEntityMapperProfile : Profile
+    {
+        public AnswerEntityMapperProfile()
+        {
+            CreateMap<AnswerEntity, AnswerEntity>();
+        }
+    }
 }
