@@ -11,8 +11,8 @@ namespace TaHooK.Common.Models.Quiz
         public required DateTime Schedule { get; set; }
         public required bool Finished { get; set; }
 
-        public ObservableCollection<QuestionListModel> Questions { get; set; } = new();
+        public ICollection<QuestionListModel> Questions { get; set; } = new List<QuestionListModel>();
 
-        public ObservableCollection<ScoreListModel> Scores { get; set; } = new();
+        public ICollection<ScoreListModel> Scores { get; set; } = new List<ScoreListModel>();
     }
 }
