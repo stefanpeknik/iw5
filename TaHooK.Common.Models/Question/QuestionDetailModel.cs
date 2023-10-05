@@ -8,7 +8,7 @@ namespace TaHooK.Common.Models.Question
         public Guid Id { get; set; }
         public required string Text { get; set; }
 
-        public ObservableCollection<AnswerListModel> Answers { get; set; } = new();
+        public ICollection<AnswerListModel> Answers { get; set; } = new List<AnswerListModel>();
 
         public required Guid QuizId { get; set; }
     }
