@@ -1,12 +1,8 @@
 ﻿using AutoMapper;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Internal;
-using Moq;
 using TaHooK.Api.Common.Tests;
 using TaHooK.Api.Common.Tests.Factories;
-using TaHooK.Api.Common.Tests.Seeds;
 using TaHooK.Api.DAL.Entities;
-using TaHooK.Api.DAL.UnitOfWork;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -23,8 +19,17 @@ namespace TaHooK.Api.DAL.Tests
             DbContextFactory = new DbContextTestingFactory(GetType().FullName!, true);
             DbContextInstance = DbContextFactory.CreateDbContext();
 
-            var mapper = new Mock<IMapper>();
-            UnitOfWork = new UnitOfWork.UnitOfWork(DbContextInstance, mapper.Object);
+            // TODO: refactor this for better approach
+            var mapperConfig = new MapperConfiguration(cfg => {
+                cfg.AddProfile<ScoreEntity.ScoreEntityMapperProfile>();
+                cfg.AddProfile<UserEntity.UserEntityMapperProfile>();
+                cfg.AddProfile<QuestionEntity.QuestionEntityMapperProfile>();
+                cfg.AddProfile<AnswerEntity.AnswerEntityMapperProfile>();
+                cfg.AddProfile<QuizEntity.QuizEntityMapperProfile>();
+            });
+            var mapper = mapperConfig.CreateMapper();
+            
+            UnitOfWork = new UnitOfWork.UnitOfWork(DbContextInstance, mapper);
         }
 
         public async Task InitializeAsync()

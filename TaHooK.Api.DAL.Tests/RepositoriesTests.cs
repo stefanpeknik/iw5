@@ -1,11 +1,7 @@
-﻿using AutoMapper;
-using DeepEqual.Syntax;
+﻿using DeepEqual.Syntax;
 using Microsoft.EntityFrameworkCore;
 using TaHooK.Api.Common.Tests.Seeds;
 using TaHooK.Api.DAL.Entities;
-using TaHooK.Api.DAL.Entities.Interfaces;
-using TaHooK.Api.DAL.Repositories;
-using TaHooK.Api.DAL.UnitOfWork;
 using Xunit;
 using Xunit.Abstractions;
 
@@ -63,7 +59,7 @@ namespace TaHooK.Api.DAL.Tests
             var updated = ScoreSeeds.DefaultScore with { Score = 123 };
 
             // Act
-            await repository.UpdateAsync(updated);
+            var updated_test = await repository.UpdateAsync(updated);
             await UnitOfWork.CommitAsync();
 
             // Assert
