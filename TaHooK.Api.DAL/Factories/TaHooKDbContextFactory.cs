@@ -1,20 +1,25 @@
 using Microsoft.EntityFrameworkCore;
-using Microsoft.EntityFrameworkCore.Design;
-using Microsoft.Extensions.Configuration;
 
 namespace TaHooK.Api.DAL.Factories;
 
-public class TaHooKDbContextFactory : IDesignTimeDbContextFactory<TaHooKDbContext>
+public class TaHooKDbContextFactory: IDbContextFactory<TaHooKDbContext>
 {
-    public TaHooKDbContext CreateDbContext(string[] args)
-    {
-        var configuration = new ConfigurationBuilder()
-            .AddUserSecrets<TaHooKDbContextFactory>(optional: true)
-            .Build();
-        
-        var optionsBuilder = new DbContextOptionsBuilder<TaHooKDbContext>();
-        optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+    private readonly string _connectionString;
+    private readonly bool _seedData;
 
-        return new TaHooKDbContext(optionsBuilder.Options);
+    public TaHooKDbContextFactory(string connectionString, bool seedData = false)
+    {
+        _connectionString = connectionString;
+        _seedData = seedData;
+    }
+    
+    public TaHooKDbContext CreateDbContext()
+    {
+        var optionsBuilder = new DbContextOptionsBuilder<TaHooKDbContext>();
+        optionsBuilder.UseSqlServer(_connectionString);
+
+        var context = new TaHooKDbContext(optionsBuilder.Options, _seedData);
+
+        return context;
     }
 }
