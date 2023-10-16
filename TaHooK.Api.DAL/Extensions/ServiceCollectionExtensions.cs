@@ -8,11 +8,11 @@ namespace TaHooK.Common.Extensions
 {
     public static class ServiceCollectionExtensions
     {
-        public static void AddInstaller<TInstaller>(this IServiceCollection serviceCollection)
-            where TInstaller : IInstaller, new()
+        public static void AddInstaller<TInstaller>(this IServiceCollection serviceCollection, string connectionString)
+            where TInstaller : DALInstaller, new()
         {
             var installer = new TInstaller();
-            installer.Install(serviceCollection);
+            installer.Install(serviceCollection,connectionString);
         }
     }
 }
