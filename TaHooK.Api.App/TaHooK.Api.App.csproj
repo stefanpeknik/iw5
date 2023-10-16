@@ -16,4 +16,9 @@
         <PackageReference Include="Swashbuckle.AspNetCore" Version="6.4.0" />
     </ItemGroup>
 
+    <ItemGroup>
+      <ProjectReference Include="..\TaHooK.Api.DAL\TaHooK.Api.DAL.csproj" />
+      <ProjectReference Include="..\TaHooK.Common\TaHooK.Common.csproj" />
+    </ItemGroup>
+
 </Project>
