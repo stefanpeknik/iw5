@@ -3,8 +3,9 @@ using Microsoft.Extensions.DependencyInjection;
 using System;
 using System.Collections.Generic;
 using System.Text;
+using TaHooK.Api.DAL.Installers;
 
-namespace TaHooK.Common.Extensions
+namespace TaHooK.Api.DAL.Extensions
 {
     public static class ServiceCollectionExtensions
     {

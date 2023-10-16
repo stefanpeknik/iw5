@@ -15,6 +15,7 @@ public class QuestionMapperProfile : Profile
         CreateMap<QuestionEntity, QuestionListModel>();
 
         CreateMap<QuestionDetailModel, QuestionEntity>()
-            .Ignore(dst => dst.Answers);
+            .Ignore(dst => dst.Answers)
+            .Ignore(dst => dst.Quiz);
     }
 }

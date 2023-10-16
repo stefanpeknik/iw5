@@ -1,10 +1,15 @@
+using AutoMapper;
 using Serilog;
+using TaHooK.Api.BL.Installers;
 using TaHooK.Common.Extensions;
 using TaHooK.Api.DAL.Entities.Interfaces;
+using TaHooK.Api.DAL.Extensions;
+using TaHooK.Api.DAL.Installers;
 //using TaHooK.Common.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
+ConfigureDependencies(builder.Services, builder.Configuration);
 ConfigureAutoMapper(builder.Services);
 
 
@@ -23,13 +28,13 @@ builder.Services.AddSwaggerGen();
 void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
 {
     var connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new ArgumentException("The connection string is missing");
-    serviceCollection.AddInstaller<ApiDALInstaller>(connectionString);
-    serviceCollection.AddInstaller<ApiBLInstaller>();
+    serviceCollection.AddInstaller<DALInstaller>(connectionString);
+    serviceCollection.AddInstaller<BlInstaller>();
 }
 
 void ConfigureAutoMapper(IServiceCollection serviceCollection)
 {
-    serviceCollection.AddAutoMapper(typeof(IEntity), typeof(ApiBLInstaller));
+    serviceCollection.AddAutoMapper(typeof(IEntity), typeof(BlInstaller));
 }
 
 void ValidateAutoMapperConfiguration(IServiceProvider serviceProvider)
@@ -48,6 +53,13 @@ if (app.Environment.IsDevelopment())
 }
 
 ValidateAutoMapperConfiguration(app.Services);
+
+// Migrate database
+using var scope = app.Services.CreateScope();
+if (app.Environment.IsDevelopment())
+{
+    scope.ServiceProvider.GetRequiredService<IDbMigrator>().Migrate();
+}
 
 app.UseHttpsRedirection();
 
