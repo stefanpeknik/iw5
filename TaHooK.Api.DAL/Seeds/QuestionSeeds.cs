@@ -1,7 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaHooK.Api.DAL.Entities;
 
-namespace TaHooK.Api.Common.Tests.Seeds
+namespace TaHooK.Api.DAL.Seeds
 {
     public static class QuestionSeeds
     {
