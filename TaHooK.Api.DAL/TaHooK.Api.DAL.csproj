@@ -17,6 +17,7 @@
       <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11" />
       <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0" />
       <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0" />
+      <PackageReference Include="Scrutor" Version="4.2.2" />
       <PackageReference Include="Serilog" Version="3.0.2-dev-02056" />
       <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
       <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.2-dev-00546" />
@@ -28,6 +29,7 @@
     </ItemGroup>
 
     <ItemGroup>
+      <ProjectReference Include="..\TaHooK.Common.Models\TaHooK.Common.Models.csproj" />
       <ProjectReference Include="..\TaHooK.Common\TaHooK.Common.csproj" />
     </ItemGroup>
 

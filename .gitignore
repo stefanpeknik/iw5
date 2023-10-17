@@ -6,3 +6,5 @@ riderModule.iml
 .idea/
 /TaHooK.Api.App/TaHooK.Api.App.csproj.user
 /.vs
+TaHooK.sln.DotSettings.user
+TaHooK.Api.App/appsettings.Development.json
