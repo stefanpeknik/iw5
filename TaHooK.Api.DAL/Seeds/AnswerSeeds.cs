@@ -13,19 +13,28 @@ namespace TaHooK.Api.DAL.Seeds
             Picture = new Uri(
                 "https://upload.wikimedia.org/wikipedia/commons/thumb/4/44/Bananas_white_background_DS.jpg/220px-Bananas_white_background_DS.jpg"),
             Question = null!,
-            QuestionId = Guid.Parse("574E8D70-47A1-4D76-B971-CAFB314540FD"),
+            QuestionId = QuestionSeeds.DefaultQuestion.Id,
             Text = "Banana",
             Type = default
         };
 
-        public static readonly AnswerEntity AnswerUnderQuestionToDelete =
-            DefaultAnswer with { Id = Guid.Parse("2A14549B-3547-46A1-B4AF-8E398F0B55B0"), QuestionId = QuestionSeeds.QuestionToDelete.Id };
+        public static readonly AnswerEntity DefaultAnswer2 = new()
+        {
+            Id = Guid.Parse("F7C63A36-BA31-4DBE-BB57-DAD497BC876A"),
+            IsCorrect = true,
+            Picture = new Uri(
+                "https://upload.wikimedia.org/wikipedia/commons/thumb/9/9e/Autumn_Red_peaches.jpg/2560px-Autumn_Red_peaches.jpg"),
+            Question = null!,
+            QuestionId = QuestionSeeds.DefaultQuestion2.Id,
+            Text = "Peach",
+            Type = default
+        };
 
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<AnswerEntity>().HasData(
                 DefaultAnswer,
-                AnswerUnderQuestionToDelete
+                DefaultAnswer2
             );
         }
     }

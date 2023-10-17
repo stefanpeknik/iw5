@@ -10,18 +10,23 @@ namespace TaHooK.Api.DAL.Seeds
         {
             Id = Guid.Parse("574E8D70-47A1-4D76-B971-CAFB314540FD"),
             Quiz = null!,
-            QuizId = Guid.Parse("EF2E391C-EA09-490B-9935-BBC7E7099A42"),
+            QuizId = QuizSeeds.DefaultQuiz.Id,
             Text = "Test Question"
         };
 
-        public static readonly QuestionEntity QuestionToDelete =
-            DefaultQuestion with { Id = Guid.Parse("85A30A08-201D-4BD2-8804-A5EDCD205A8D") };
+        public static readonly QuestionEntity DefaultQuestion2 = new()
+        {
+            Id = Guid.Parse("5E1E5547-9526-4FDA-9673-DD6135822CF2"),
+            Quiz = null!,
+            QuizId = QuizSeeds.DefaultQuiz2.Id,
+            Text = "Test Question 2"
+        };
 
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<QuestionEntity>().HasData(
                 DefaultQuestion with { Answers = Array.Empty<AnswerEntity>() },
-                QuestionToDelete
+                DefaultQuestion2 with { Answers = Array.Empty<AnswerEntity>() }
             );
         }
     }
