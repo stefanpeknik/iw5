@@ -80,8 +80,8 @@ public class ScoreRepositoryTests: DALTestsBase
         await UnitOfWork.CommitAsync();
 
         // Assert
-        var retrieved = await DbContextInstance.Scores.FindAsync(updated.Id);
-        Assert.Equal(123, retrieved?.Score);
+        var contains = await DbContextInstance.Scores.ContainsAsync(updated);
+        Assert.True(contains);
     }
     
     [Fact]

@@ -15,11 +15,18 @@ namespace TaHooK.Api.Common.Tests.Seeds
             Password = "Ferda123",
             Photo = new Uri("https://www.merchandising.cz/images/F01_2020_i.jpg")
         };
+        
+        public static readonly UserEntity UserToDelete = DefaultUser with { Id = Guid.Parse("8C43E708-44CA-4D7A-9F76-5D2A2155BF02") };
+        
+        public static readonly UserEntity UserToUpdate = DefaultUser with { Id = Guid.Parse("267FA2C2-D406-4E22-9AA9-4EC927E6F1CF") };
+        
 
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserEntity>().HasData(
-                DefaultUser with{ Scores = Array.Empty<ScoreEntity>() }
+                DefaultUser with{ Scores = Array.Empty<ScoreEntity>() },
+                UserToDelete with{ Scores = Array.Empty<ScoreEntity>() },
+                UserToUpdate with{ Scores = Array.Empty<ScoreEntity>() }
             );
         }
     }

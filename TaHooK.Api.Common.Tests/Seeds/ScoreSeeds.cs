@@ -22,6 +22,8 @@ namespace TaHooK.Api.Common.Tests.Seeds
         public static readonly ScoreEntity ScoreToUpdate = DefaultScore with { Id = Guid.Parse("4C603830-0985-4190-925C-9050A5F4F406") };
         
         public static readonly ScoreEntity ScoreInQuizToDelete = DefaultScore with { Id = Guid.Parse("E0D0D40E-298F-4958-885A-1EFCF89DA83F"), QuizId = QuizSeeds.QuizToDelete.Id};
+        
+        public static readonly ScoreEntity ScoreWithUserToDelete = DefaultScore with { Id = Guid.Parse("E4C722B6-E9B9-4207-BFC4-580945F83E61"), UserId = UserSeeds.UserToDelete.Id};
 
         public static void Seed(this ModelBuilder modelBuilder)
         {
@@ -29,7 +31,8 @@ namespace TaHooK.Api.Common.Tests.Seeds
                 DefaultScore,
                 ScoreToDelete,
                 ScoreToUpdate,
-                ScoreInQuizToDelete
+                ScoreInQuizToDelete,
+                ScoreWithUserToDelete
             );
         }
     }
