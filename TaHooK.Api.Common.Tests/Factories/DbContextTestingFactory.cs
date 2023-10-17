@@ -1,7 +1,5 @@
 ﻿using TaHooK.Api.DAL;
 using Microsoft.EntityFrameworkCore;
-using Microsoft.Extensions.Configuration;
-using TaHooK.Api.DAL.Factories;
 
 namespace TaHooK.Api.Common.Tests.Factories
 {
@@ -18,14 +16,8 @@ namespace TaHooK.Api.Common.Tests.Factories
 
         public TestingDbContext CreateDbContext()
         {
-            var configuration = new ConfigurationBuilder()
-                .AddUserSecrets<TaHooKDbContextFactory>(optional: true)
-                .Build();
-
             var optionsBuilder = new DbContextOptionsBuilder<TaHooKDbContext>();
-            optionsBuilder.UseSqlServer(
-                configuration.GetConnectionString("TestConnection") 
-                + $"Database={_databaseName};");
+            optionsBuilder.UseSqlite($"Data Source={_databaseName};Cache=Shared");
 
             return new TestingDbContext(optionsBuilder.Options, seedTestingData: _seedTestingData);
         }

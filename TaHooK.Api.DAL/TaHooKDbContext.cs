@@ -1,5 +1,6 @@
 ﻿using Microsoft.EntityFrameworkCore;
 using TaHooK.Api.DAL.Entities;
+using TaHooK.Api.DAL.Seeds;
 
 namespace TaHooK.Api.DAL;
 
@@ -50,7 +51,11 @@ public class TaHooKDbContext : DbContext
 
         if (_seedDemoData)
         {
-            // TODO: Setup seed data
+            UserSeeds.Seed(modelBuilder);
+            QuizSeeds.Seed(modelBuilder);
+            QuestionSeeds.Seed(modelBuilder);
+            AnswerSeeds.Seed(modelBuilder);
+            ScoreSeeds.Seed(modelBuilder);
         }
     }
 }

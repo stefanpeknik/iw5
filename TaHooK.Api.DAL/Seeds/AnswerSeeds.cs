@@ -1,8 +1,7 @@
 ﻿using Microsoft.EntityFrameworkCore;
-using System.Diagnostics;
 using TaHooK.Api.DAL.Entities;
 
-namespace TaHooK.Api.Common.Tests.Seeds
+namespace TaHooK.Api.DAL.Seeds
 {
     public static class AnswerSeeds
     {
@@ -18,10 +17,6 @@ namespace TaHooK.Api.Common.Tests.Seeds
             Text = "Banana",
             Type = default
         };
-        
-        public static readonly AnswerEntity AnswerToDelete = DefaultAnswer with { Id = Guid.Parse("4674413D-5F62-4600-B508-4F75EB959E38") };
-        
-        public static readonly AnswerEntity AnswerToUpdate = DefaultAnswer with { Id = Guid.Parse("C455EB61-CC50-4AF1-8A55-C674B146D53E") };
 
         public static readonly AnswerEntity AnswerUnderQuestionToDelete =
             DefaultAnswer with { Id = Guid.Parse("2A14549B-3547-46A1-B4AF-8E398F0B55B0"), QuestionId = QuestionSeeds.QuestionToDelete.Id };
@@ -30,9 +25,7 @@ namespace TaHooK.Api.Common.Tests.Seeds
         {
             modelBuilder.Entity<AnswerEntity>().HasData(
                 DefaultAnswer,
-                AnswerUnderQuestionToDelete,
-                AnswerToDelete,
-                AnswerToUpdate
+                AnswerUnderQuestionToDelete
             );
         }
     }
