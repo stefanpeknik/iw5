@@ -80,7 +80,8 @@ public class QuestionRepositoryTests: DALTestsBase
         await UnitOfWork.CommitAsync();
         
         // Assert
-        Assert.True(await DbContextInstance.Questions.ContainsAsync(updated));
+        var contains = await DbContextInstance.Questions.ContainsAsync(updated);
+        Assert.True(contains);
     }
     
     [Fact]
@@ -95,7 +96,8 @@ public class QuestionRepositoryTests: DALTestsBase
         await UnitOfWork.CommitAsync();
 
         // Assert
-        Assert.False(await DbContextInstance.Questions.ContainsAsync(QuestionSeeds.QuestionToDelete));
+        var contains = await DbContextInstance.Questions.ContainsAsync(QuestionSeeds.QuestionToDelete);
+        Assert.False(contains);
     }
     
     [Fact]
@@ -110,6 +112,7 @@ public class QuestionRepositoryTests: DALTestsBase
         // Should also cascade delete the answer
 
         // Assert
-        Assert.False(await DbContextInstance.Answers.ContainsAsync(AnswerSeeds.AnswerUnderQuestionToDelete));
+        var contains = await DbContextInstance.Answers.ContainsAsync(AnswerSeeds.AnswerUnderQuestionToDelete);
+        Assert.False(contains);
     }
 }
