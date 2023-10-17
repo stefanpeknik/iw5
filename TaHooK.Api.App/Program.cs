@@ -8,11 +8,6 @@ using TaHooK.Api.DAL.Installers;
 //using TaHooK.Common.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
-// Add services to the container.
-ConfigureDependencies(builder.Services, builder.Configuration);
-ConfigureAutoMapper(builder.Services);
-
-
 var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
     .Enrich.FromLogContext()
@@ -24,6 +19,20 @@ builder.Services.AddControllers();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+
+var app = builder.Build();
+
+// Configure the HTTP request pipeline.
+if (app.Environment.IsDevelopment())
+{
+    app.UseSwagger();
+    app.UseSwaggerUI();
+}
+
+// Add services to the container.
+ConfigureDependencies(builder.Services, builder.Configuration);
+ConfigureAutoMapper(builder.Services);
+ValidateAutoMapperConfiguration(app.Services);
 
 void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
 {
@@ -43,16 +52,6 @@ void ValidateAutoMapperConfiguration(IServiceProvider serviceProvider)
     mapper.ConfigurationProvider.AssertConfigurationIsValid();
 }
 
-var app = builder.Build();
-
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseSwagger();
-    app.UseSwaggerUI();
-}
-
-ValidateAutoMapperConfiguration(app.Services);
 
 // Migrate database
 using var scope = app.Services.CreateScope();
