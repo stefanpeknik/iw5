@@ -17,12 +17,18 @@ namespace TaHooK.Api.Common.Tests.Seeds
             UserId = UserSeeds.DefaultUser.Id
         };
         
+        public static readonly ScoreEntity ScoreToDelete = DefaultScore with { Id = Guid.Parse("5BA3EC1D-3602-4E33-A213-61A11684CF22") };
+        
+        public static readonly ScoreEntity ScoreToUpdate = DefaultScore with { Id = Guid.Parse("4C603830-0985-4190-925C-9050A5F4F406") };
+        
         public static readonly ScoreEntity ScoreInQuizToDelete = DefaultScore with { Id = Guid.Parse("E0D0D40E-298F-4958-885A-1EFCF89DA83F"), QuizId = QuizSeeds.QuizToDelete.Id};
 
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<ScoreEntity>().HasData(
                 DefaultScore,
+                ScoreToDelete,
+                ScoreToUpdate,
                 ScoreInQuizToDelete
             );
         }
