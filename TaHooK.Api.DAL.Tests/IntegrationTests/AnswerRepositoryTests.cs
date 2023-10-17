@@ -74,7 +74,7 @@ public class AnswerRepositoryTests: DALTestsBase
     {
         // Arrange
         var repository = UnitOfWork.GetRepository<AnswerEntity>();
-        var updated = AnswerSeeds.DefaultAnswer with { Text = "Updated" };
+        var updated = AnswerSeeds.AnswerToUpdate with { Text = "Updated" };
 
         // Act
         await repository.UpdateAsync(updated);
@@ -90,7 +90,7 @@ public class AnswerRepositoryTests: DALTestsBase
     {
         // Arrange
         var repository = UnitOfWork.GetRepository<AnswerEntity>();
-        var answerToDelete = AnswerSeeds.AnswerUnderQuestionToDelete;
+        var answerToDelete = AnswerSeeds.AnswerToDelete;
 
         // Act
         await repository.DeleteAsync(answerToDelete.Id);

@@ -73,7 +73,7 @@ public class QuestionRepositoryTests: DALTestsBase
     {
         // Arrange
         var repository = UnitOfWork.GetRepository<QuestionEntity>();
-        var updated = QuestionSeeds.DefaultQuestion with { Text = "Updated text" };
+        var updated = QuestionSeeds.QuestionToUpdate with { Text = "Updated text" };
         
         // Act
         await repository.UpdateAsync(updated);
