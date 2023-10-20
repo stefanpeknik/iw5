@@ -15,10 +15,20 @@ namespace TaHooK.Api.DAL.Seeds
             Photo = new Uri("https://www.merchandising.cz/images/F01_2020_i.jpg")
         };
 
+        public static readonly UserEntity DefaultUser2 = new()
+        {
+            Id = Guid.Parse("14B1DEFA-2350-46C9-9C1C-01E4C63ACD79"),
+            Email = "broukpytlik@gmail.com",
+            Name = "Brouk Pytlík",
+            Password = "BroukPytlik123",
+            Photo = new Uri("https://vltava.rozhlas.cz/sites/default/files/images/00865327.jpeg")
+        };
+
         public static void Seed(this ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<UserEntity>().HasData(
-                DefaultUser with{ Scores = Array.Empty<ScoreEntity>() }
+                DefaultUser with{ Scores = Array.Empty<ScoreEntity>() },
+                DefaultUser2 with{ Scores = Array.Empty<ScoreEntity>() }
             );
         }
     }
