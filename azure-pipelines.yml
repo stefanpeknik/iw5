@@ -18,11 +18,10 @@ variables:
   dotNetVersion: '7.0.x'
 
 steps:
-- task: NuGetToolInstaller@1
-
-- task: NuGetCommand@2
+- task: UseDotNet@2
   inputs:
-    restoreSolution: '$(solution)'
+    version: $(dotNetVersion)
+    includePreviewVersions: true
 
 - task: VSBuild@1
   inputs:
@@ -30,6 +29,8 @@ steps:
     msbuildArgs: '/p:DeployOnBuild=true /p:WebPublishMethod=Package /p:PackageAsSingleFile=true /p:SkipInvalidConfigurations=true /p:PackageLocation="$(build.artifactStagingDirectory)"'
     platform: '$(buildPlatform)'
     configuration: '$(buildConfiguration)'
+    restoreNugetPackages: true
+    msbuildArchitecture: 'x64'
 
 - task: VSTest@2
   inputs:
