@@ -39,10 +39,7 @@ if (app.Environment.IsDevelopment())
 
 // Migrate database
 using var scope = app.Services.CreateScope();
-if (app.Environment.IsDevelopment())
-{
-    scope.ServiceProvider.GetRequiredService<IDbMigrator>().Migrate();
-}
+scope.ServiceProvider.GetRequiredService<IDbMigrator>().Migrate();
 
 app.UseHttpsRedirection();
 
