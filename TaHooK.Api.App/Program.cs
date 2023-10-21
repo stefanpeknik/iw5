@@ -54,7 +54,7 @@ app.Run();
 
 void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
 {
-    var connectionString = configuration.GetConnectionString("DefaultConnection") ?? throw new ArgumentException("The connection string is missing");
+    var connectionString = configuration.GetConnectionString("SQLCONNSTR_DefaultConnection") ?? throw new ArgumentException("The connection string is missing");
     serviceCollection.AddInstaller<DALInstaller>(connectionString);
     serviceCollection.AddInstaller<BlInstaller>();
 }
