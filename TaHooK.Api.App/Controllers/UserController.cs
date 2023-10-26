@@ -32,21 +32,17 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<UserDetailModel>> CreateUser(UserDetailModel user)
+    public async Task<ActionResult<Guid>> CreateUser(UserDetailModel user)
     {
-        return await _userFacade.SaveAsync(user);
+        return await _userFacade.CreateAsync(user);
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<UserDetailModel>> UpdateUserById(UserDetailModel user, Guid id)
+    public async Task<ActionResult<Guid>> UpdateUserById(UserDetailModel user, Guid id)
     {
         if (user.Id != id) return BadRequest("User IDs in URI and body don't match");
 
-        var toUpdate = await _userFacade.GetByIdAsync(id);
-
-        if (toUpdate == null) return NotFound($"User with Id = {id} was not found");
-
-        return await _userFacade.SaveAsync(user);
+        return await _userFacade.UpdateAsync(user);
     }
 
     [HttpDelete("{id:guid}")]
