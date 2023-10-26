@@ -7,8 +7,6 @@ using TaHooK.Api.DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Collections;
-using System.Net;
-using Azure.Core;
 
 namespace TaHooK.Api.BL.Facades;
 
@@ -63,13 +61,8 @@ where TDetailModel : class, IWithId
         
         return entity == null ? null : Mapper.Map<TDetailModel>(entity);
     }
-
-    public async Task<Guid> CreateOrUpdate(TDetailModel model)
-    {
-        throw new NotImplementedException();
-    }
-
-    public async Task<Guid?> CreateAsync(TDetailModel model)
+    
+    public async Task<Guid> CreateAsync(TDetailModel model)
     {
         GuardCollectionsAreNotSet(model);
 
