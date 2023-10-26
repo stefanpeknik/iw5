@@ -7,6 +7,8 @@ using TaHooK.Api.DAL.UnitOfWork;
 using Microsoft.EntityFrameworkCore;
 using System.Reflection;
 using System.Collections;
+using System.Net;
+using Azure.Core;
 
 namespace TaHooK.Api.BL.Facades;
 
@@ -62,32 +64,44 @@ where TDetailModel : class, IWithId
         return entity == null ? null : Mapper.Map<TDetailModel>(entity);
     }
 
-    public virtual async Task<TDetailModel> SaveAsync(TDetailModel model)
+    public async Task<Guid> CreateOrUpdate(TDetailModel model)
     {
-        TDetailModel result;
+        throw new NotImplementedException();
+    }
+
+    public async Task<Guid?> CreateAsync(TDetailModel model)
+    {
+        GuardCollectionsAreNotSet(model);
+
+        var entity = Mapper.Map<TEntity>(model);
+
+        await using var uow = UnitOfWorkFactory.Create();
+        var repository = uow.GetRepository<TEntity>();
+
+        entity.Id = Guid.NewGuid();
+        var createdEntity = repository.InsertAsync(entity);
+        var result = Mapper.Map<TDetailModel>(createdEntity);
         
+        await uow.CommitAsync();
+
+        return result.Id;
+    }
+
+    public async Task<Guid> UpdateAsync(TDetailModel model)
+    {
         GuardCollectionsAreNotSet(model);
         
-        TEntity entity = Mapper.Map<TEntity>(model);
+        var entity = Mapper.Map<TEntity>(model);
         
         await using var uow = UnitOfWorkFactory.Create();
-        IRepository<TEntity> repository = uow.GetRepository<TEntity>();
-
-        if (await repository.ExistsAsync(entity))
-        {
-            TEntity updatedEntity = await repository.UpdateAsync(entity);
-            result = Mapper.Map<TDetailModel>(updatedEntity);
-        }
-        else
-        {
-            entity.Id = Guid.NewGuid();
-            TEntity insertedEntity = await repository.InsertAsync(entity);
-            result = Mapper.Map<TDetailModel>(insertedEntity);
-        }
+        var repository = uow.GetRepository<TEntity>();
+        
+        var updatedEntity = repository.UpdateAsync(entity);
+        var result = Mapper.Map<TDetailModel>(updatedEntity);
         
         await uow.CommitAsync();
         
-        return result;
+        return result.Id;
     }
 
     public virtual async Task DeleteAsync(Guid id)
