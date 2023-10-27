@@ -32,21 +32,17 @@ public class AnswerController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<AnswerDetailModel>> CreateAnswer(AnswerDetailModel answer)
+    public async Task<ActionResult<Guid>> CreateAnswer(AnswerDetailModel answer)
     {
-        return await _answerFacade.SaveAsync(answer);
+        return await _answerFacade.CreateAsync(answer);        
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<AnswerDetailModel>> UpdateAnswerById(AnswerDetailModel answer, Guid id)
+    public async Task<ActionResult<Guid>> UpdateAnswerById(AnswerDetailModel answer, Guid id)
     {
         if (answer.Id != id) return BadRequest("Answer IDs in URI and body don't match");
-
-        var toUpdate = await _answerFacade.GetByIdAsync(id);
-
-        if (toUpdate == null) return NotFound($"Answer with Id = {id} was not found");
-
-        return await _answerFacade.SaveAsync(answer);
+        
+        return await _answerFacade.UpdateAsync(answer);
     }
 
     [HttpDelete("{id:guid}")]

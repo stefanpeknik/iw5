@@ -32,21 +32,17 @@ public class QuizController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<QuizDetailModel>> CreateQuiz(QuizDetailModel quiz)
+    public async Task<ActionResult<Guid>> CreateQuiz(QuizDetailModel quiz)
     {
-        return await _quizFacade.SaveAsync(quiz);
+        return await _quizFacade.CreateAsync(quiz);
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<QuizDetailModel>> UpdateQuizById(QuizDetailModel quiz, Guid id)
+    public async Task<ActionResult<Guid>> UpdateQuizById(QuizDetailModel quiz, Guid id)
     {
         if (quiz.Id != id) return BadRequest("Quiz IDs in URI and body don't match");
 
-        var toUpdate = await _quizFacade.GetByIdAsync(id);
-
-        if (toUpdate == null) return NotFound($"Quiz with Id = {id} was not found");
-
-        return await _quizFacade.SaveAsync(quiz);
+        return await _quizFacade.UpdateAsync(quiz);
     }
 
     [HttpDelete("{id:guid}")]

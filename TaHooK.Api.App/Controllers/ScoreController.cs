@@ -32,21 +32,17 @@ public class ScoreController : ControllerBase
     }
 
     [HttpPost]
-    public async Task<ActionResult<ScoreDetailModel>> CreateScore(ScoreDetailModel score)
+    public async Task<ActionResult<Guid>> CreateScore(ScoreDetailModel score)
     {
-        return await _scoreFacade.SaveAsync(score);
+        return await _scoreFacade.CreateAsync(score);
     }
 
     [HttpPut("{id:guid}")]
-    public async Task<ActionResult<ScoreDetailModel>> UpdateScoreById(ScoreDetailModel score, Guid id)
+    public async Task<ActionResult<Guid>> UpdateScoreById(ScoreDetailModel score, Guid id)
     {
         if (score.Id != id) return BadRequest("Score IDs in URI and body don't match");
 
-        var toUpdate = await _scoreFacade.GetByIdAsync(id);
-
-        if (toUpdate == null) return NotFound($"Score with Id = {id} was not found");
-
-        return await _scoreFacade.SaveAsync(score);
+        return await _scoreFacade.UpdateAsync(score);
     }
 
     [HttpDelete("{id:guid}")]
