@@ -19,28 +19,6 @@ public class SearchFacade : ISearchFacade
         _mapper = mapper;
     }
 
-    // private IQueryable<SearchListModel> Search<T>(string searchQuery, string fieldName) where T : class, IEntity
-    // {
-    //     var propertyInfo = typeof(T).GetProperty(fieldName);
-    //     if (propertyInfo == null) throw new ArgumentException("Field name not found on entity type.");
-    //
-    //     var uwo = _unitOfWorkFactory.Create();
-    //
-    //     var query = uwo.GetRepository<T>().Get();
-    //     
-    //     
-    //     return query
-    //         .Select(entity => new
-    //         {
-    //             Entity = entity,
-    //             Distance = LevenshteinDistance(searchQuery, propertyInfo.GetValue(entity)!.ToString() ?? string.Empty)
-    //         })
-    //         .Where(x => x.Distance < searchQuery.Length) // adjust threshold as needed
-    //         .OrderBy(x => x.Distance)
-    //         .Select(x => _mapper.Map<SearchListModel>(x.Entity));
-    //
-    // }
-
     public static int LevenshteinDistance(string source, string target)
     {
         if (string.IsNullOrEmpty(source))
@@ -82,9 +60,19 @@ public class SearchFacade : ISearchFacade
 
         var merged = users.Concat(questions).Concat(answers);
 
-        var result = merged.AsEnumerable().OrderBy(result => LevenshteinDistance(query, result.Name))
-            .Skip((page - 1) * pageSize)
-            .Take(pageSize);
+        var result = merged.AsEnumerable()
+                                            .Select(item => new 
+                                            {
+                                                Item = item,
+                                                Distance = LevenshteinDistance(query, item.Name),
+                                                IsSubstring = item.Name.Contains(query, StringComparison.OrdinalIgnoreCase) // considering case-insensitive match
+                                            })
+                                            .OrderBy(x => !x.IsSubstring) // direct substrings first
+                                            .ThenBy(x => x.Distance) // then by Levenshtein distance
+                                            .ThenBy(x => x.Item.Name.Length) // finally by name length
+                                            .Select(x => x.Item)
+                                            .Skip((page - 1) * pageSize)
+                                            .Take(pageSize);
 
         return result;
     }
