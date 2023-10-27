@@ -1,10 +1,8 @@
-﻿using System.Collections.ObjectModel;
-using AutoMapper;
+﻿using AutoMapper;
 using TaHooK.Api.BL.Facades.Interfaces;
-using TaHooK.Api.DAL.Entities.Interfaces;
 using TaHooK.Api.DAL.UnitOfWork;
 using TaHooK.Common.Models.Search;
-using System.Linq;
+using AutoMapper.QueryableExtensions;
 using Microsoft.EntityFrameworkCore;
 using TaHooK.Api.DAL.Entities;
 
@@ -14,36 +12,34 @@ public class SearchFacade : ISearchFacade
 {
     private readonly IUnitOfWorkFactory _unitOfWorkFactory;
     private readonly IMapper _mapper;
-    
+
     public SearchFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper)
     {
         _unitOfWorkFactory = unitOfWorkFactory;
         _mapper = mapper;
     }
 
-    private async Task<IEnumerable<SearchListModel>> Search<T>(string searchQuery, string fieldName) where T : class, IEntity
-    {
-        var propertyInfo = typeof(T).GetProperty(fieldName);
-        if (propertyInfo == null) throw new ArgumentException("Field name not found on entity type.");
-
-        var uwo = _unitOfWorkFactory.Create();
-
-        var query = uwo.GetRepository<T>().Get();
-
-        List<T> entities = await query.ToListAsync();
-        
-        
-        return query
-            .Select(entity => new
-            {
-                Entity = entity,
-                Distance = LevenshteinDistance(searchQuery, propertyInfo.GetValue(entity).ToString() ?? string.Empty)
-            })
-            .Where(x => x.Distance < searchQuery.Length) // adjust threshold as needed
-            .OrderBy(x => x.Distance)
-            .Select(x => _mapper.Map<SearchListModel>(x.Entity));
-
-    }
+    // private IQueryable<SearchListModel> Search<T>(string searchQuery, string fieldName) where T : class, IEntity
+    // {
+    //     var propertyInfo = typeof(T).GetProperty(fieldName);
+    //     if (propertyInfo == null) throw new ArgumentException("Field name not found on entity type.");
+    //
+    //     var uwo = _unitOfWorkFactory.Create();
+    //
+    //     var query = uwo.GetRepository<T>().Get();
+    //     
+    //     
+    //     return query
+    //         .Select(entity => new
+    //         {
+    //             Entity = entity,
+    //             Distance = LevenshteinDistance(searchQuery, propertyInfo.GetValue(entity)!.ToString() ?? string.Empty)
+    //         })
+    //         .Where(x => x.Distance < searchQuery.Length) // adjust threshold as needed
+    //         .OrderBy(x => x.Distance)
+    //         .Select(x => _mapper.Map<SearchListModel>(x.Entity));
+    //
+    // }
 
     public static int LevenshteinDistance(string source, string target)
     {
@@ -52,6 +48,7 @@ public class SearchFacade : ISearchFacade
             if (string.IsNullOrEmpty(target)) return 0;
             return target.Length;
         }
+
         if (string.IsNullOrEmpty(target)) return source.Length;
 
         var matrix = new int[source.Length + 1, target.Length + 1];
@@ -67,20 +64,29 @@ public class SearchFacade : ISearchFacade
             for (int j = 1; j <= target.Length; j++)
             {
                 int cost = (target[j - 1] == source[i - 1]) ? 0 : 1;
-                matrix[i, j] = Math.Min(Math.Min(matrix[i - 1, j] + 1, matrix[i, j - 1] + 1), matrix[i - 1, j - 1] + cost);
+                matrix[i, j] = Math.Min(Math.Min(matrix[i - 1, j] + 1, matrix[i, j - 1] + 1),
+                    matrix[i - 1, j - 1] + cost);
             }
         }
 
         return matrix[source.Length, target.Length];
     }
 
-    public Task<IEnumerable<SearchListModel>> GetSearchedAsync(string query, int page, int pageSize)
+    public IEnumerable<SearchListModel> GetSearched(string query, int page, int pageSize)
     {
-        var users = Search<UserEntity>(query, "Name");
-        var questions = Search<QuestionEntity>(query, "Text");
-        var answers = Search<AnswerEntity>(query, "Text");
+        IUnitOfWork uow = _unitOfWorkFactory.Create();
+        var users = uow.GetRepository<UserEntity>().Get().ProjectTo<SearchListModel>(_mapper.ConfigurationProvider);
+        var questions = uow.GetRepository<QuestionEntity>().Get()
+            .ProjectTo<SearchListModel>(_mapper.ConfigurationProvider);
+        var answers = uow.GetRepository<AnswerEntity>().Get().ProjectTo<SearchListModel>(_mapper.ConfigurationProvider);
 
+        var merged = users.Concat(questions).Concat(answers);
 
+        var result = merged.AsEnumerable().OrderBy(result => LevenshteinDistance(query, result.Name))
+            .Skip((page - 1) * pageSize)
+            .Take(pageSize);
+
+        return result;
     }
-    
+
 }

@@ -18,10 +18,10 @@ public class SearchController : ControllerBase
 
     [HttpGet]
 
-    public async Task<IEnumerable<SearchListModel>> GetSearch(SearchParams searchParams)
+    public IEnumerable<SearchListModel> GetSearch([FromQuery] SearchParams searchParams)
     {
 
-        return await _searchFacade.GetSearchedAsync(searchParams.Query,searchParams.Page,searchParams.PageSize);
+        return _searchFacade.GetSearched(searchParams.Query,searchParams.Page,searchParams.PageSize);
     }
 
 }
