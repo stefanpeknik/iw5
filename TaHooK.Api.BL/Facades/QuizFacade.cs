@@ -11,4 +11,10 @@ public class QuizFacade: CrudFacadeBase<QuizEntity, QuizListModel, QuizDetailMod
     public QuizFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper) : base(unitOfWorkFactory, mapper)
     {
     }
+    
+    public override List<string> NavigationPathDetails => new()
+    {
+        $"{nameof(QuizEntity.Questions)}",
+        $"{nameof(QuizEntity.Scores)}"
+    };
 }

@@ -11,4 +11,9 @@ public class UserFacade: CrudFacadeBase<UserEntity, UserListModel, UserDetailMod
     public UserFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper) : base(unitOfWorkFactory, mapper)
     {
     }
+    
+    public override List<string> NavigationPathDetails => new()
+    {
+        $"{nameof(UserEntity.Scores)}"
+    };
 }

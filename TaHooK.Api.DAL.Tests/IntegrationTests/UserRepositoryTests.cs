@@ -31,7 +31,7 @@ public class UserRepositoryTests: DALTestsBase
         var repository = UnitOfWork.GetRepository<UserEntity>();
         
         // Act
-        var result = await repository.ExistsAsync(UserSeeds.DefaultUser);
+        var result = await repository.ExistsAsync(UserSeeds.DefaultUser.Id);
         
         // Assert
         Assert.True(result);
@@ -46,7 +46,7 @@ public class UserRepositoryTests: DALTestsBase
         
         
         // Act
-        var result = await repository.ExistsAsync(user);
+        var result = await repository.ExistsAsync(user.Id);
         
         // Assert
         Assert.False(result);

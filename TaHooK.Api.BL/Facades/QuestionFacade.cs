@@ -11,4 +11,9 @@ public class QuestionFacade: CrudFacadeBase<QuestionEntity, QuestionListModel, Q
     public QuestionFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper) : base(unitOfWorkFactory, mapper)
     {
     }
+    
+    public override List<string> NavigationPathDetails => new()
+    {
+        $"{nameof(QuestionEntity.Answers)}"
+    };
 }

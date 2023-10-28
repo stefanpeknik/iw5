@@ -1,11 +1,11 @@
 using AutoMapper;
+using FluentValidation.AspNetCore;
 using Serilog;
 using TaHooK.Api.BL.Installers;
 using TaHooK.Common.Extensions;
 using TaHooK.Api.DAL.Entities.Interfaces;
 using TaHooK.Api.DAL.Extensions;
 using TaHooK.Api.DAL.Installers;
-//using TaHooK.Common.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -21,9 +21,11 @@ var logger = new LoggerConfiguration()
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
 builder.Services.AddControllers();
+builder.Services.AddFluentValidationAutoValidation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
+builder.Services.AddOpenApiDocument();
 
 var app = builder.Build();
 
@@ -32,8 +34,8 @@ ValidateAutoMapperConfiguration(app.Services);
 // Configure the HTTP request pipeline.
 if (app.Environment.IsDevelopment())
 {
-    app.UseSwagger();
-    app.UseSwaggerUI();
+    app.UseOpenApi();
+    app.UseSwaggerUi3();
 }
 
 
