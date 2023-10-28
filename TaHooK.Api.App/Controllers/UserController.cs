@@ -18,7 +18,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    [OpenApiOperation("GetUsers")]
+    [OpenApiOperation("GetUsers","Returns a list of all users.")]
     public async Task<IEnumerable<UserListModel>> GetUsers()
     {
         return await _userFacade.GetAllAsync();
