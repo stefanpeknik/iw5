@@ -1,6 +1,8 @@
 ﻿using AutoMapper;
 using TaHooK.Api.DAL.Entities;
+using TaHooK.Common.Enums;
 using TaHooK.Common.Extensions;
+using TaHooK.Common.Models.Search;
 using TaHooK.Common.Models.User;
 
 namespace TaHooK.Api.BL.MapperProfiles;
@@ -16,5 +18,9 @@ public class UserMapperProfile : Profile
         
         CreateMap<UserDetailModel, UserEntity>()
             .Ignore(dst => dst.Scores);
+
+        CreateMap<UserEntity, SearchListModel>()
+            .MapMember(dst => dst.Name, src => src.Name)
+            .MapMember(dst => dst.Type, src => SearchEntityType.User);
     }
 }

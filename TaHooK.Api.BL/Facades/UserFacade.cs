@@ -6,9 +6,14 @@ using TaHooK.Common.Models.User;
 
 namespace TaHooK.Api.BL.Facades;
 
-public class UserFacade: FacadeBase<UserEntity, UserListModel, UserDetailModel>, IUserFacade
+public class UserFacade: CrudFacadeBase<UserEntity, UserListModel, UserDetailModel>, IUserFacade
 {
     public UserFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper) : base(unitOfWorkFactory, mapper)
     {
     }
+    
+    public override List<string> NavigationPathDetails => new()
+    {
+        $"{nameof(UserEntity.Scores)}"
+    };
 }

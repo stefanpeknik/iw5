@@ -34,21 +34,46 @@ public class QuestionController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Guid>> CreateQuestion(QuestionDetailModel question)
     {
-        return await _questionFacade.CreateAsync(question);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _questionFacade.CreateAsync(question);
+        return Accepted(result);
     }
 
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Guid>> UpdateQuestionById(QuestionDetailModel question, Guid id)
     {
-        if (question.Id != id) return BadRequest("Question IDs in URI and body don't match");
+        question.Id = id;
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
         
-        return await _questionFacade.UpdateAsync(question);
+        try
+        {
+           var result = await _questionFacade.UpdateAsync(question);
+           return result;
+        }
+        catch (InvalidOperationException)
+        {
+            return NotFound($"Question with ID = {id} doesn't exist");
+        }
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> DeleteQuestion(Guid id)
     {
-        await _questionFacade.DeleteAsync(id);
-        return Ok();
+        try
+        {
+            await _questionFacade.DeleteAsync(id);
+        }
+        catch (InvalidOperationException)
+        {
+            return NotFound($"Question with ID = {id} doesn't exist");
+        }
+
+        return Ok(id);
     }
 }

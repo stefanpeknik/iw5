@@ -1,5 +1,6 @@
 ﻿
 
+using FluentValidation;
 using TaHooK.Api.BL.Facades.Interfaces;
 using TaHooK.Api.DAL.UnitOfWork;
 using Microsoft.Extensions.DependencyInjection;
@@ -15,8 +16,14 @@ public class BlInstaller: IInstaller
         
         serviceCollection.Scan(selector =>
             selector.FromAssemblyOf<BlInstaller>()
-                .AddClasses(classes => classes.AssignableTo(typeof(IFacade<,,>)))
+                .AddClasses(classes => classes.AssignableTo(typeof(IFacade)))
                 .AsSelfWithInterfaces()
                 .WithScopedLifetime());
+        
+        serviceCollection.Scan(selector =>
+            selector.FromAssemblyOf<BlInstaller>()
+                .AddClasses(classes => classes.AssignableTo(typeof(IValidator<>)))
+                .AsSelfWithInterfaces()
+                .WithTransientLifetime());
     }
 }

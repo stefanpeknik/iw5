@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NSwag.Annotations;
 using TaHooK.Api.BL.Facades;
 using TaHooK.Common.Models.User;
 
@@ -16,6 +17,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
+    [OpenApiOperation("GetUsers","Returns a list of all users.")]
     public async Task<IEnumerable<UserListModel>> GetUsers()
     {
         return await _userFacade.GetAllAsync();
@@ -34,21 +36,47 @@ public class UserController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Guid>> CreateUser(UserDetailModel user)
     {
-        return await _userFacade.CreateAsync(user);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _userFacade.CreateAsync(user);
+        return Accepted(result);
     }
 
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Guid>> UpdateUserById(UserDetailModel user, Guid id)
     {
-        if (user.Id != id) return BadRequest("User IDs in URI and body don't match");
+        user.Id = id;
 
-        return await _userFacade.UpdateAsync(user);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
+        try
+        {
+            var result = await _userFacade.UpdateAsync(user);
+            return result;
+        }
+        catch (InvalidOperationException)
+        {
+            return NotFound($"User with ID = {id} doesn't exist");
+        }
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> DeleteUser(Guid id)
     {
-        await _userFacade.DeleteAsync(id);
-        return Ok();
+        try
+        {
+            await _userFacade.DeleteAsync(id);    
+        }
+        catch (InvalidOperationException)
+        {
+            return NotFound($"User with ID = {id} doesn't exist");
+        }
+        
+        return Ok(id);
     }
 }

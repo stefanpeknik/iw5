@@ -20,9 +20,14 @@ public class Repository<TEntity>: IRepository<TEntity>
     
     public IQueryable<TEntity> Get() => _dbSet;
 
-    public async ValueTask<bool> ExistsAsync(TEntity entity)
+    public async ValueTask<bool> ExistsAsync(Guid id)
     {
-        return entity.Id != Guid.Empty && await _dbSet.AnyAsync(e => e.Id == entity.Id);
+        return id != Guid.Empty && await _dbSet.AnyAsync(e => e.Id == id);
+    }
+
+    public bool Exists(Guid id)
+    {
+        return id != Guid.Empty && _dbSet.Any(e => e.Id == id);
     }
 
     public async Task<TEntity> InsertAsync(TEntity entity)
@@ -45,6 +50,10 @@ public class Repository<TEntity>: IRepository<TEntity>
         if (entity != null)
         {
             _dbSet.Remove(entity);    
+        }
+        else
+        {
+            throw new InvalidOperationException($"Entity with id {id} was not found");
         }
     }
 

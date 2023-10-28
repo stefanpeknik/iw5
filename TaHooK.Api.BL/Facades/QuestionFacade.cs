@@ -6,9 +6,14 @@ using TaHooK.Common.Models.Question;
 
 namespace TaHooK.Api.BL.Facades;
 
-public class QuestionFacade: FacadeBase<QuestionEntity, QuestionListModel, QuestionDetailModel>, IQuestionFacade
+public class QuestionFacade: CrudFacadeBase<QuestionEntity, QuestionListModel, QuestionDetailModel>, IQuestionFacade
 {
     public QuestionFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper) : base(unitOfWorkFactory, mapper)
     {
     }
+    
+    public override List<string> NavigationPathDetails => new()
+    {
+        $"{nameof(QuestionEntity.Answers)}"
+    };
 }

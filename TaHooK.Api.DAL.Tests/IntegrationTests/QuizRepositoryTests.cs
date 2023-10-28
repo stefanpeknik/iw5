@@ -32,7 +32,7 @@ public class QuizRepositoryTests: DALTestsBase
         var repository = UnitOfWork.GetRepository<QuizEntity>();
         
         // Act
-        var result = await repository.ExistsAsync(QuizSeeds.DefaultQuiz);
+        var result = await repository.ExistsAsync(QuizSeeds.DefaultQuiz.Id);
         
         // Assert
         Assert.True(result);
@@ -47,7 +47,7 @@ public class QuizRepositoryTests: DALTestsBase
         
         
         // Act
-        var result = await repository.ExistsAsync(quiz);
+        var result = await repository.ExistsAsync(quiz.Id);
         
         // Assert
         Assert.False(result);
