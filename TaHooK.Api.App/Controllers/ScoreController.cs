@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaHooK.Api.BL.Facades;
-using TaHooK.Api.BL.Facades.Interfaces;
 using TaHooK.Common.Models.Score;
 
 namespace TaHooK.Api.App.Controllers;
@@ -35,31 +34,46 @@ public class ScoreController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Guid>> CreateScore(ScoreDetailModel score)
     {
-        return await _scoreFacade.CreateAsync(score);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _scoreFacade.CreateAsync(score);
+        return Accepted(result);
     }
 
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Guid>> UpdateScoreById(ScoreDetailModel score, Guid id)
     {
-        if (score.Id != id) return BadRequest("Score IDs in URI and body don't match");
-
-        Guid result;
+        score.Id = id;
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
         try
         {
-            result = await _scoreFacade.UpdateAsync(score);
+            var result = await _scoreFacade.UpdateAsync(score);
+            return result;
         }
-        catch (InvalidOperationException e)
+        catch (InvalidOperationException)
         {
             return NotFound($"Score with ID = {id} doesn't exist");
         }
-
-        return result;
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> DeleteScore(Guid id)
     {
-        await _scoreFacade.DeleteAsync(id);
-        return Ok();
+        try
+        {
+            await _scoreFacade.DeleteAsync(id);    
+        }
+        catch (InvalidOperationException)
+        {
+            return NotFound($"Score with ID = {id} doesn't exist");
+        }
+        
+        return Ok(id);
     }
 }

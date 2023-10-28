@@ -1,6 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaHooK.Api.BL.Facades;
-using TaHooK.Api.BL.Facades.Interfaces;
 using TaHooK.Common.Models.Quiz;
 
 namespace TaHooK.Api.App.Controllers;
@@ -35,31 +34,46 @@ public class QuizController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Guid>> CreateQuiz(QuizDetailModel quiz)
     {
-        return await _quizFacade.CreateAsync(quiz);
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        var result = await _quizFacade.CreateAsync(quiz);
+        return Accepted(result);
     }
 
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Guid>> UpdateQuizById(QuizDetailModel quiz, Guid id)
     {
-        if (quiz.Id != id) return BadRequest("Quiz IDs in URI and body don't match");
-
-        Guid result;
+        quiz.Id = id;
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
         try
         {
-            result = await _quizFacade.UpdateAsync(quiz);
+            var result = await _quizFacade.UpdateAsync(quiz);
+            return result;
         }
-        catch (InvalidOperationException e)
+        catch (InvalidOperationException)
         {
             return NotFound($"Quiz with ID = {id} doesn't exist");
         }
-
-        return result;
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> DeleteQuiz(Guid id)
     {
-        await _quizFacade.DeleteAsync(id);
-        return Ok();
+        try
+        {
+            await _quizFacade.DeleteAsync(id);
+        }
+        catch (InvalidOperationException)
+        {
+            return NotFound($"Quiz with ID = {id} doesn't exist");
+        }    
+        
+        return Ok(id);
     }
 }

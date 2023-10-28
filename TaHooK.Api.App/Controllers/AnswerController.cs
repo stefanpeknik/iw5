@@ -18,7 +18,8 @@ public class AnswerController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<AnswerListModel>> GetAnswers()
     {
-        return await _answerFacade.GetAllAsync();
+        var result = await _answerFacade.GetAllAsync();
+        return result;
     }
 
     [HttpGet("{id:guid}")]
@@ -34,31 +35,47 @@ public class AnswerController : ControllerBase
     [HttpPost]
     public async Task<ActionResult<Guid>> CreateAnswer(AnswerDetailModel answer)
     {
-        return await _answerFacade.CreateAsync(answer);        
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+
+        var result = await _answerFacade.CreateAsync(answer);
+        return Accepted(result);        
     }
 
     [HttpPut("{id:guid}")]
     public async Task<ActionResult<Guid>> UpdateAnswerById(AnswerDetailModel answer, Guid id)
     {
-        if (answer.Id != id) return BadRequest("Answer IDs in URI and body don't match");
-
-        Guid result;
+        answer.Id = id;
+        if (!ModelState.IsValid)
+        {
+            return BadRequest(ModelState);
+        }
+        
         try
         {
-            result = await _answerFacade.UpdateAsync(answer);
+            var result = await _answerFacade.UpdateAsync(answer);
+            return result;
         }
-        catch (InvalidOperationException e)
+        catch (InvalidOperationException)
         {
             return NotFound($"Answer with ID = {id} doesn't exist");
-;       }
-
-        return result;
+        }
     }
 
     [HttpDelete("{id:guid}")]
     public async Task<ActionResult> DeleteAnswer(Guid id)
     {
-        await _answerFacade.DeleteAsync(id);
-        return Ok();
+        try
+        {
+            await _answerFacade.DeleteAsync(id);
+        }
+        catch (InvalidOperationException)
+        {
+            return NotFound($"Answer with ID = {id} doesn't exist");
+        }
+
+        return Ok(id);
     }
 }
