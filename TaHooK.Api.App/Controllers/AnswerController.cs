@@ -18,8 +18,7 @@ public class AnswerController : ControllerBase
     [HttpGet]
     public async Task<IEnumerable<AnswerListModel>> GetAnswers()
     {
-        var result = await _answerFacade.GetAllAsync();
-        return result;
+        return await _answerFacade.GetAllAsync();
     }
 
     [HttpGet("{id:guid}")]
