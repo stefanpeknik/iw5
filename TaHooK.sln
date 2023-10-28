@@ -31,6 +31,8 @@ Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaHooK.Api.DAL.Tests", "TaH
 EndProject
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaHooK.Api.Common.Tests", "TaHooK.Api.Common.Tests\TaHooK.Api.Common.Tests.csproj", "{55A59382-771C-4602-A722-C937FF96DB3C}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaHooK.Api.App.EndToEndTests", "TaHooK.Api.App.EndToEndTests\TaHooK.Api.App.EndToEndTests.csproj", "{68E73E72-9AED-426D-BFD5-2C1518BDF969}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -73,6 +75,10 @@ Global
 		{55A59382-771C-4602-A722-C937FF96DB3C}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{55A59382-771C-4602-A722-C937FF96DB3C}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{55A59382-771C-4602-A722-C937FF96DB3C}.Release|Any CPU.Build.0 = Release|Any CPU
+		{68E73E72-9AED-426D-BFD5-2C1518BDF969}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{68E73E72-9AED-426D-BFD5-2C1518BDF969}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{68E73E72-9AED-426D-BFD5-2C1518BDF969}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{68E73E72-9AED-426D-BFD5-2C1518BDF969}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -90,6 +96,7 @@ Global
 		{64776641-32F9-43D7-9306-F4FC6D2D6248} = {525DBE0F-7101-475B-B191-3337381FF763}
 		{431CA36F-6D6C-47A3-9233-5FD0F1CCF08B} = {64776641-32F9-43D7-9306-F4FC6D2D6248}
 		{55A59382-771C-4602-A722-C937FF96DB3C} = {64776641-32F9-43D7-9306-F4FC6D2D6248}
+		{68E73E72-9AED-426D-BFD5-2C1518BDF969} = {64776641-32F9-43D7-9306-F4FC6D2D6248}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {03ABE9E1-691F-4711-87BE-23601578DEA0}

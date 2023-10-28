@@ -1,4 +1,6 @@
-﻿namespace TaHooK.Api.DAL.Installers;
+﻿using TaHooK.Api.DAL.Migrators;
+
+namespace TaHooK.Api.DAL.Installers;
 using TaHooK.Api.DAL.Factories;
 using TaHooK.Api.DAL.Repositories;
 using Microsoft.EntityFrameworkCore;

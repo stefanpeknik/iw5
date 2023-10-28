@@ -10,8 +10,8 @@ namespace TaHooK.Api.DAL.Tests
 {
     public class DALTestsBase : IAsyncLifetime
     {
-        protected IDbContextFactory<TestingDbContext> DbContextFactory { get; }
-        protected TestingDbContext DbContextInstance { get; }
+        protected IDbContextFactory<TaHooKDbContext> DbContextFactory { get; }
+        protected TaHooKDbContext DbContextInstance { get; }
         protected UnitOfWork.UnitOfWork UnitOfWork { get; }
 
         protected DALTestsBase(ITestOutputHelper output)
