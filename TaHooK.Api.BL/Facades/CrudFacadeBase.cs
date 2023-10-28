@@ -61,33 +61,38 @@ where TDetailModel : class, IWithId
         
         return entity == null ? null : Mapper.Map<TDetailModel>(entity);
     }
-
-    public virtual async Task<TDetailModel> SaveAsync(TDetailModel model)
+    
+    public async Task<Guid> CreateAsync(TDetailModel model)
     {
-        TDetailModel result;
+        GuardCollectionsAreNotSet(model);
+
+        var entity = Mapper.Map<TEntity>(model);
+
+        await using var uow = UnitOfWorkFactory.Create();
+        var repository = uow.GetRepository<TEntity>();
+
+        entity.Id = Guid.NewGuid();
+        var createdEntity = await repository.InsertAsync(entity);
         
+        await uow.CommitAsync();
+
+        return createdEntity.Id;
+    }
+
+    public async Task<Guid> UpdateAsync(TDetailModel model)
+    {
         GuardCollectionsAreNotSet(model);
         
-        TEntity entity = Mapper.Map<TEntity>(model);
+        var entity = Mapper.Map<TEntity>(model);
         
         await using var uow = UnitOfWorkFactory.Create();
-        IRepository<TEntity> repository = uow.GetRepository<TEntity>();
-
-        if (await repository.ExistsAsync(entity))
-        {
-            TEntity updatedEntity = await repository.UpdateAsync(entity);
-            result = Mapper.Map<TDetailModel>(updatedEntity);
-        }
-        else
-        {
-            entity.Id = Guid.NewGuid();
-            TEntity insertedEntity = await repository.InsertAsync(entity);
-            result = Mapper.Map<TDetailModel>(insertedEntity);
-        }
+        var repository = uow.GetRepository<TEntity>();
+        
+        var updatedEntity = await repository.UpdateAsync(entity);
         
         await uow.CommitAsync();
         
-        return result;
+        return updatedEntity.Id;
     }
 
     public virtual async Task DeleteAsync(Guid id)

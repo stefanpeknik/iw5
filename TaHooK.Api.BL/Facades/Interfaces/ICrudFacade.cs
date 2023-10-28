@@ -12,6 +12,7 @@ public interface ICrudFacade<TEntity, TListModel, TDetailModel> : IFacade
     
     Task<IEnumerable<TListModel>> GetAllAsync();
     Task<TDetailModel?> GetByIdAsync(Guid id);
-    Task<TDetailModel> SaveAsync(TDetailModel model);
+    Task<Guid> CreateAsync(TDetailModel model);
+    Task<Guid> UpdateAsync(TDetailModel model);
     Task DeleteAsync(Guid id);
 }
