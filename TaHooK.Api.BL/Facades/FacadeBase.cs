@@ -72,12 +72,11 @@ where TDetailModel : class, IWithId
         var repository = uow.GetRepository<TEntity>();
 
         entity.Id = Guid.NewGuid();
-        var createdEntity = repository.InsertAsync(entity);
-        var result = Mapper.Map<TDetailModel>(createdEntity);
+        var createdEntity = await repository.InsertAsync(entity);
         
         await uow.CommitAsync();
 
-        return result.Id;
+        return createdEntity.Id;
     }
 
     public async Task<Guid> UpdateAsync(TDetailModel model)
@@ -89,12 +88,11 @@ where TDetailModel : class, IWithId
         await using var uow = UnitOfWorkFactory.Create();
         var repository = uow.GetRepository<TEntity>();
         
-        var updatedEntity = repository.UpdateAsync(entity);
-        var result = Mapper.Map<TDetailModel>(updatedEntity);
+        var updatedEntity = await repository.UpdateAsync(entity);
         
         await uow.CommitAsync();
         
-        return result.Id;
+        return updatedEntity.Id;
     }
 
     public virtual async Task DeleteAsync(Guid id)

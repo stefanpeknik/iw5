@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaHooK.Api.BL.Facades;
+using TaHooK.Api.BL.Facades.Interfaces;
 using TaHooK.Common.Models.Score;
 
 namespace TaHooK.Api.App.Controllers;
@@ -42,7 +43,17 @@ public class ScoreController : ControllerBase
     {
         if (score.Id != id) return BadRequest("Score IDs in URI and body don't match");
 
-        return await _scoreFacade.UpdateAsync(score);
+        Guid result;
+        try
+        {
+            result = await _scoreFacade.UpdateAsync(score);
+        }
+        catch (InvalidOperationException e)
+        {
+            return NotFound($"Score with ID = {id} doesn't exist");
+        }
+
+        return result;
     }
 
     [HttpDelete("{id:guid}")]

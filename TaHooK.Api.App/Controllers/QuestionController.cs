@@ -41,8 +41,18 @@ public class QuestionController : ControllerBase
     public async Task<ActionResult<Guid>> UpdateQuestionById(QuestionDetailModel question, Guid id)
     {
         if (question.Id != id) return BadRequest("Question IDs in URI and body don't match");
-        
-        return await _questionFacade.UpdateAsync(question);
+
+        Guid result;
+        try
+        {
+            result = await _questionFacade.UpdateAsync(question);
+        }
+        catch (InvalidOperationException e)
+        {
+            return NotFound($"Question with ID = {id} doesn't exist");
+        }
+
+        return result;
     }
 
     [HttpDelete("{id:guid}")]

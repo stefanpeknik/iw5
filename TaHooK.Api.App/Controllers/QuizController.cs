@@ -1,5 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using TaHooK.Api.BL.Facades;
+using TaHooK.Api.BL.Facades.Interfaces;
 using TaHooK.Common.Models.Quiz;
 
 namespace TaHooK.Api.App.Controllers;
@@ -42,7 +43,17 @@ public class QuizController : ControllerBase
     {
         if (quiz.Id != id) return BadRequest("Quiz IDs in URI and body don't match");
 
-        return await _quizFacade.UpdateAsync(quiz);
+        Guid result;
+        try
+        {
+            result = await _quizFacade.UpdateAsync(quiz);
+        }
+        catch (InvalidOperationException e)
+        {
+            return NotFound($"Quiz with ID = {id} doesn't exist");
+        }
+
+        return result;
     }
 
     [HttpDelete("{id:guid}")]

@@ -1,5 +1,7 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NSwag.Annotations;
 using TaHooK.Api.BL.Facades;
+using TaHooK.Api.BL.Facades.Interfaces;
 using TaHooK.Common.Models.User;
 
 namespace TaHooK.Api.App.Controllers;
@@ -16,6 +18,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
+    [OpenApiOperation("GetUsers")]
     public async Task<IEnumerable<UserListModel>> GetUsers()
     {
         return await _userFacade.GetAllAsync();
@@ -42,7 +45,17 @@ public class UserController : ControllerBase
     {
         if (user.Id != id) return BadRequest("User IDs in URI and body don't match");
 
-        return await _userFacade.UpdateAsync(user);
+        Guid result;
+        try
+        {
+            result = await _userFacade.UpdateAsync(user);
+        }
+        catch (InvalidOperationException e)
+        {
+            return NotFound($"User with ID = {id} doesn't exist");
+        }
+
+        return result;
     }
 
     [HttpDelete("{id:guid}")]
