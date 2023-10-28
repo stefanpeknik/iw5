@@ -3,7 +3,6 @@ using TaHooK.Api.BL.Facades.Interfaces;
 using TaHooK.Api.DAL.UnitOfWork;
 using TaHooK.Common.Models.Search;
 using AutoMapper.QueryableExtensions;
-using Microsoft.EntityFrameworkCore;
 using TaHooK.Api.DAL.Entities;
 
 namespace TaHooK.Api.BL.Facades;
