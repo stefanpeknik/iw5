@@ -31,7 +31,7 @@ public class ScoreRepositoryTests: DALTestsBase
         var repository = UnitOfWork.GetRepository<ScoreEntity>();
         
         // Act
-        var result = await repository.ExistsAsync(ScoreSeeds.DefaultScore);
+        var result = await repository.ExistsAsync(ScoreSeeds.DefaultScore.Id);
         
         // Assert
         Assert.True(result);
@@ -46,7 +46,7 @@ public class ScoreRepositoryTests: DALTestsBase
         
         
         // Act
-        var result = await repository.ExistsAsync(score);
+        var result = await repository.ExistsAsync(score.Id);
         
         // Assert
         Assert.False(result);
