@@ -29,7 +29,7 @@ public class SearchController : ControllerBase
 public class SearchParams
 {
     [FromQuery(Name = "q")]
-    public required string Query { get; set; }
+    public string Query { get; set; } = "";
 
     [FromQuery(Name = "p")]
     public int Page { get; set; } = 1;
