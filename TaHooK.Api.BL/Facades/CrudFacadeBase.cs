@@ -10,7 +10,7 @@ using System.Collections;
 
 namespace TaHooK.Api.BL.Facades;
 
-public abstract class FacadeBase<TEntity, TListModel, TDetailModel> : IFacade<TEntity, TListModel, TDetailModel>
+public abstract class CrudFacadeBase<TEntity, TListModel, TDetailModel> : ICrudFacade<TEntity, TListModel, TDetailModel>
 where TEntity : class, IEntity
 where TListModel : IWithId
 where TDetailModel : class, IWithId
@@ -18,7 +18,7 @@ where TDetailModel : class, IWithId
     protected readonly IUnitOfWorkFactory UnitOfWorkFactory;
     protected readonly IMapper Mapper;
 
-    protected FacadeBase(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper)
+    protected CrudFacadeBase(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper)
     {
         UnitOfWorkFactory = unitOfWorkFactory;
         Mapper = mapper;

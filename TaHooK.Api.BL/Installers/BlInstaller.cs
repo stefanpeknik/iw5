@@ -16,7 +16,7 @@ public class BlInstaller: IInstaller
         
         serviceCollection.Scan(selector =>
             selector.FromAssemblyOf<BlInstaller>()
-                .AddClasses(classes => classes.AssignableTo(typeof(IFacade<,,>)))
+                .AddClasses(classes => classes.AssignableTo(typeof(IFacade)))
                 .AsSelfWithInterfaces()
                 .WithScopedLifetime());
         
