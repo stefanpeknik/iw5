@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using TaHooK.Api.BL.Facades;
 using TaHooK.Common.Models.User;
@@ -18,12 +19,16 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [OpenApiOperation("GetUsers","Returns a list of all users.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(IEnumerable<UserListModel>), Description = "Successful operation.")]
     public async Task<IEnumerable<UserListModel>> GetUsers()
     {
         return await _userFacade.GetAllAsync();
     }
 
     [HttpGet("{id:guid}")]
+    [OpenApiOperation("GetUserById", "Returns a user based on the GUID on input.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(UserDetailModel), Description = "Successful operation.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(void), Description = "User not found.")]
     public async Task<ActionResult<UserDetailModel>> GetUserById(Guid id)
     {
         var result = await _userFacade.GetByIdAsync(id);
@@ -34,6 +39,9 @@ public class UserController : ControllerBase
     }
 
     [HttpPost]
+    [OpenApiOperation("CreateUser", "Creates a new user.")]
+    [SwaggerResponse(HttpStatusCode.Accepted, typeof(Guid), Description = "Successful operation.")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(void), Description = "Incorrect input model.")]
     public async Task<ActionResult<Guid>> CreateUser(UserDetailModel user)
     {
         if (!ModelState.IsValid)
@@ -45,6 +53,10 @@ public class UserController : ControllerBase
     }
 
     [HttpPut("{id:guid}")]
+    [OpenApiOperation("UpdateUserById", "Updates an existing user.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(Guid), Description = "Successful operation.")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(void), Description = "Incorrect input model.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(void), Description = "User with the given ID was not found.")]
     public async Task<ActionResult<Guid>> UpdateUserById(UserDetailModel user, Guid id)
     {
         user.Id = id;
@@ -66,6 +78,9 @@ public class UserController : ControllerBase
     }
 
     [HttpDelete("{id:guid}")]
+    [OpenApiOperation("DeleteUser", "Deletes a user based on the input ID.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(void), Description = "Successful operation.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(void), Description = "User with input ID was not found.")]
     public async Task<ActionResult> DeleteUser(Guid id)
     {
         try
