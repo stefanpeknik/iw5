@@ -38,12 +38,8 @@ var app = builder.Build();
 
 ValidateAutoMapperConfiguration(app.Services);
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseOpenApi();
-    app.UseSwaggerUi3();
-}
+app.UseOpenApi();
+app.UseSwaggerUi3();
 
 
 // Migrate database
