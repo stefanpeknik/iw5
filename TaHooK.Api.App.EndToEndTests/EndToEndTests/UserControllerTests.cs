@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using TaHooK.Api.Common.Tests.Seeds;
+using TaHooK.Common.Models.Responses;
 using TaHooK.Common.Models.User;
 using Xunit;
 
@@ -58,17 +59,17 @@ public class UserControllerTests : EndToEndTestsBase
     {
         // Arrange
         var userSeed = UserSeeds.DefaultUser;
-        var userSeedModel = mapper.Map<UserDetailModel>(userSeed);
+        var userSeedModel = mapper.Map<UserCreateUpdateModel>(userSeed);
         
         // Act
         var post = await client.Value.PostAsJsonAsync("/api/users", userSeedModel);
-        var postId = await post.Content.ReadFromJsonAsync<Guid>();
-        var get = await client.Value.GetAsync($"/api/users/{postId}");
+        var postId = await post.Content.ReadFromJsonAsync<IdModel>();
+        var get = await client.Value.GetAsync($"/api/users/{postId?.Id}");
         var getId = (await get.Content.ReadFromJsonAsync<UserDetailModel>())!.Id;
         
         // Assert
         Assert.Equal(HttpStatusCode.Accepted, post.StatusCode);
-        Assert.Equal(postId, getId);
+        Assert.Equal(postId?.Id, getId);
     }
     
     [Fact]
@@ -90,18 +91,18 @@ public class UserControllerTests : EndToEndTestsBase
         // Arrange
         var userSeed = UserSeeds.UserToUpdate;
         var userSeedModel = mapper.Map<UserDetailModel>(userSeed);
-        var userSeedModelUpdated = mapper.Map<UserDetailModel>(userSeed);
+        var userSeedModelUpdated = mapper.Map<UserCreateUpdateModel>(userSeed);
         userSeedModelUpdated.Name = "Updated text";
         
         // Act
         var put = await client.Value.PutAsJsonAsync($"/api/users/{userSeedModel.Id}", userSeedModelUpdated);
-        var putId = await put.Content.ReadFromJsonAsync<Guid>();
-        var get = await client.Value.GetAsync($"/api/users/{putId}");
+        var putId = await put.Content.ReadFromJsonAsync<IdModel>();
+        var get = await client.Value.GetAsync($"/api/users/{putId?.Id}");
         var getId = (await get.Content.ReadFromJsonAsync<UserDetailModel>())!.Id;
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, put.StatusCode);
-        Assert.Equal(putId, getId);
+        Assert.Equal(putId?.Id, getId);
     }
 
     [Fact]

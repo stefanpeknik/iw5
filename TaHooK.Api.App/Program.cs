@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using TaHooK.Api.BL.Installers;
@@ -9,6 +10,7 @@ using TaHooK.Api.DAL.Entities.Interfaces;
 using TaHooK.Api.DAL.Extensions;
 using TaHooK.Api.DAL.Installers;
 using TaHooK.Api.DAL.Migrators;
+using TaHooK.Common.Models.Responses;
 
 //using TaHooK.Common.Extensions;
 var builder = WebApplication.CreateBuilder(args);
@@ -25,7 +27,7 @@ var logger = new LoggerConfiguration()
 
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
-builder.Services.AddControllers();
+ConfigureControllers(builder.Services);
 builder.Services.AddFluentValidationAutoValidation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
@@ -55,6 +57,31 @@ app.UseAuthorization();
 app.MapControllers();
 
 app.Run();
+
+void ConfigureControllers(IServiceCollection serviceCollection)
+{
+    // Configure better error messages for invalid input
+    serviceCollection.AddControllers()
+        .ConfigureApiBehaviorOptions(options =>
+        {
+            options.InvalidModelStateResponseFactory = context =>
+            {
+                var errors = context.ModelState
+                    .Values
+                    .SelectMany(v => v.Errors)
+                    .Select(e => e.ErrorMessage)
+                    .ToList();
+
+                var errorResponse = new BadRequestModel
+                {
+                    Errors = errors
+                };
+
+                return new BadRequestObjectResult(errorResponse);
+            };
+            
+        });
+}
 
 void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
 {

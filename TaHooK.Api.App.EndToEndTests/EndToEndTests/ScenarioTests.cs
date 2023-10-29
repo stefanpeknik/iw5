@@ -4,6 +4,7 @@ using TaHooK.Api.Common.Tests.Seeds;
 using TaHooK.Common.Models.Answer;
 using TaHooK.Common.Models.Question;
 using TaHooK.Common.Models.Quiz;
+using TaHooK.Common.Models.Responses;
 using TaHooK.Common.Models.Score;
 using TaHooK.Common.Models.User;
 using Xunit;
@@ -19,88 +20,88 @@ public class ScenarioTests : EndToEndTestsBase
         // Arrange
         // user
         var userSeed = UserSeeds.DefaultUser;
-        var userSeedModel = mapper.Map<UserDetailModel>(userSeed);
+        var userSeedModel = mapper.Map<UserCreateUpdateModel>(userSeed);
         // score
         var scoreSeed = ScoreSeeds.DefaultScore;
-        var scoreSeedModel = mapper.Map<ScoreDetailModel>(scoreSeed);
+        var scoreSeedModel = mapper.Map<ScoreCreateUpdateModel>(scoreSeed);
         // quiz
         var quizSeed = QuizSeeds.DefaultQuiz;
-        var quizSeedModel = mapper.Map<QuizDetailModel>(quizSeed);
+        var quizSeedModel = mapper.Map<QuizCreateUpdateModel>(quizSeed);
         // question
         var questionSeed = QuestionSeeds.DefaultQuestion;
-        var questionSeedModel = mapper.Map<QuestionDetailModel>(questionSeed);
+        var questionSeedModel = mapper.Map<QuestionCreateUpdateModel>(questionSeed);
         // answers
         var answerSeed = AnswerSeeds.DefaultAnswer;
-        var answerSeedModel1 = mapper.Map<AnswerDetailModel>(answerSeed);
-        var answerSeedModel2 = mapper.Map<AnswerDetailModel>(answerSeed);
+        var answerSeedModel1 = mapper.Map<AnswerCreateUpdateModel>(answerSeed);
+        var answerSeedModel2 = mapper.Map<AnswerCreateUpdateModel>(answerSeed);
         
         
         // Act
         // user
         var userResponse = await client.Value.PostAsJsonAsync("/api/users", userSeedModel);
         userResponse.EnsureSuccessStatusCode();
-        var userId = await userResponse.Content.ReadFromJsonAsync<Guid>();
+        var userId = await userResponse.Content.ReadFromJsonAsync<IdModel>();
         // quiz
         var quizResponse = await client.Value.PostAsJsonAsync("/api/quizzes", quizSeedModel);
         quizResponse.EnsureSuccessStatusCode();
-        var quizId = await quizResponse.Content.ReadFromJsonAsync<Guid>();
+        var quizId = await quizResponse.Content.ReadFromJsonAsync<IdModel>();
         // question
-        questionSeedModel.QuizId = quizId;
+        questionSeedModel.QuizId = quizId!.Id;
         var questionResponse = await client.Value.PostAsJsonAsync("/api/questions", questionSeedModel);
         questionResponse.EnsureSuccessStatusCode();
-        var questionId = await questionResponse.Content.ReadFromJsonAsync<Guid>();
+        var questionId = await questionResponse.Content.ReadFromJsonAsync<IdModel>();
         // answers
-        answerSeedModel1.QuestionId = questionId;
-        answerSeedModel2.QuestionId = questionId;
+        answerSeedModel1.QuestionId = questionId!.Id;
+        answerSeedModel2.QuestionId = questionId.Id;
         var answerResponse1 = await client.Value.PostAsJsonAsync("/api/answers", answerSeedModel1);
         answerResponse1.EnsureSuccessStatusCode();
-        var answerId1 = await answerResponse1.Content.ReadFromJsonAsync<Guid>();
+        var answerId1 = await answerResponse1.Content.ReadFromJsonAsync<IdModel>();
         var answerResponse2 = await client.Value.PostAsJsonAsync("/api/answers", answerSeedModel2);
         answerResponse2.EnsureSuccessStatusCode();
-        var answerId2 = await answerResponse2.Content.ReadFromJsonAsync<Guid>();
+        var answerId2 = await answerResponse2.Content.ReadFromJsonAsync<IdModel>();
         // score
-        scoreSeedModel.QuizId = quizId;
-        scoreSeedModel.UserId = userId;
+        scoreSeedModel.QuizId = quizId.Id;
+        scoreSeedModel.UserId = userId!.Id;
         var scoreResponse = await client.Value.PostAsJsonAsync("/api/scores", scoreSeedModel);
         scoreResponse.EnsureSuccessStatusCode();
-        var scoreId = await scoreResponse.Content.ReadFromJsonAsync<Guid>();
+        var scoreId = await scoreResponse.Content.ReadFromJsonAsync<IdModel>();
         
         
         // Assert
         // user
-        var userGetResponse = await client.Value.GetAsync($"/api/users/{userId}");
+        var userGetResponse = await client.Value.GetAsync($"/api/users/{userId.Id}");
         userGetResponse.EnsureSuccessStatusCode();
         var userGet = await userGetResponse.Content.ReadFromJsonAsync<UserDetailModel>();
         Assert.NotNull(userGet);
-        Assert.Equal(userId, userGet.Id);
+        Assert.Equal(userId.Id, userGet.Id);
         // quiz
-        var quizGetResponse = await client.Value.GetAsync($"/api/quizzes/{quizId}");
+        var quizGetResponse = await client.Value.GetAsync($"/api/quizzes/{quizId.Id}");
         quizGetResponse.EnsureSuccessStatusCode();
         var quizGet = await quizGetResponse.Content.ReadFromJsonAsync<QuizDetailModel>();
         Assert.NotNull(quizGet);
-        Assert.Equal(quizId, quizGet.Id);
+        Assert.Equal(quizId.Id, quizGet.Id);
         // question
-        var questionGetResponse = await client.Value.GetAsync($"/api/questions/{questionId}");
+        var questionGetResponse = await client.Value.GetAsync($"/api/questions/{questionId.Id}");
         questionGetResponse.EnsureSuccessStatusCode();
         var questionGet = await questionGetResponse.Content.ReadFromJsonAsync<QuestionDetailModel>();
         Assert.NotNull(questionGet);
-        Assert.Equal(questionId, questionGet.Id);
+        Assert.Equal(questionId.Id, questionGet.Id);
         // answers
-        var answerGetResponse1 = await client.Value.GetAsync($"/api/answers/{answerId1}");
+        var answerGetResponse1 = await client.Value.GetAsync($"/api/answers/{answerId1?.Id}");
         answerGetResponse1.EnsureSuccessStatusCode();
         var answerGet1 = await answerGetResponse1.Content.ReadFromJsonAsync<AnswerDetailModel>();
         Assert.NotNull(answerGet1);
-        Assert.Equal(answerId1, answerGet1.Id);
-        var answerGetResponse2 = await client.Value.GetAsync($"/api/answers/{answerId2}");
+        Assert.Equal(answerId1?.Id, answerGet1.Id);
+        var answerGetResponse2 = await client.Value.GetAsync($"/api/answers/{answerId2?.Id}");
         answerGetResponse2.EnsureSuccessStatusCode();
         var answerGet2 = await answerGetResponse2.Content.ReadFromJsonAsync<AnswerDetailModel>();
         Assert.NotNull(answerGet2);
-        Assert.Equal(answerId2, answerGet2.Id);
+        Assert.Equal(answerId2?.Id, answerGet2.Id);
         // score
-        var scoreGetResponse = await client.Value.GetAsync($"/api/scores/{scoreId}");
+        var scoreGetResponse = await client.Value.GetAsync($"/api/scores/{scoreId?.Id}");
         scoreGetResponse.EnsureSuccessStatusCode();
         var scoreGet = await scoreGetResponse.Content.ReadFromJsonAsync<ScoreDetailModel>();
         Assert.NotNull(scoreGet);
-        Assert.Equal(scoreId, scoreGet.Id);
+        Assert.Equal(scoreId?.Id, scoreGet.Id);
     }
 }

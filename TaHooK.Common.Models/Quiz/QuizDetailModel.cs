@@ -1,4 +1,3 @@
-using System.Collections.ObjectModel;
 using TaHooK.Common.Models.Question;
 using TaHooK.Common.Models.Score;
 

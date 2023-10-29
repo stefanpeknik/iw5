@@ -1,6 +1,7 @@
 ﻿using System.Net;
 using System.Net.Http.Json;
 using TaHooK.Api.Common.Tests.Seeds;
+using TaHooK.Common.Models.Responses;
 using TaHooK.Common.Models.Score;
 using Xunit;
 
@@ -58,17 +59,17 @@ public class ScoreControllerTests : EndToEndTestsBase
     {
         // Arrange
         var scoreSeed = ScoreSeeds.DefaultScore;
-        var scoreSeedModel = mapper.Map<ScoreDetailModel>(scoreSeed);
+        var scoreSeedModel = mapper.Map<ScoreCreateUpdateModel>(scoreSeed);
         
         // Act
         var post = await client.Value.PostAsJsonAsync("/api/scores", scoreSeedModel);
-        var postId = await post.Content.ReadFromJsonAsync<Guid>();
-        var get = await client.Value.GetAsync($"/api/scores/{postId}");
+        var postId = await post.Content.ReadFromJsonAsync<IdModel>();
+        var get = await client.Value.GetAsync($"/api/scores/{postId?.Id}");
         var getId = (await get.Content.ReadFromJsonAsync<ScoreDetailModel>())!.Id;
         
         // Assert
         Assert.Equal(HttpStatusCode.Created, post.StatusCode);
-        Assert.Equal(postId, getId);
+        Assert.Equal(postId?.Id, getId);
     }
     
     [Fact]
@@ -120,18 +121,18 @@ public class ScoreControllerTests : EndToEndTestsBase
         // Arrange
         var scoreSeed = ScoreSeeds.ScoreToUpdate;
         var scoreSeedModel = mapper.Map<ScoreDetailModel>(scoreSeed);
-        var scoreSeedModelUpdated = mapper.Map<ScoreDetailModel>(scoreSeed);
+        var scoreSeedModelUpdated = mapper.Map<ScoreCreateUpdateModel>(scoreSeed);
         scoreSeedModelUpdated.Score = 3;
         
         // Act
         var put = await client.Value.PutAsJsonAsync($"/api/scores/{scoreSeedModel.Id}", scoreSeedModelUpdated);
-        var putId = await put.Content.ReadFromJsonAsync<Guid>();
-        var get = await client.Value.GetAsync($"/api/scores/{putId}");
+        var putId = await put.Content.ReadFromJsonAsync<IdModel>();
+        var get = await client.Value.GetAsync($"/api/scores/{putId?.Id}");
         var getId = (await get.Content.ReadFromJsonAsync<ScoreDetailModel>())!.Id;
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, put.StatusCode);
-        Assert.Equal(putId, getId);
+        Assert.Equal(putId?.Id, getId);
     }
 
     [Fact]

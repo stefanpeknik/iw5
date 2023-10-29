@@ -5,7 +5,7 @@ using TaHooK.Common.Models.Question;
 
 namespace TaHooK.Api.BL.Validators;
 
-public class QuestionValidator: AbstractValidator<QuestionDetailModel>
+public class QuestionValidator: AbstractValidator<QuestionCreateUpdateModel>
 {
     private readonly IUnitOfWorkFactory _unitOfWorkFactory;
     
@@ -13,7 +13,7 @@ public class QuestionValidator: AbstractValidator<QuestionDetailModel>
     {
         _unitOfWorkFactory = unitOfWorkFactory;
 
-        RuleFor(x => x.QuizId).Must(QuizExists).WithMessage("Quiz doesn't exist!");
+        RuleFor(x => x.QuizId).Must(QuizExists).WithMessage(x => $"Quiz with Id={x.QuizId} doesn't exist!");
     }
 
     private bool QuizExists(Guid quizId)

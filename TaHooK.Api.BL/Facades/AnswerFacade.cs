@@ -6,7 +6,7 @@ using TaHooK.Common.Models.Answer;
 
 namespace TaHooK.Api.BL.Facades;
 
-public class AnswerFacade: CrudFacadeBase<AnswerEntity, AnswerListModel, AnswerDetailModel>, IAnswerFacade
+public class AnswerFacade: CrudFacadeBase<AnswerEntity, AnswerListModel, AnswerDetailModel, AnswerCreateUpdateModel>, IAnswerFacade
 {
     public AnswerFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper) : base(unitOfWorkFactory, mapper)
     {

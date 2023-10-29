@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using TaHooK.Api.Common.Tests.Seeds;
 using TaHooK.Common.Models.Question;
+using TaHooK.Common.Models.Responses;
 using Xunit;
 
 namespace TaHooK.Api.App.EndToEndTests.EndToEndTests;
@@ -58,17 +59,17 @@ public class QuestionControllerTests : EndToEndTestsBase
     {
         // Arrange
         var questionSeed = QuestionSeeds.DefaultQuestion;
-        var questionSeedModel = mapper.Map<QuestionDetailModel>(questionSeed);
+        var questionSeedModel = mapper.Map<QuestionCreateUpdateModel>(questionSeed);
         
         // Act
         var post = await client.Value.PostAsJsonAsync("/api/questions", questionSeedModel);
-        var postId = await post.Content.ReadFromJsonAsync<Guid>();
-        var get = await client.Value.GetAsync($"/api/questions/{postId}");
+        var postId = await post.Content.ReadFromJsonAsync<IdModel>();
+        var get = await client.Value.GetAsync($"/api/questions/{postId?.Id}");
         var getId = (await get.Content.ReadFromJsonAsync<QuestionDetailModel>())!.Id;
         
         // Assert
         Assert.Equal(HttpStatusCode.Created, post.StatusCode);
-        Assert.Equal(postId, getId);
+        Assert.Equal(postId?.Id, getId);
     }
     
     [Fact]
@@ -105,18 +106,18 @@ public class QuestionControllerTests : EndToEndTestsBase
         // Arrange
         var questionSeed = QuestionSeeds.QuestionToUpdate;
         var questionSeedModel = mapper.Map<QuestionDetailModel>(questionSeed);
-        var questionSeedModelUpdated = mapper.Map<QuestionDetailModel>(questionSeed);
+        var questionSeedModelUpdated = mapper.Map<QuestionCreateUpdateModel>(questionSeed);
         questionSeedModelUpdated.Text = "Updated text";
         
         // Act
         var put = await client.Value.PutAsJsonAsync($"/api/questions/{questionSeedModel.Id}", questionSeedModelUpdated);
-        var putId = await put.Content.ReadFromJsonAsync<Guid>();
-        var get = await client.Value.GetAsync($"/api/questions/{putId}");
+        var putId = await put.Content.ReadFromJsonAsync<IdModel>();
+        var get = await client.Value.GetAsync($"/api/questions/{putId?.Id}");
         var getId = (await get.Content.ReadFromJsonAsync<QuestionDetailModel>())!.Id;
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, put.StatusCode);
-        Assert.Equal(putId, getId);
+        Assert.Equal(putId?.Id, getId);
     }
 
     [Fact]
