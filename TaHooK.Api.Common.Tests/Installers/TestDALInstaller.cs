@@ -14,7 +14,7 @@ public class TestDALInstaller : IInstaller
     public void Install(IServiceCollection serviceCollection)
     {
         serviceCollection.AddSingleton<IDbContextFactory<TaHooKDbContext>>(provider =>
-            new DbContextTestingFactory("TestDb", true));
+            new DbContextTestingFactory(Guid.NewGuid().ToString(), true));
         serviceCollection.AddSingleton<IDbMigrator, TestDbMigrator>();
 
         serviceCollection.Scan(selector =>
