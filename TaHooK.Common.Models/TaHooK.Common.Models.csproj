@@ -17,14 +17,6 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Answer\" />
-      <Folder Include="Question\" />
-      <Folder Include="Quiz\" />
-      <Folder Include="Score\" />
-      <Folder Include="User\" />
-    </ItemGroup>
-
-    <ItemGroup>
       <ProjectReference Include="..\TaHooK.Common\TaHooK.Common.csproj" />
     </ItemGroup>
 
