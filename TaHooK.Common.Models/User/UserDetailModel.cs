@@ -7,6 +7,7 @@ namespace TaHooK.Common.Models.User
         public Guid Id { get; set; }
         public required string Name { get; set; }
         public required string Email { get; set; }
+        public required string Password { get; set; }
         public required Uri Photo { get; set; }
 
         public ICollection<ScoreListModel> Scores { get; set; } = new List<ScoreListModel>();

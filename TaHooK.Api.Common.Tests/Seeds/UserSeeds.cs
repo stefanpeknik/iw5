@@ -12,6 +12,7 @@ namespace TaHooK.Api.Common.Tests.Seeds
             Id = Guid.Parse("A7F6F50A-3B1A-4065-8274-62EDD210CD1A"),
             Email = "ferda@gmail.com",
             Name = "Ferda",
+            Password = "Ferda123",
             Photo = new Uri("https://www.merchandising.cz/images/F01_2020_i.jpg")
         };
         
