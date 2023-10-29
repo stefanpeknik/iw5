@@ -32,7 +32,7 @@ builder.Services.AddFluentValidationAutoValidation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddOpenApiDocument();
+builder.Services.AddOpenApiDocument(document => document.Title = "TaHooK API");
 
 var app = builder.Build();
 
