@@ -11,7 +11,6 @@ namespace TaHooK.Api.DAL.Seeds
             Id = Guid.Parse("A7F6F50A-3B1A-4065-8274-62EDD210CD1A"),
             Email = "ferda@gmail.com",
             Name = "Ferda",
-            Password = "Ferda123",
             Photo = new Uri("https://www.merchandising.cz/images/F01_2020_i.jpg")
         };
 
@@ -20,7 +19,6 @@ namespace TaHooK.Api.DAL.Seeds
             Id = Guid.Parse("14B1DEFA-2350-46C9-9C1C-01E4C63ACD79"),
             Email = "broukpytlik@gmail.com",
             Name = "Brouk Pytlík",
-            Password = "BroukPytlik123",
             Photo = new Uri("https://vltava.rozhlas.cz/sites/default/files/images/00865327.jpeg")
         };
 
