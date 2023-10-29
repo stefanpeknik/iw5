@@ -3,7 +3,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TaHooK.Api.Common.Tests.Factories
 {
-    public class DbContextTestingFactory : IDbContextFactory<TestingDbContext>
+    public class DbContextTestingFactory : IDbContextFactory<TaHooKDbContext>
     {
         private readonly string _databaseName;
         private readonly bool _seedTestingData;
@@ -14,7 +14,7 @@ namespace TaHooK.Api.Common.Tests.Factories
             _seedTestingData = seedTestingData;
         }
 
-        public TestingDbContext CreateDbContext()
+        public TaHooKDbContext CreateDbContext()
         {
             var optionsBuilder = new DbContextOptionsBuilder<TaHooKDbContext>();
             optionsBuilder.UseSqlite($"Data Source={_databaseName};Cache=Shared");

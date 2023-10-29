@@ -1,12 +1,6 @@
-﻿namespace TaHooK.Api.DAL.Installers;
+﻿using Microsoft.EntityFrameworkCore;
 
-using Microsoft.EntityFrameworkCore;
-
-public interface IDbMigrator
-{
-    public void Migrate();
-    public Task MigrateAsync(CancellationToken cancellationToken);
-}
+namespace TaHooK.Api.DAL.Migrators;
 
 public class SqlDbMigrator: IDbMigrator
 {
@@ -24,7 +18,7 @@ public class SqlDbMigrator: IDbMigrator
         await using TaHooKDbContext dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
 
         // If you want to delete the database before migration, uncomment the following line
-        //await dbContext.Database.EnsureDeletedAsync(cancellationToken);
+        await dbContext.Database.EnsureDeletedAsync(cancellationToken);
         await dbContext.Database.EnsureCreatedAsync(cancellationToken);
     }
 }

@@ -1,11 +1,16 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
+using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using TaHooK.Api.BL.Installers;
+using TaHooK.Api.Common.Tests.Installers;
 using TaHooK.Common.Extensions;
 using TaHooK.Api.DAL.Entities.Interfaces;
 using TaHooK.Api.DAL.Extensions;
 using TaHooK.Api.DAL.Installers;
+using TaHooK.Api.DAL.Migrators;
+
+//using TaHooK.Common.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
 // Add services to the container.
@@ -53,8 +58,16 @@ app.Run();
 
 void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
 {
-    var connectionString = configuration.GetConnectionString("SQLCONNSTR_DefaultConnection") ?? throw new ArgumentException("The connection string is missing");
-    serviceCollection.AddInstaller<DALInstaller>(connectionString);
+    if (Environment.GetEnvironmentVariable("E2E_TESTING").IsNullOrEmpty() || Environment.GetEnvironmentVariable("E2E_TESTING") == "false")
+    {
+        var connectionString = configuration.GetConnectionString("SQLCONNSTR_DefaultConnection") ?? throw new ArgumentException("The connection string is missing");
+        serviceCollection.AddInstaller<DALInstaller>(connectionString);
+    }
+    else
+    {
+        serviceCollection.AddInstaller<TestDALInstaller>();
+    }
+
     serviceCollection.AddInstaller<BlInstaller>();
 }
 
@@ -67,4 +80,10 @@ void ValidateAutoMapperConfiguration(IServiceProvider serviceProvider)
 {
     var mapper = serviceProvider.GetRequiredService<IMapper>();
     mapper.ConfigurationProvider.AssertConfigurationIsValid();
+}
+
+
+// Make the implicit Program class public so test projects can access it
+public partial class Program
+{
 }
