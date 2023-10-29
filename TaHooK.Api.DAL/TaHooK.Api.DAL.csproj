@@ -1,16 +1,36 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
     <PropertyGroup>
         <TargetFramework>net7.0</TargetFramework>
         <ImplicitUsings>enable</ImplicitUsings>
         <Nullable>enable</Nullable>
+        <UserSecretsId>d469536a-6ccf-4a42-90e5-ca4b9040d939</UserSecretsId>
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Serilog" Version="3.0.2-dev-02056" />
-      <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
-      <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.2-dev-00546" />
-      <PackageReference Include="Serilog.Sinks.Console" Version="4.2.0-dev-00918" />
+        <PackageReference Include="AutoMapper" Version="12.0.1"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore" Version="7.0.11"/>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.Design" Version="7.0.11">
+            <PrivateAssets>all</PrivateAssets>
+            <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
+        </PackageReference>
+        <PackageReference Include="Microsoft.EntityFrameworkCore.SqlServer" Version="7.0.11"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration" Version="7.0.0"/>
+        <PackageReference Include="Microsoft.Extensions.Configuration.UserSecrets" Version="7.0.0"/>
+        <PackageReference Include="Scrutor" Version="4.2.2"/>
+        <PackageReference Include="Serilog" Version="3.0.2-dev-02056"/>
+        <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0"/>
+        <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.2-dev-00546"/>
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.2.0-dev-00918"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <Folder Include="Migrations\"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\TaHooK.Common.Models\TaHooK.Common.Models.csproj"/>
+        <ProjectReference Include="..\TaHooK.Common\TaHooK.Common.csproj"/>
     </ItemGroup>
 
 </Project>

@@ -7,10 +7,17 @@
     </PropertyGroup>
 
     <ItemGroup>
-      <PackageReference Include="Serilog" Version="3.0.2-dev-02056" />
-      <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0" />
-      <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.2-dev-00546" />
-      <PackageReference Include="Serilog.Sinks.Console" Version="4.2.0-dev-00918" />
+        <PackageReference Include="AutoMapper" Version="12.0.1"/>
+        <PackageReference Include="FluentValidation" Version="11.8.0"/>
+        <PackageReference Include="FluentValidation.AspNetCore" Version="11.3.0"/>
+        <PackageReference Include="Serilog" Version="3.0.2-dev-02056"/>
+        <PackageReference Include="Serilog.Extensions.Logging" Version="7.0.0"/>
+        <PackageReference Include="Serilog.Settings.Configuration" Version="7.0.2-dev-00546"/>
+        <PackageReference Include="Serilog.Sinks.Console" Version="4.2.0-dev-00918"/>
+    </ItemGroup>
+
+    <ItemGroup>
+        <ProjectReference Include="..\TaHooK.Common\TaHooK.Common.csproj"/>
     </ItemGroup>
 
 </Project>
