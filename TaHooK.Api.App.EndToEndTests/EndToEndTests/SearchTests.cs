@@ -59,15 +59,15 @@ public class SearchTests : EndToEndTestsBase
     }
     
     [Fact]
-    public async Task Search_Returns_Two_Answers_And_Two_Pages_When_Page_Size_Is_Two()
+    public async Task Search_Returns_Two_Answers_When_Page_Size_Is_Two()
     {
         // Arrange
-        const int page = 2;
+        const int pageSize = 2;
         var searchParams = new SearchParams
         {
-            Query = "banana",
-            Page = page,
-            PageSize = 2
+            Query = "",
+            Page = 2,
+            PageSize = pageSize
         };
 
         // Act
@@ -75,8 +75,8 @@ public class SearchTests : EndToEndTestsBase
         
         // Assert
         response.EnsureSuccessStatusCode();
-        var answers = await response.Content.ReadFromJsonAsync<ICollection<SearchListModel>>();
-        Assert.NotNull(answers);
-        Assert.Equal(page, answers.Count);
+        var foundOnPage = await response.Content.ReadFromJsonAsync<ICollection<SearchListModel>>();
+        Assert.NotNull(foundOnPage);
+        Assert.Equal(pageSize, foundOnPage.Count);
     }
-}
+    
