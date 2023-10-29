@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Mvc;
+using NSwag.Annotations;
 using TaHooK.Common.Models.Search;
 using TaHooK.Api.BL.Facades;
 
@@ -17,7 +18,7 @@ public class SearchController : ControllerBase
     }
 
     [HttpGet]
-
+    [OpenApiOperation("GetSearch", "Returns a list of found entities based on the searched query.")]
     public IEnumerable<SearchListModel> GetSearch([FromQuery] SearchParams searchParams)
     {
 
