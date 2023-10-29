@@ -1,8 +1,7 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
-using System.Net;
 using TaHooK.Api.BL.Facades;
-using TaHooK.Common.Models;
 using TaHooK.Common.Models.Responses;
 using TaHooK.Common.Models.Score;
 
@@ -35,7 +34,7 @@ public class ScoreController : ControllerBase
     {
         var result = await _scoreFacade.GetByIdAsync(id);
 
-        if (result == null) return NotFound( new ErrorModel{ Error = $"Score with Id = {id} was not found"});
+        if (result == null) return NotFound(new ErrorModel { Error = $"Score with Id = {id} was not found" });
 
         return result;
     }
@@ -48,14 +47,14 @@ public class ScoreController : ControllerBase
     {
         var result = await _scoreFacade.CreateAsync(score);
         return Created($"/api/scores/{result}", result);
-
     }
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateScoreById", "Updates an existing score.")]
     [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel), Description = "Successful operation.")]
     [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "Score with the given ID was not found.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel),
+        Description = "Score with the given ID was not found.")]
     public async Task<ActionResult<IdModel>> UpdateScoreById(ScoreCreateUpdateModel score, Guid id)
     {
         try
@@ -65,7 +64,7 @@ public class ScoreController : ControllerBase
         }
         catch (InvalidOperationException)
         {
-            return NotFound(new ErrorModel{ Error = $"Score with ID = {id} doesn't exist"});
+            return NotFound(new ErrorModel { Error = $"Score with ID = {id} doesn't exist" });
         }
     }
 
@@ -77,13 +76,13 @@ public class ScoreController : ControllerBase
     {
         try
         {
-            await _scoreFacade.DeleteAsync(id);    
+            await _scoreFacade.DeleteAsync(id);
         }
         catch (InvalidOperationException)
         {
-            return NotFound(new ErrorModel{ Error = $"Score with ID = {id} doesn't exist"});
+            return NotFound(new ErrorModel { Error = $"Score with ID = {id} doesn't exist" });
         }
-        
+
         return Ok();
     }
 }

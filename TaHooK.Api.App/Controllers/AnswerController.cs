@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
-using System.Net;
 using TaHooK.Api.BL.Facades;
 using TaHooK.Common.Models.Answer;
 using TaHooK.Common.Models.Responses;
@@ -34,7 +34,7 @@ public class AnswerController : ControllerBase
     {
         var result = await _answerFacade.GetByIdAsync(id);
 
-        if (result == null) return NotFound(new ErrorModel{ Error = $"Answer with Id = {id} was not found"});
+        if (result == null) return NotFound(new ErrorModel { Error = $"Answer with Id = {id} was not found" });
 
         return result;
     }
@@ -53,7 +53,8 @@ public class AnswerController : ControllerBase
     [OpenApiOperation("UpdateAnswerById", "Updates an existing answer.")]
     [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel), Description = "Successful operation.")]
     [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "Answer with the given ID was not found.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel),
+        Description = "Answer with the given ID was not found.")]
     public async Task<ActionResult<IdModel>> UpdateAnswerById(AnswerCreateUpdateModel answer, Guid id)
     {
         try
@@ -63,7 +64,7 @@ public class AnswerController : ControllerBase
         }
         catch (InvalidOperationException)
         {
-            return NotFound(new ErrorModel{ Error = $"Answer with ID = {id} doesn't exist"});
+            return NotFound(new ErrorModel { Error = $"Answer with ID = {id} doesn't exist" });
         }
     }
 
@@ -79,7 +80,7 @@ public class AnswerController : ControllerBase
         }
         catch (InvalidOperationException)
         {
-            return NotFound(new ErrorModel{ Error = $"Answer with ID = {id} doesn't exist" });
+            return NotFound(new ErrorModel { Error = $"Answer with ID = {id} doesn't exist" });
         }
 
         return Ok();

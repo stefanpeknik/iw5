@@ -18,9 +18,17 @@ public sealed class UnitOfWork : IUnitOfWork
 
     public IRepository<TEntity> GetRepository<TEntity>()
         where TEntity : class, IEntity
-        => new Repository<TEntity>(_dbContext, _mapper);
+    {
+        return new Repository<TEntity>(_dbContext, _mapper);
+    }
 
-    public async Task CommitAsync() => await _dbContext.SaveChangesAsync();
+    public async Task CommitAsync()
+    {
+        await _dbContext.SaveChangesAsync();
+    }
 
-    public async ValueTask DisposeAsync() => await _dbContext.DisposeAsync();
+    public async ValueTask DisposeAsync()
+    {
+        await _dbContext.DisposeAsync();
+    }
 }

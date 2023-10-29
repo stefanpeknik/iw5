@@ -1,5 +1,5 @@
-﻿
-namespace TaHooK.Common.Enums;
+﻿namespace TaHooK.Common.Enums;
+
 public enum SearchEntityType
 {
     Question,

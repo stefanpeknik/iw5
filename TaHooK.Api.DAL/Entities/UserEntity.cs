@@ -9,8 +9,8 @@ public record UserEntity : EntityBase
     public required Uri Photo { get; set; }
 
     public ICollection<ScoreEntity> Scores { get; set; } = new List<ScoreEntity>();
-    
-    
+
+
     public class UserEntityMapperProfile : Profile
     {
         public UserEntityMapperProfile()

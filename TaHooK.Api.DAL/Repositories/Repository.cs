@@ -4,21 +4,24 @@ using TaHooK.Api.DAL.Entities.Interfaces;
 
 namespace TaHooK.Api.DAL.Repositories;
 
-public class Repository<TEntity>: IRepository<TEntity>
+public class Repository<TEntity> : IRepository<TEntity>
     where TEntity : class, IEntity
 {
-    private readonly IMapper _mapper;
     private readonly DbSet<TEntity> _dbSet;
+    private readonly IMapper _mapper;
 
     public Repository(
-            DbContext dbContext, 
-            IMapper mapper)
+        DbContext dbContext,
+        IMapper mapper)
     {
         _mapper = mapper;
         _dbSet = dbContext.Set<TEntity>();
     }
-    
-    public IQueryable<TEntity> Get() => _dbSet;
+
+    public IQueryable<TEntity> Get()
+    {
+        return _dbSet;
+    }
 
     public async ValueTask<bool> ExistsAsync(Guid id)
     {
@@ -38,23 +41,18 @@ public class Repository<TEntity>: IRepository<TEntity>
 
     public async Task<TEntity> UpdateAsync(TEntity entity)
     {
-        TEntity existingEntity = await _dbSet.SingleAsync(e => e.Id == entity.Id);
+        var existingEntity = await _dbSet.SingleAsync(e => e.Id == entity.Id);
         _mapper.Map(entity, existingEntity);
         return existingEntity;
     }
-    
+
     public async Task DeleteAsync(Guid id)
     {
         var entity = await _dbSet.FindAsync(id);
 
         if (entity != null)
-        {
-            _dbSet.Remove(entity);    
-        }
+            _dbSet.Remove(entity);
         else
-        {
             throw new InvalidOperationException($"Entity with id {id} was not found");
-        }
     }
-
 }

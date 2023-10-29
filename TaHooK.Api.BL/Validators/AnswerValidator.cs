@@ -5,15 +5,16 @@ using TaHooK.Common.Models.Answer;
 
 namespace TaHooK.Api.BL.Validators;
 
-public class AnswerValidator: AbstractValidator<AnswerCreateUpdateModel>
+public class AnswerValidator : AbstractValidator<AnswerCreateUpdateModel>
 {
     private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-    
+
     public AnswerValidator(IUnitOfWorkFactory unitOfWorkFactory)
     {
         _unitOfWorkFactory = unitOfWorkFactory;
 
-        RuleFor(x => x.QuestionId).Must(QuestionExists).WithMessage(x => $"Question with Id = {x.QuestionId} doesn't exist!");
+        RuleFor(x => x.QuestionId).Must(QuestionExists)
+            .WithMessage(x => $"Question with Id = {x.QuestionId} doesn't exist!");
     }
 
     private bool QuestionExists(Guid questionId)

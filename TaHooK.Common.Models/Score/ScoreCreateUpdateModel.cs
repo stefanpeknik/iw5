@@ -7,4 +7,4 @@ public record ScoreCreateUpdateModel
     public required Guid UserId { get; set; }
 
     public required Guid QuizId { get; set; }
-};
+}

@@ -2,7 +2,6 @@
 using Microsoft.Extensions.DependencyInjection;
 using TaHooK.Api.Common.Tests.Factories;
 using TaHooK.Api.DAL;
-using TaHooK.Api.DAL.Installers;
 using TaHooK.Api.DAL.Migrators;
 using TaHooK.Api.DAL.Repositories;
 using TaHooK.Common.Installers;

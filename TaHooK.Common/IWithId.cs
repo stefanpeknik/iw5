@@ -1,7 +1,6 @@
-﻿namespace TaHooK.Common
+﻿namespace TaHooK.Common;
+
+public interface IWithId
 {
-    public interface IWithId
-    {
-        Guid Id { get; set; }
-    }
+    Guid Id { get; set; }
 }

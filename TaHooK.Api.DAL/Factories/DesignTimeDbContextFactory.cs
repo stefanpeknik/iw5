@@ -9,9 +9,9 @@ public class DesignTimeDbContextFactory : IDesignTimeDbContextFactory<TaHooKDbCo
     public TaHooKDbContext CreateDbContext(string[] args)
     {
         var configuration = new ConfigurationBuilder()
-            .AddUserSecrets<DesignTimeDbContextFactory>(optional: true)
+            .AddUserSecrets<DesignTimeDbContextFactory>(true)
             .Build();
-        
+
         var optionsBuilder = new DbContextOptionsBuilder<TaHooKDbContext>();
         optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
 

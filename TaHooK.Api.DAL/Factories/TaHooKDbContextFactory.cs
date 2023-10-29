@@ -2,7 +2,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace TaHooK.Api.DAL.Factories;
 
-public class TaHooKDbContextFactory: IDbContextFactory<TaHooKDbContext>
+public class TaHooKDbContextFactory : IDbContextFactory<TaHooKDbContext>
 {
     private readonly string _connectionString;
     private readonly bool _seedData;
@@ -12,7 +12,7 @@ public class TaHooKDbContextFactory: IDbContextFactory<TaHooKDbContext>
         _connectionString = connectionString;
         _seedData = seedData;
     }
-    
+
     public TaHooKDbContext CreateDbContext()
     {
         var optionsBuilder = new DbContextOptionsBuilder<TaHooKDbContext>();

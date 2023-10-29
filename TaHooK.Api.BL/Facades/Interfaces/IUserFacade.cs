@@ -3,7 +3,6 @@ using TaHooK.Common.Models.User;
 
 namespace TaHooK.Api.BL.Facades.Interfaces;
 
-public interface IUserFacade: ICrudFacade<UserEntity, UserListModel, UserDetailModel, UserCreateUpdateModel>
+public interface IUserFacade : ICrudFacade<UserEntity, UserListModel, UserDetailModel, UserCreateUpdateModel>
 {
-    
 }
