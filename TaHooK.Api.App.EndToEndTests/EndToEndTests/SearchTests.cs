@@ -12,7 +12,7 @@ public class SearchTests : EndToEndTestsBase
 {
     public async Task<HttpResponseMessage> GetSearch(SearchParams searchParams)
     {
-        return await client.Value.GetAsync("/api/search" + "?" 
+        return await client.Value.GetAsync("/api/search" + "?"
                                                          + $"q={searchParams.Query}&p={searchParams.Page}&size={searchParams.PageSize}");
     }
 
@@ -29,14 +29,14 @@ public class SearchTests : EndToEndTestsBase
 
         // Act
         var response = await GetSearch(searchParams);
-        
+
         // Assert
         response.EnsureSuccessStatusCode();
         var answers = await response.Content.ReadFromJsonAsync<ICollection<SearchListModel>>();
         Assert.NotNull(answers);
         Assert.NotEmpty(answers);
     }
-    
+
     [Fact]
     public async Task Search_Returns_Empty_When_No_True_Matches()
     {
@@ -50,14 +50,14 @@ public class SearchTests : EndToEndTestsBase
 
         // Act
         var response = await GetSearch(searchParams);
-        
+
         // Assert
         response.EnsureSuccessStatusCode();
         var answers = await response.Content.ReadFromJsonAsync<ICollection<SearchListModel>>();
         Assert.NotNull(answers);
         Assert.Empty(answers);
     }
-    
+
     [Fact]
     public async Task Search_Returns_Two_Answers_When_Page_Size_Is_Two()
     {
@@ -72,11 +72,11 @@ public class SearchTests : EndToEndTestsBase
 
         // Act
         var response = await GetSearch(searchParams);
-        
+
         // Assert
         response.EnsureSuccessStatusCode();
         var foundOnPage = await response.Content.ReadFromJsonAsync<ICollection<SearchListModel>>();
         Assert.NotNull(foundOnPage);
         Assert.Equal(pageSize, foundOnPage.Count);
     }
-    
+}
