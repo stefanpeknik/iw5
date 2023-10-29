@@ -10,7 +10,7 @@ public class AnswerControllerTests : EndToEndTestsBase
 {
 
     [Fact]
-    public async Task GetAllAnswers_Returns_At_Last_One_Answer()
+    public async Task GetAllAnswers_Returns_At_Least_One_Answer()
     {
         // Arrange
         var answerSeed = AnswerSeeds.DefaultAnswer;
