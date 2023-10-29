@@ -2,6 +2,8 @@
 using NSwag.Annotations;
 using System.Net;
 using TaHooK.Api.BL.Facades;
+using TaHooK.Common.Models;
+using TaHooK.Common.Models.Responses;
 using TaHooK.Common.Models.Score;
 
 namespace TaHooK.Api.App.Controllers;
@@ -28,26 +30,22 @@ public class ScoreController : ControllerBase
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetScoreById", "Returns a score based on the GUID on input.")]
     [SwaggerResponse(HttpStatusCode.OK, typeof(ScoreDetailModel), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(void), Description = "Score not found.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "Score not found.")]
     public async Task<ActionResult<ScoreDetailModel>> GetScoreById(Guid id)
     {
         var result = await _scoreFacade.GetByIdAsync(id);
 
-        if (result == null) return NotFound($"Score with Id = {id} was not found");
+        if (result == null) return NotFound( new ErrorModel{ Error = $"Score with Id = {id} was not found"});
 
         return result;
     }
 
     [HttpPost]
     [OpenApiOperation("CreateScore", "Creates a new score.")]
-    [SwaggerResponse(HttpStatusCode.Created, typeof(Guid), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(void), Description = "Incorrect input model.")]
-    public async Task<ActionResult<Guid>> CreateScore(ScoreDetailModel score)
+    [SwaggerResponse(HttpStatusCode.Created, typeof(IdModel), Description = "Successful operation.")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
+    public async Task<ActionResult<IdModel>> CreateScore(ScoreCreateUpdateModel score)
     {
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
         var result = await _scoreFacade.CreateAsync(score);
         return Created($"/api/scores/{result}", result);
 
@@ -55,32 +53,26 @@ public class ScoreController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateScoreById", "Updates an existing score.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(Guid), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(void), Description = "Incorrect input model.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(void), Description = "Score with the given ID was not found.")]
-    public async Task<ActionResult<Guid>> UpdateScoreById(ScoreDetailModel score, Guid id)
+    [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel), Description = "Successful operation.")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "Score with the given ID was not found.")]
+    public async Task<ActionResult<IdModel>> UpdateScoreById(ScoreCreateUpdateModel score, Guid id)
     {
-        score.Id = id;
-        if (!ModelState.IsValid)
-        {
-            return BadRequest(ModelState);
-        }
-        
         try
         {
-            var result = await _scoreFacade.UpdateAsync(score);
+            var result = await _scoreFacade.UpdateAsync(score, id);
             return result;
         }
         catch (InvalidOperationException)
         {
-            return NotFound($"Score with ID = {id} doesn't exist");
+            return NotFound(new ErrorModel{ Error = $"Score with ID = {id} doesn't exist"});
         }
     }
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteScore", "Deletes a score based on the input ID.")]
     [SwaggerResponse(HttpStatusCode.OK, typeof(void), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(void), Description = "Score with input ID was not found.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "Score with input ID was not found.")]
     public async Task<ActionResult> DeleteScore(Guid id)
     {
         try
@@ -89,9 +81,9 @@ public class ScoreController : ControllerBase
         }
         catch (InvalidOperationException)
         {
-            return NotFound($"Score with ID = {id} doesn't exist");
+            return NotFound(new ErrorModel{ Error = $"Score with ID = {id} doesn't exist"});
         }
         
-        return Ok(id);
+        return Ok();
     }
 }
