@@ -5,10 +5,10 @@ using TaHooK.Common.Models.Question;
 
 namespace TaHooK.Api.BL.Validators;
 
-public class QuestionValidator: AbstractValidator<QuestionCreateUpdateModel>
+public class QuestionValidator : AbstractValidator<QuestionCreateUpdateModel>
 {
     private readonly IUnitOfWorkFactory _unitOfWorkFactory;
-    
+
     public QuestionValidator(IUnitOfWorkFactory unitOfWorkFactory)
     {
         _unitOfWorkFactory = unitOfWorkFactory;

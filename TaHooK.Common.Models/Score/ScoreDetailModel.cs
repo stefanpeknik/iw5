@@ -1,12 +1,11 @@
-namespace TaHooK.Common.Models.Score
+namespace TaHooK.Common.Models.Score;
+
+public record ScoreDetailModel : IWithId
 {
-    public record ScoreDetailModel : IWithId
-    {
-        public Guid Id { get; set; }
-        public int Score { get; set; }
+    public int Score { get; set; }
 
-        public required Guid UserId { get; set; }
+    public required Guid UserId { get; set; }
 
-        public required Guid QuizId { get; set; }
-    }
+    public required Guid QuizId { get; set; }
+    public Guid Id { get; set; }
 }

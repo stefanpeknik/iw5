@@ -1,6 +1,6 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
-using System.Net;
 using TaHooK.Api.BL.Facades;
 using TaHooK.Common.Models.Question;
 using TaHooK.Common.Models.Responses;
@@ -34,7 +34,7 @@ public class QuestionController : ControllerBase
     {
         var result = await _questionFacade.GetByIdAsync(id);
 
-        if (result == null) return NotFound(new ErrorModel{ Error = $"Question with Id = {id} was not found"});
+        if (result == null) return NotFound(new ErrorModel { Error = $"Question with Id = {id} was not found" });
 
         return result;
     }
@@ -53,24 +53,26 @@ public class QuestionController : ControllerBase
     [OpenApiOperation("UpdateQuestionById", "Updates an existing question.")]
     [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel), Description = "Successful operation.")]
     [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "Question with the given ID was not found.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel),
+        Description = "Question with the given ID was not found.")]
     public async Task<ActionResult<IdModel>> UpdateQuestionById(QuestionCreateUpdateModel question, Guid id)
     {
         try
         {
-           var result = await _questionFacade.UpdateAsync(question, id);
-           return result;
+            var result = await _questionFacade.UpdateAsync(question, id);
+            return result;
         }
         catch (InvalidOperationException)
         {
-            return NotFound(new ErrorModel{ Error = $"Question with ID = {id} doesn't exist"});
+            return NotFound(new ErrorModel { Error = $"Question with ID = {id} doesn't exist" });
         }
     }
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteQuestion", "Deletes a question based on the input ID.")]
     [SwaggerResponse(HttpStatusCode.OK, typeof(void), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "Question with input ID was not found.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel),
+        Description = "Question with input ID was not found.")]
     public async Task<ActionResult> DeleteQuestion(Guid id)
     {
         try
@@ -79,7 +81,7 @@ public class QuestionController : ControllerBase
         }
         catch (InvalidOperationException)
         {
-            return NotFound( new ErrorModel{ Error = $"Question with ID = {id} doesn't exist" });
+            return NotFound(new ErrorModel { Error = $"Question with ID = {id} doesn't exist" });
         }
 
         return Ok();

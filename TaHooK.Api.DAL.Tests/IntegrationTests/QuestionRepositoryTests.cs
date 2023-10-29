@@ -6,10 +6,12 @@ using Xunit.Abstractions;
 
 namespace TaHooK.Api.DAL.Tests.IntegrationTests;
 
-public class QuestionRepositoryTests: DALTestsBase
+public class QuestionRepositoryTests : DALTestsBase
 {
-    public QuestionRepositoryTests(ITestOutputHelper output) : base(output) { }
-    
+    public QuestionRepositoryTests(ITestOutputHelper output) : base(output)
+    {
+    }
+
     [Fact]
     public void GetAll_Questions()
     {
@@ -29,25 +31,25 @@ public class QuestionRepositoryTests: DALTestsBase
     {
         // Arrange
         var repository = UnitOfWork.GetRepository<QuestionEntity>();
-        
+
         // Act
         var result = await repository.ExistsAsync(QuestionSeeds.DefaultQuestion.Id);
-        
+
         // Assert
         Assert.True(result);
     }
-    
+
     [Fact]
     public async Task Exists_Question_False()
     {
         // Arrange
         var repository = UnitOfWork.GetRepository<QuestionEntity>();
         var question = QuestionSeeds.DefaultQuestion with { Id = Guid.NewGuid() };
-        
-        
+
+
         // Act
         var result = await repository.ExistsAsync(question.Id);
-        
+
         // Assert
         Assert.False(result);
     }
@@ -58,11 +60,11 @@ public class QuestionRepositoryTests: DALTestsBase
         // Arrange
         var repository = UnitOfWork.GetRepository<QuestionEntity>();
         var newQuestion = QuestionSeeds.DefaultQuestion with { Id = Guid.NewGuid() };
-        
+
         // Act
         var insertedEntity = await repository.InsertAsync(newQuestion);
         await UnitOfWork.CommitAsync();
-        
+
         // Assert
         var retrieved = await DbContextInstance.Questions.FindAsync(insertedEntity.Id);
         Assert.Equal(newQuestion, retrieved);
@@ -74,16 +76,16 @@ public class QuestionRepositoryTests: DALTestsBase
         // Arrange
         var repository = UnitOfWork.GetRepository<QuestionEntity>();
         var updated = QuestionSeeds.QuestionToUpdate with { Text = "Updated text" };
-        
+
         // Act
         await repository.UpdateAsync(updated);
         await UnitOfWork.CommitAsync();
-        
+
         // Assert
         var contains = await DbContextInstance.Questions.ContainsAsync(updated);
         Assert.True(contains);
     }
-    
+
     [Fact]
     public async Task Delete_Question()
     {
@@ -99,7 +101,7 @@ public class QuestionRepositoryTests: DALTestsBase
         var contains = await DbContextInstance.Questions.ContainsAsync(QuestionSeeds.QuestionToDelete);
         Assert.False(contains);
     }
-    
+
     [Fact]
     public async Task Delete_Question_Cascades()
     {

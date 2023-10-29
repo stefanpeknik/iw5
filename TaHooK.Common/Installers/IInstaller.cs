@@ -1,9 +1,8 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 
-namespace TaHooK.Common.Installers
+namespace TaHooK.Common.Installers;
+
+public interface IInstaller
 {
-    public interface IInstaller
-    {
-        void Install(IServiceCollection serviceCollection);
-    }
+    void Install(IServiceCollection serviceCollection);
 }

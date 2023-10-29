@@ -5,11 +5,11 @@ using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using TaHooK.Api.BL.Installers;
 using TaHooK.Api.Common.Tests.Installers;
-using TaHooK.Common.Extensions;
 using TaHooK.Api.DAL.Entities.Interfaces;
 using TaHooK.Api.DAL.Extensions;
 using TaHooK.Api.DAL.Installers;
 using TaHooK.Api.DAL.Migrators;
+using TaHooK.Common.Extensions;
 using TaHooK.Common.Models.Responses;
 
 //using TaHooK.Common.Extensions;
@@ -32,18 +32,14 @@ builder.Services.AddFluentValidationAutoValidation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
-builder.Services.AddOpenApiDocument();
+builder.Services.AddOpenApiDocument(document => document.Title = "TaHooK API");
 
 var app = builder.Build();
 
 ValidateAutoMapperConfiguration(app.Services);
 
-// Configure the HTTP request pipeline.
-if (app.Environment.IsDevelopment())
-{
-    app.UseOpenApi();
-    app.UseSwaggerUi3();
-}
+app.UseOpenApi();
+app.UseSwaggerUi3();
 
 
 // Migrate database
@@ -79,15 +75,16 @@ void ConfigureControllers(IServiceCollection serviceCollection)
 
                 return new BadRequestObjectResult(errorResponse);
             };
-            
         });
 }
 
 void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration configuration)
 {
-    if (Environment.GetEnvironmentVariable("E2E_TESTING").IsNullOrEmpty() || Environment.GetEnvironmentVariable("E2E_TESTING") == "false")
+    if (Environment.GetEnvironmentVariable("E2E_TESTING").IsNullOrEmpty() ||
+        Environment.GetEnvironmentVariable("E2E_TESTING") == "false")
     {
-        var connectionString = configuration.GetConnectionString("SQLCONNSTR_DefaultConnection") ?? throw new ArgumentException("The connection string is missing");
+        var connectionString = configuration.GetConnectionString("SQLCONNSTR_DefaultConnection") ??
+                               throw new ArgumentException("The connection string is missing");
         serviceCollection.AddInstaller<DALInstaller>(connectionString);
     }
     else

@@ -11,8 +11,8 @@ public record QuizEntity : EntityBase
     public ICollection<QuestionEntity> Questions { get; set; } = new List<QuestionEntity>();
 
     public ICollection<ScoreEntity> Scores { get; set; } = new List<ScoreEntity>();
-    
-    
+
+
     public class QuizEntityMapperProfile : Profile
     {
         public QuizEntityMapperProfile()

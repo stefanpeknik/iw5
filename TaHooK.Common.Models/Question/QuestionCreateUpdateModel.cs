@@ -4,4 +4,4 @@ public record QuestionCreateUpdateModel
 {
     public required string Text { get; set; }
     public required Guid QuizId { get; set; }
-};
+}

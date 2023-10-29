@@ -2,7 +2,6 @@
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using TaHooK.Api.BL.Facades;
-using TaHooK.Common.Models;
 using TaHooK.Common.Models.Responses;
 using TaHooK.Common.Models.User;
 
@@ -20,7 +19,7 @@ public class UserController : ControllerBase
     }
 
     [HttpGet]
-    [OpenApiOperation("GetUsers","Returns a list of all users.")]
+    [OpenApiOperation("GetUsers", "Returns a list of all users.")]
     [SwaggerResponse(HttpStatusCode.OK, typeof(IEnumerable<UserListModel>), Description = "Successful operation.")]
     public async Task<IEnumerable<UserListModel>> GetUsers()
     {
@@ -35,7 +34,7 @@ public class UserController : ControllerBase
     {
         var result = await _userFacade.GetByIdAsync(id);
 
-        if (result == null) return NotFound(new ErrorModel{ Error = $"User with Id = {id} was not found"});
+        if (result == null) return NotFound(new ErrorModel { Error = $"User with Id = {id} was not found" });
 
         return result;
     }
@@ -54,7 +53,8 @@ public class UserController : ControllerBase
     [OpenApiOperation("UpdateUserById", "Updates an existing user.")]
     [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel), Description = "Successful operation.")]
     [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "User with the given ID was not found.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel),
+        Description = "User with the given ID was not found.")]
     public async Task<ActionResult<IdModel>> UpdateUserById(UserCreateUpdateModel user, Guid id)
     {
         try
@@ -64,7 +64,7 @@ public class UserController : ControllerBase
         }
         catch (InvalidOperationException)
         {
-            return NotFound(new ErrorModel{ Error = $"User with ID = {id} doesn't exist"});
+            return NotFound(new ErrorModel { Error = $"User with ID = {id} doesn't exist" });
         }
     }
 
@@ -76,13 +76,13 @@ public class UserController : ControllerBase
     {
         try
         {
-            await _userFacade.DeleteAsync(id);    
+            await _userFacade.DeleteAsync(id);
         }
         catch (InvalidOperationException)
         {
-            return NotFound(new ErrorModel{ Error = $"User with ID = {id} doesn't exist"});
+            return NotFound(new ErrorModel { Error = $"User with ID = {id} doesn't exist" });
         }
-        
+
         return Ok();
     }
 }

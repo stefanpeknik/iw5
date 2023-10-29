@@ -12,8 +12,8 @@ public record AnswerEntity : EntityBase
 
     public required Guid QuestionId { get; set; }
     public required QuestionEntity Question { get; set; }
-    
-    
+
+
     public class AnswerEntityMapperProfile : Profile
     {
         public AnswerEntityMapperProfile()

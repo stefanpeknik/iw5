@@ -6,7 +6,8 @@ using TaHooK.Common.Models.Score;
 
 namespace TaHooK.Api.BL.Facades;
 
-public class ScoreFacade: CrudFacadeBase<ScoreEntity, ScoreListModel, ScoreDetailModel, ScoreCreateUpdateModel>, IScoreFacade
+public class ScoreFacade : CrudFacadeBase<ScoreEntity, ScoreListModel, ScoreDetailModel, ScoreCreateUpdateModel>,
+    IScoreFacade
 {
     public ScoreFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper) : base(unitOfWorkFactory, mapper)
     {

@@ -10,8 +10,8 @@ public record QuestionEntity : EntityBase
 
     public required Guid QuizId { get; set; }
     public required QuizEntity Quiz { get; set; }
-    
-    
+
+
     public class QuestionEntityMapperProfile : Profile
     {
         public QuestionEntityMapperProfile()

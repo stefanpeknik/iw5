@@ -11,8 +11,8 @@ public record ScoreEntity : EntityBase
 
     public required Guid QuizId { get; set; }
     public required QuizEntity Quiz { get; set; }
-    
-    
+
+
     public class ScoreEntityMapperProfile : Profile
     {
         public ScoreEntityMapperProfile()

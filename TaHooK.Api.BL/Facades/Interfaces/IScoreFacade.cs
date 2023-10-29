@@ -3,7 +3,6 @@ using TaHooK.Common.Models.Score;
 
 namespace TaHooK.Api.BL.Facades.Interfaces;
 
-public interface IScoreFacade: ICrudFacade<ScoreEntity, ScoreListModel, ScoreDetailModel, ScoreCreateUpdateModel>
+public interface IScoreFacade : ICrudFacade<ScoreEntity, ScoreListModel, ScoreDetailModel, ScoreCreateUpdateModel>
 {
-    
 }

@@ -5,27 +5,28 @@ namespace TaHooK.Api.App.EndToEndTests;
 
 public class EndToEndTestsBase : IAsyncDisposable
 {
-    private readonly TaHooKApiApplicationFactory application;
-    protected readonly Lazy<HttpClient> client;
-    protected readonly IMapper mapper;
+    private readonly TaHooKApiApplicationFactory _application;
+    protected readonly Lazy<HttpClient> Client;
+    protected readonly IMapper Mapper;
 
     public EndToEndTestsBase()
     {
-        application = new TaHooKApiApplicationFactory();
-        client = new Lazy<HttpClient>(application.CreateClient());
-        
-        var mapperConfig = new MapperConfiguration(cfg => {
+        _application = new TaHooKApiApplicationFactory();
+        Client = new Lazy<HttpClient>(_application.CreateClient());
+
+        var mapperConfig = new MapperConfiguration(cfg =>
+        {
             cfg.AddProfile<ScoreMapperProfile>();
             cfg.AddProfile<UserMapperProfile>();
             cfg.AddProfile<QuestionMapperProfile>();
             cfg.AddProfile<AnswerMapperProfile>();
             cfg.AddProfile<QuizMapperProfile>();
         });
-        mapper = mapperConfig.CreateMapper();
+        Mapper = mapperConfig.CreateMapper();
     }
-    
+
     public async ValueTask DisposeAsync()
     {
-        await application.DisposeAsync();
+        await _application.DisposeAsync();
     }
 }

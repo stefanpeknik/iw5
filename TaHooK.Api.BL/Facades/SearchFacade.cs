@@ -1,17 +1,17 @@
 ﻿using AutoMapper;
+using AutoMapper.QueryableExtensions;
+using FuzzySharp;
 using TaHooK.Api.BL.Facades.Interfaces;
+using TaHooK.Api.DAL.Entities;
 using TaHooK.Api.DAL.UnitOfWork;
 using TaHooK.Common.Models.Search;
-using AutoMapper.QueryableExtensions;
-using TaHooK.Api.DAL.Entities;
-using FuzzySharp;
 
 namespace TaHooK.Api.BL.Facades;
 
 public class SearchFacade : ISearchFacade
 {
-    private readonly IUnitOfWorkFactory _unitOfWorkFactory;
     private readonly IMapper _mapper;
+    private readonly IUnitOfWorkFactory _unitOfWorkFactory;
 
     public SearchFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper)
     {
@@ -21,7 +21,7 @@ public class SearchFacade : ISearchFacade
 
     public IEnumerable<SearchListModel> GetSearched(string query, int page, int pageSize)
     {
-        IUnitOfWork uow = _unitOfWorkFactory.Create();
+        var uow = _unitOfWorkFactory.Create();
         var users = uow.GetRepository<UserEntity>().Get().ProjectTo<SearchListModel>(_mapper.ConfigurationProvider);
         var questions = uow.GetRepository<QuestionEntity>().Get()
             .ProjectTo<SearchListModel>(_mapper.ConfigurationProvider);
@@ -31,13 +31,10 @@ public class SearchFacade : ISearchFacade
 
         IEnumerable<SearchListModel> result;
         if (string.IsNullOrWhiteSpace(query))
-        {
             result = merged.OrderBy(x => x.Name).Skip((page - 1) * pageSize).Take(pageSize);
-        }
         else
-        {
             result = merged.AsEnumerable()
-                .Select(item => new 
+                .Select(item => new
                 {
                     Item = item,
                     FuzzyRatio = Fuzz.WeightedRatio(query, item.Name)
@@ -46,10 +43,8 @@ public class SearchFacade : ISearchFacade
                 .OrderByDescending(x => x.FuzzyRatio)
                 .Select(x => x.Item)
                 .Skip((page - 1) * pageSize)
-                .Take(pageSize);  
-        }
-        
+                .Take(pageSize);
+
         return result;
     }
-
 }

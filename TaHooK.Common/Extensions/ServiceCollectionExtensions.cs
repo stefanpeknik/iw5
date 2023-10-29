@@ -1,5 +1,6 @@
 ﻿using Microsoft.Extensions.DependencyInjection;
 using TaHooK.Common.Installers;
+
 namespace TaHooK.Common.Extensions;
 
 public static class ServiceCollectionExtensions

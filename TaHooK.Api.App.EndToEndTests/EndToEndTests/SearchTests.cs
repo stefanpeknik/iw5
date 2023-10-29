@@ -1,8 +1,4 @@
-﻿using System.Net;
-using System.Net.Http.Json;
-using TaHooK.Api.App.Controllers;
-using TaHooK.Api.Common.Tests.Seeds;
-using TaHooK.Common.Models.Answer;
+﻿using System.Net.Http.Json;
 using TaHooK.Common.Models.Search;
 using Xunit;
 
@@ -10,23 +6,14 @@ namespace TaHooK.Api.App.EndToEndTests.EndToEndTests;
 
 public class SearchTests : EndToEndTestsBase
 {
-    private async Task<HttpResponseMessage> GetSearch(string? query=null, int? page=null, int? pageSize=null)
+    private async Task<HttpResponseMessage> GetSearch(string? query = null, int? page = null, int? pageSize = null)
     {
         var argsString = "";
-        if (query != null)
-        {
-            argsString += $"q={query}";
-        }
-        if (page != null)
-        {
-            argsString += $"&p={page}";
-        }
-        if (pageSize != null)
-        {
-            argsString += $"&size={pageSize}";
-        }
-        
-        return await client.Value.GetAsync("/api/search" + "?" + argsString);
+        if (query != null) argsString += $"q={query}";
+        if (page != null) argsString += $"&p={page}";
+        if (pageSize != null) argsString += $"&size={pageSize}";
+
+        return await Client.Value.GetAsync("/api/search" + "?" + argsString);
     }
 
     [Fact]
@@ -36,7 +23,7 @@ public class SearchTests : EndToEndTestsBase
         var query = "banana";
         var page = 1;
         var pageSize = 10;
-        
+
         // Act
         var response = await GetSearch(query, page, pageSize);
 
