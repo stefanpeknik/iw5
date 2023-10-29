@@ -10,25 +10,35 @@ namespace TaHooK.Api.App.EndToEndTests.EndToEndTests;
 
 public class SearchTests : EndToEndTestsBase
 {
-    public async Task<HttpResponseMessage> GetSearch(SearchParams searchParams)
+    private async Task<HttpResponseMessage> GetSearch(string? query=null, int? page=null, int? pageSize=null)
     {
-        return await client.Value.GetAsync("/api/search" + "?"
-                                                         + $"q={searchParams.Query}&p={searchParams.Page}&size={searchParams.PageSize}");
+        var argsString = "";
+        if (query != null)
+        {
+            argsString += $"q={query}";
+        }
+        if (page != null)
+        {
+            argsString += $"&p={page}";
+        }
+        if (pageSize != null)
+        {
+            argsString += $"&size={pageSize}";
+        }
+        
+        return await client.Value.GetAsync("/api/search" + "?" + argsString);
     }
 
     [Fact]
     public async Task Search_Returns_At_Least_One_Answer()
     {
         // Arrange
-        var searchParams = new SearchParams
-        {
-            Query = "banana",
-            Page = 1,
-            PageSize = 10
-        };
-
+        var query = "banana";
+        var page = 1;
+        var pageSize = 10;
+        
         // Act
-        var response = await GetSearch(searchParams);
+        var response = await GetSearch(query, page, pageSize);
 
         // Assert
         response.EnsureSuccessStatusCode();
@@ -41,15 +51,13 @@ public class SearchTests : EndToEndTestsBase
     public async Task Search_Returns_Empty_When_No_True_Matches()
     {
         // Arrange
-        var searchParams = new SearchParams
-        {
-            Query = "lol random stuff here that should not match anything",
-            Page = 1,
-            PageSize = 10
-        };
+
+        var query = "lol random stuff here that should not match anything";
+        var page = 1;
+        var pageSize = 10;
 
         // Act
-        var response = await GetSearch(searchParams);
+        var response = await GetSearch(query, page, pageSize);
 
         // Assert
         response.EnsureSuccessStatusCode();
@@ -62,16 +70,11 @@ public class SearchTests : EndToEndTestsBase
     public async Task Search_Returns_Two_Answers_When_Page_Size_Is_Two()
     {
         // Arrange
-        const int pageSize = 2;
-        var searchParams = new SearchParams
-        {
-            Query = "",
-            Page = 2,
-            PageSize = pageSize
-        };
+        var page = 2;
+        var pageSize = 2;
 
         // Act
-        var response = await GetSearch(searchParams);
+        var response = await GetSearch(page: page, pageSize: pageSize);
 
         // Assert
         response.EnsureSuccessStatusCode();
