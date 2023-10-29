@@ -19,9 +19,7 @@ public class SqlDbMigrator : IDbMigrator
     public async Task MigrateAsync(CancellationToken cancellationToken)
     {
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
-
-        // If you want to delete the database before migration, uncomment the following line
-        await dbContext.Database.EnsureDeletedAsync(cancellationToken);
+        
         await dbContext.Database.EnsureCreatedAsync(cancellationToken);
     }
 }
