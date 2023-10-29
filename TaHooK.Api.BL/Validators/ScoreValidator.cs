@@ -5,7 +5,7 @@ using TaHooK.Common.Models.Score;
 
 namespace TaHooK.Api.BL.Validators;
 
-public class ScoreValidator: AbstractValidator<ScoreDetailModel>
+public class ScoreValidator: AbstractValidator<ScoreCreateUpdateModel>
 {
     private readonly IUnitOfWorkFactory _unitOfWorkFactory;
     
@@ -13,8 +13,8 @@ public class ScoreValidator: AbstractValidator<ScoreDetailModel>
     {
         _unitOfWorkFactory = unitOfWorkFactory;
 
-        RuleFor(x => x.QuizId).Must(QuizExists).WithMessage("Quiz doesn't exist!");
-        RuleFor(x => x.UserId).Must(UserExists).WithMessage("User doesn't exist!");
+        RuleFor(x => x.QuizId).Must(QuizExists).WithMessage( x => $"Quiz with Id={x.QuizId} doesn't exist!");
+        RuleFor(x => x.UserId).Must(UserExists).WithMessage(x => $"User with Id={x.UserId} doesn't exist!");
     }
 
     private bool QuizExists(Guid quizId)
