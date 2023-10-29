@@ -1,10 +1,12 @@
-﻿using TaHooK.Common.Enums;
+﻿namespace TaHooK.Common.Models.Search;
 
-namespace TaHooK.Common.Models.Search;
-
-public record SearchListModel : IWithId
+public record SearchListModel
 {
-    public required string Name { get; set; }
-    public required SearchEntityType Type { get; set; }
-    public Guid Id { get; set; }
+    public int Page { get; set; }
+
+    public int TotalPages { get; set; }
+
+    public int TotalItems { get; set; }
+
+    public IEnumerable<SearchListItemModel> Items { get; set; } = new List<SearchListItemModel>();
 }

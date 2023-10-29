@@ -25,7 +25,7 @@ public class UserMapperProfile : Profile
 
         CreateMap<UserEntity, IdModel>();
 
-        CreateMap<UserEntity, SearchListModel>()
+        CreateMap<UserEntity, SearchListItemModel>()
             .MapMember(dst => dst.Name, src => src.Name)
             .MapMember(dst => dst.Type, src => SearchEntityType.User);
     }

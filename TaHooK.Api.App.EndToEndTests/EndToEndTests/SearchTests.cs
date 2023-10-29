@@ -29,9 +29,9 @@ public class SearchTests : EndToEndTestsBase
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var answers = await response.Content.ReadFromJsonAsync<ICollection<SearchListModel>>();
+        var answers = await response.Content.ReadFromJsonAsync<SearchListModel>();
         Assert.NotNull(answers);
-        Assert.NotEmpty(answers);
+        Assert.NotEmpty(answers.Items);
     }
 
     [Fact]
@@ -48,9 +48,9 @@ public class SearchTests : EndToEndTestsBase
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var answers = await response.Content.ReadFromJsonAsync<ICollection<SearchListModel>>();
+        var answers = await response.Content.ReadFromJsonAsync<SearchListModel>();
         Assert.NotNull(answers);
-        Assert.Empty(answers);
+        Assert.Empty(answers.Items);
     }
 
     [Fact]
@@ -65,8 +65,8 @@ public class SearchTests : EndToEndTestsBase
 
         // Assert
         response.EnsureSuccessStatusCode();
-        var foundOnPage = await response.Content.ReadFromJsonAsync<ICollection<SearchListModel>>();
+        var foundOnPage = await response.Content.ReadFromJsonAsync<SearchListModel>();
         Assert.NotNull(foundOnPage);
-        Assert.Equal(pageSize, foundOnPage.Count);
+        Assert.Equal(pageSize, foundOnPage.Items.Count());
     }
 }

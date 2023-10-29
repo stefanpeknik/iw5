@@ -26,7 +26,7 @@ public class QuestionMapperProfile : Profile
 
         CreateMap<QuestionEntity, IdModel>();
 
-        CreateMap<QuestionEntity, SearchListModel>()
+        CreateMap<QuestionEntity, SearchListItemModel>()
             .MapMember(dst => dst.Name, src => src.Text)
             .MapMember(dst => dst.Type, src => SearchEntityType.Question);
     }

@@ -19,21 +19,23 @@ public class SearchFacade : ISearchFacade
         _mapper = mapper;
     }
 
-    public IEnumerable<SearchListModel> GetSearched(string query, int page, int pageSize)
+    public SearchListModel GetSearched(string query, int page, int pageSize)
     {
         var uow = _unitOfWorkFactory.Create();
-        var users = uow.GetRepository<UserEntity>().Get().ProjectTo<SearchListModel>(_mapper.ConfigurationProvider);
+        var users = uow.GetRepository<UserEntity>().Get().ProjectTo<SearchListItemModel>(_mapper.ConfigurationProvider);
         var questions = uow.GetRepository<QuestionEntity>().Get()
-            .ProjectTo<SearchListModel>(_mapper.ConfigurationProvider);
-        var answers = uow.GetRepository<AnswerEntity>().Get().ProjectTo<SearchListModel>(_mapper.ConfigurationProvider);
+            .ProjectTo<SearchListItemModel>(_mapper.ConfigurationProvider);
+        var answers = uow.GetRepository<AnswerEntity>().Get()
+            .ProjectTo<SearchListItemModel>(_mapper.ConfigurationProvider);
 
         var merged = users.Concat(questions).Concat(answers);
 
-        IEnumerable<SearchListModel> result;
+
+        IEnumerable<SearchListItemModel> filtered;
         if (string.IsNullOrWhiteSpace(query))
-            result = merged.OrderBy(x => x.Name).Skip((page - 1) * pageSize).Take(pageSize);
+            filtered = merged.OrderBy(x => x.Name).ToList();
         else
-            result = merged.AsEnumerable()
+            filtered = merged.AsEnumerable()
                 .Select(item => new
                 {
                     Item = item,
@@ -41,9 +43,18 @@ public class SearchFacade : ISearchFacade
                 })
                 .Where(x => x.FuzzyRatio > 50) // considering fuzzy ratio
                 .OrderByDescending(x => x.FuzzyRatio)
-                .Select(x => x.Item)
-                .Skip((page - 1) * pageSize)
-                .Take(pageSize);
+                .Select(x => x.Item).ToList();
+
+        var items = filtered.Skip((page - 1) * pageSize).Take(pageSize);
+
+
+        var result = new SearchListModel
+        {
+            Page = page,
+            TotalItems = filtered.Count(),
+            TotalPages = (int)Math.Ceiling((double)filtered.Count() / pageSize),
+            Items = items
+        };
 
         return result;
     }

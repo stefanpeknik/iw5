@@ -24,7 +24,7 @@ public class AnswerMapperProfile : Profile
 
         CreateMap<AnswerEntity, IdModel>();
 
-        CreateMap<AnswerEntity, SearchListModel>()
+        CreateMap<AnswerEntity, SearchListItemModel>()
             .MapMember(dst => dst.Name, src => src.Text)
             .MapMember(dst => dst.Type, src => SearchEntityType.Answer);
     }
