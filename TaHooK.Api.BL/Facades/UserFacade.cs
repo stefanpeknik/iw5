@@ -6,7 +6,7 @@ using TaHooK.Common.Models.User;
 
 namespace TaHooK.Api.BL.Facades;
 
-public class UserFacade: CrudFacadeBase<UserEntity, UserListModel, UserDetailModel>, IUserFacade
+public class UserFacade: CrudFacadeBase<UserEntity, UserListModel, UserDetailModel, UserCreateUpdateModel>, IUserFacade
 {
     public UserFacade(IUnitOfWorkFactory unitOfWorkFactory, IMapper mapper) : base(unitOfWorkFactory, mapper)
     {
