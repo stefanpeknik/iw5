@@ -3,7 +3,6 @@ using FluentValidation.AspNetCore;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
 using TaHooK.Api.BL.Installers;
-using TaHooK.Api.Common.Tests;
 using TaHooK.Api.Common.Tests.Installers;
 using TaHooK.Common.Extensions;
 using TaHooK.Api.DAL.Entities.Interfaces;

@@ -1,4 +1,3 @@
-using DeepEqual.Syntax;
 using Microsoft.EntityFrameworkCore;
 using TaHooK.Api.Common.Tests.Seeds;
 using TaHooK.Api.DAL.Entities;

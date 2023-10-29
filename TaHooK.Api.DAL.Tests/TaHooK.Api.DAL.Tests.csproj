@@ -25,7 +25,6 @@
 
   <ItemGroup>
     <ProjectReference Include="..\TaHooK.Api.Common.Tests\TaHooK.Api.Common.Tests.csproj" />
-    <ProjectReference Include="..\TaHooK.Api.DAL.Common\TaHooK.Api.DAL.Common.csproj" />
     <ProjectReference Include="..\TaHooK.Api.DAL\TaHooK.Api.DAL.csproj" />
   </ItemGroup>
 
