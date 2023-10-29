@@ -63,12 +63,12 @@ public class QuestionControllerTests : EndToEndTestsBase
         // Act
         var post = await Client.Value.PostAsJsonAsync("/api/questions", questionSeedModel);
         var postId = await post.Content.ReadFromJsonAsync<IdModel>();
-        var get = await Client.Value.GetAsync($"/api/questions/{postId?.Id}");
+        var get = await Client.Value.GetAsync($"/api/questions/{postId!.Id}");
         var getId = (await get.Content.ReadFromJsonAsync<QuestionDetailModel>())!.Id;
 
         // Assert
         Assert.Equal(HttpStatusCode.Created, post.StatusCode);
-        Assert.Equal(postId?.Id, getId);
+        Assert.Equal(postId.Id, getId);
     }
 
     [Fact]
@@ -112,12 +112,12 @@ public class QuestionControllerTests : EndToEndTestsBase
         var put = await Client.Value.PutAsJsonAsync($"/api/questions/{questionSeedModel.Id}",
             questionSeedModelUpdated);
         var putId = await put.Content.ReadFromJsonAsync<IdModel>();
-        var get = await Client.Value.GetAsync($"/api/questions/{putId?.Id}");
+        var get = await Client.Value.GetAsync($"/api/questions/{putId!.Id}");
         var getId = (await get.Content.ReadFromJsonAsync<QuestionDetailModel>())!.Id;
 
         // Assert
         Assert.Equal(HttpStatusCode.OK, put.StatusCode);
-        Assert.Equal(putId?.Id, getId);
+        Assert.Equal(putId.Id, getId);
     }
 
     [Fact]

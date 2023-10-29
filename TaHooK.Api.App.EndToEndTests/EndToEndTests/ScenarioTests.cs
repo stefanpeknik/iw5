@@ -85,21 +85,21 @@ public class ScenarioTests : EndToEndTestsBase
         Assert.NotNull(questionGet);
         Assert.Equal(questionId.Id, questionGet.Id);
         // answers
-        var answerGetResponse1 = await Client.Value.GetAsync($"/api/answers/{answerId1?.Id}");
+        var answerGetResponse1 = await Client.Value.GetAsync($"/api/answers/{answerId1!.Id}");
         answerGetResponse1.EnsureSuccessStatusCode();
         var answerGet1 = await answerGetResponse1.Content.ReadFromJsonAsync<AnswerDetailModel>();
         Assert.NotNull(answerGet1);
-        Assert.Equal(answerId1?.Id, answerGet1.Id);
-        var answerGetResponse2 = await Client.Value.GetAsync($"/api/answers/{answerId2?.Id}");
+        Assert.Equal(answerId1.Id, answerGet1.Id);
+        var answerGetResponse2 = await Client.Value.GetAsync($"/api/answers/{answerId2!.Id}");
         answerGetResponse2.EnsureSuccessStatusCode();
         var answerGet2 = await answerGetResponse2.Content.ReadFromJsonAsync<AnswerDetailModel>();
         Assert.NotNull(answerGet2);
-        Assert.Equal(answerId2?.Id, answerGet2.Id);
+        Assert.Equal(answerId2.Id, answerGet2.Id);
         // score
-        var scoreGetResponse = await Client.Value.GetAsync($"/api/scores/{scoreId?.Id}");
+        var scoreGetResponse = await Client.Value.GetAsync($"/api/scores/{scoreId!.Id}");
         scoreGetResponse.EnsureSuccessStatusCode();
         var scoreGet = await scoreGetResponse.Content.ReadFromJsonAsync<ScoreDetailModel>();
         Assert.NotNull(scoreGet);
-        Assert.Equal(scoreId?.Id, scoreGet.Id);
+        Assert.Equal(scoreId.Id, scoreGet.Id);
     }
 }
