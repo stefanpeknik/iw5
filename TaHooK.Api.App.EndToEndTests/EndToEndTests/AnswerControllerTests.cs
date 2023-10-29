@@ -2,6 +2,7 @@
 using System.Net.Http.Json;
 using TaHooK.Api.Common.Tests.Seeds;
 using TaHooK.Common.Models.Answer;
+using TaHooK.Common.Models.Responses;
 using Xunit;
 
 namespace TaHooK.Api.App.EndToEndTests.EndToEndTests;
@@ -62,13 +63,13 @@ public class AnswerControllerTests : EndToEndTestsBase
         
         // Act
         var post = await client.Value.PostAsJsonAsync("/api/answers", answerSeedModel);
-        var postId = await post.Content.ReadFromJsonAsync<Guid>();
-        var get = await client.Value.GetAsync($"/api/answers/{postId}");
+        var postId = await post.Content.ReadFromJsonAsync<IdModel>();
+        var get = await client.Value.GetAsync($"/api/answers/{postId?.Id}");
         var getId = (await get.Content.ReadFromJsonAsync<AnswerDetailModel>())!.Id;
         
         // Assert
         Assert.Equal(HttpStatusCode.Created, post.StatusCode);
-        Assert.Equal(postId, getId);
+        Assert.Equal(postId?.Id, getId);
     }
     
     [Fact]
@@ -110,13 +111,13 @@ public class AnswerControllerTests : EndToEndTestsBase
         
         // Act
         var put = await client.Value.PutAsJsonAsync($"/api/answers/{answerSeedModel.Id}", answerSeedModelUpdated);
-        var putId = await put.Content.ReadFromJsonAsync<Guid>();
-        var get = await client.Value.GetAsync($"/api/answers/{putId}");
+        var putId = await put.Content.ReadFromJsonAsync<IdModel>();
+        var get = await client.Value.GetAsync($"/api/answers/{putId?.Id}");
         var getId = (await get.Content.ReadFromJsonAsync<AnswerDetailModel>())!.Id;
         
         // Assert
         Assert.Equal(HttpStatusCode.OK, put.StatusCode);
-        Assert.Equal(putId, getId);
+        Assert.Equal(putId?.Id, getId);
     }
 
     [Fact]
