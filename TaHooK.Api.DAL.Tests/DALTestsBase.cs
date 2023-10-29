@@ -13,7 +13,7 @@ public class DALTestsBase : IAsyncLifetime
     {
         DbContextFactory = new DbContextTestingFactory(GetType().FullName!, true);
         DbContextInstance = DbContextFactory.CreateDbContext();
-        
+
         var mapperConfig = new MapperConfiguration(cfg =>
         {
             cfg.AddProfile<ScoreEntity.ScoreEntityMapperProfile>();

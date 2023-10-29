@@ -25,7 +25,8 @@ public class SearchFacade : ISearchFacade
         var users = uow.GetRepository<UserEntity>().Get().ProjectTo<SearchListItemModel>(_mapper.ConfigurationProvider);
         var questions = uow.GetRepository<QuestionEntity>().Get()
             .ProjectTo<SearchListItemModel>(_mapper.ConfigurationProvider);
-        var answers = uow.GetRepository<AnswerEntity>().Get().ProjectTo<SearchListItemModel>(_mapper.ConfigurationProvider);
+        var answers = uow.GetRepository<AnswerEntity>().Get()
+            .ProjectTo<SearchListItemModel>(_mapper.ConfigurationProvider);
 
         var merged = users.Concat(questions).Concat(answers);
 
@@ -43,7 +44,7 @@ public class SearchFacade : ISearchFacade
                 .Where(x => x.FuzzyRatio > 50) // considering fuzzy ratio
                 .OrderByDescending(x => x.FuzzyRatio)
                 .Select(x => x.Item).ToList();
-        
+
         var items = filtered.Skip((page - 1) * pageSize).Take(pageSize);
 
 
@@ -51,10 +52,10 @@ public class SearchFacade : ISearchFacade
         {
             Page = page,
             TotalItems = filtered.Count(),
-            TotalPages = (int) Math.Ceiling((double) filtered.Count() / pageSize),
+            TotalPages = (int)Math.Ceiling((double)filtered.Count() / pageSize),
             Items = items
         };
-        
+
         return result;
     }
 }

@@ -9,7 +9,7 @@ public class TestingDbContext : TaHooKDbContext
     private readonly bool _seedTestingData;
 
     public TestingDbContext(DbContextOptions<TaHooKDbContext> options, bool seedTestingData = false)
-        : base(options, false)
+        : base(options)
     {
         _seedTestingData = seedTestingData;
     }
