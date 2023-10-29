@@ -67,7 +67,7 @@ public class QuestionControllerTests : EndToEndTestsBase
         var getId = (await get.Content.ReadFromJsonAsync<QuestionDetailModel>())!.Id;
         
         // Assert
-        Assert.Equal(HttpStatusCode.Accepted, post.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, post.StatusCode);
         Assert.Equal(postId, getId);
     }
     
