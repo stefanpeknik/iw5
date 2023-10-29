@@ -19,8 +19,8 @@ public class SearchController : ControllerBase
 
     [HttpGet]
     [OpenApiOperation("GetSearch", "Returns a list of found entities based on the searched query.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(IEnumerable<SearchListModel>), Description = "Successful search.")]
-    public IEnumerable<SearchListModel> GetSearch([FromQuery] SearchParams searchParams)
+    [SwaggerResponse(HttpStatusCode.OK, typeof(SearchListModel), Description = "Successful search.")]
+    public SearchListModel GetSearch([FromQuery] SearchParams searchParams)
     {
         return _searchFacade.GetSearched(searchParams.Query, searchParams.Page, searchParams.PageSize);
     }
