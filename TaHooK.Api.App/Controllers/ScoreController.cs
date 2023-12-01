@@ -20,7 +20,6 @@ public class ScoreController : ControllerBase
 
     [HttpGet]
     [OpenApiOperation("GetScores", "Returns a list of all the scores.")]
-
     public async Task<IEnumerable<ScoreListModel>> GetScores()
     {
         return await _scoreFacade.GetAllAsync();
@@ -28,8 +27,6 @@ public class ScoreController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetScoreById", "Returns a score based on the GUID on input.")]
-
-
     public async Task<ActionResult<ScoreDetailModel>> GetScoreById(Guid id)
     {
         var result = await _scoreFacade.GetByIdAsync(id);
@@ -44,8 +41,6 @@ public class ScoreController : ControllerBase
 
     [HttpPost]
     [OpenApiOperation("CreateScore", "Creates a new score.")]
-
-
     public async Task<ActionResult<IdModel>> CreateScore(ScoreCreateUpdateModel score)
     {
         var result = await _scoreFacade.CreateAsync(score);
@@ -54,10 +49,6 @@ public class ScoreController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateScoreById", "Updates an existing score.")]
-
-
-
-        Description = "Score with the given ID was not found.")]
     public async Task<ActionResult<IdModel>> UpdateScoreById(ScoreCreateUpdateModel score, Guid id)
     {
         try
@@ -73,8 +64,6 @@ public class ScoreController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteScore", "Deletes a score based on the input ID.")]
-
-
     public async Task<ActionResult> DeleteScore(Guid id)
     {
         try

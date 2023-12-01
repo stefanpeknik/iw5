@@ -19,7 +19,6 @@ public class SearchController : ControllerBase
 
     [HttpGet]
     [OpenApiOperation("GetSearch", "Returns a list of found entities based on the searched query.")]
-
     public SearchListModel GetSearch([FromQuery] SearchParams searchParams)
     {
         return _searchFacade.GetSearched(searchParams.Query, searchParams.Page, searchParams.PageSize);

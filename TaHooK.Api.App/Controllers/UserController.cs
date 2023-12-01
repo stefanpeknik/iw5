@@ -20,7 +20,6 @@ public class UserController : ControllerBase
 
     [HttpGet]
     [OpenApiOperation("GetUsers", "Returns a list of all users.")]
-
     public async Task<IEnumerable<UserListModel>> GetUsers()
     {
         return await _userFacade.GetAllAsync();
@@ -28,8 +27,6 @@ public class UserController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetUserById", "Returns a user based on the GUID on input.")]
-
-
     public async Task<ActionResult<UserDetailModel>> GetUserById(Guid id)
     {
         var result = await _userFacade.GetByIdAsync(id);
@@ -44,8 +41,6 @@ public class UserController : ControllerBase
 
     [HttpPost]
     [OpenApiOperation("CreateUser", "Creates a new user.")]
-
-
     public async Task<ActionResult<IdModel>> CreateUser(UserCreateUpdateModel user)
     {
         var result = await _userFacade.CreateAsync(user);
@@ -54,10 +49,6 @@ public class UserController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateUserById", "Updates an existing user.")]
-
-
-
-        Description = "User with the given ID was not found.")]
     public async Task<ActionResult<IdModel>> UpdateUserById(UserCreateUpdateModel user, Guid id)
     {
         try
@@ -73,8 +64,6 @@ public class UserController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteUser", "Deletes a user based on the input ID.")]
-
-
     public async Task<ActionResult> DeleteUser(Guid id)
     {
         try

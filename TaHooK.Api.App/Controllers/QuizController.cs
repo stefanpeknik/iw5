@@ -20,7 +20,6 @@ public class QuizController : ControllerBase
 
     [HttpGet]
     [OpenApiOperation("GetQuizzes", "Returns a list of all quizzes.")]
-
     public async Task<IEnumerable<QuizListModel>> GetQuizzes()
     {
         return await _quizFacade.GetAllAsync();
@@ -28,8 +27,6 @@ public class QuizController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetQuizById", "Returns a quiz based on the GUID on input.")]
-
-
     public async Task<ActionResult<QuizDetailModel>> GetQuizById(Guid id)
     {
         var result = await _quizFacade.GetByIdAsync(id);
@@ -44,8 +41,6 @@ public class QuizController : ControllerBase
 
     [HttpPost]
     [OpenApiOperation("CreateQuiz", "Creates a new quiz.")]
-
-
     public async Task<ActionResult<IdModel>> CreateQuiz(QuizCreateUpdateModel quiz)
     {
         var result = await _quizFacade.CreateAsync(quiz);
@@ -54,10 +49,6 @@ public class QuizController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateQuizById", "Updates an existing quiz.")]
-
-
-
-        Description = "Quiz with the given ID was not found.")]
     public async Task<ActionResult<IdModel>> UpdateQuizById(QuizCreateUpdateModel quiz, Guid id)
     {
         try
@@ -73,8 +64,6 @@ public class QuizController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteQuiz", "Deletes a quiz based on the input ID.")]
-
-
     public async Task<ActionResult> DeleteQuiz(Guid id)
     {
         try

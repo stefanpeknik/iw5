@@ -20,7 +20,6 @@ public class AnswerController : ControllerBase
 
     [HttpGet]
     [OpenApiOperation("GetAnswers", "Returns a list of all answers.")]
-
     public async Task<IEnumerable<AnswerListModel>> GetAnswers()
     {
         return await _answerFacade.GetAllAsync();
@@ -28,8 +27,6 @@ public class AnswerController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetAnswerById", "Returns an answer based on the GUID on input.")]
-
-
     public async Task<ActionResult<AnswerDetailModel>> GetAnswerById(Guid id)
     {
         var result = await _answerFacade.GetByIdAsync(id);
@@ -44,8 +41,6 @@ public class AnswerController : ControllerBase
 
     [HttpPost]
     [OpenApiOperation("CreateAnswer", "Creates a new answer.")]
-
-
     public async Task<ActionResult<IdModel>> CreateAnswer(AnswerCreateUpdateModel answer)
     {
         var result = await _answerFacade.CreateAsync(answer);
@@ -54,10 +49,6 @@ public class AnswerController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateAnswerById", "Updates an existing answer.")]
-
-
-
-        Description = "Answer with the given ID was not found.")]
     public async Task<ActionResult<IdModel>> UpdateAnswerById(AnswerCreateUpdateModel answer, Guid id)
     {
         try
@@ -73,8 +64,6 @@ public class AnswerController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteAnswer", "Deletes an answer based on the input ID.")]
-
-
     public async Task<ActionResult> DeleteAnswer(Guid id)
     {
         try
