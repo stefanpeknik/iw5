@@ -34,7 +34,10 @@ public class AnswerController : ControllerBase
     {
         var result = await _answerFacade.GetByIdAsync(id);
 
-        if (result == null) return NotFound(new ErrorModel { Error = $"Answer with Id = {id} was not found" });
+        if (result == null)
+        {
+            return NotFound(new ErrorModel { Error = $"Answer with Id = {id} was not found" });
+        }
 
         return result;
     }

@@ -34,7 +34,10 @@ public class UserController : ControllerBase
     {
         var result = await _userFacade.GetByIdAsync(id);
 
-        if (result == null) return NotFound(new ErrorModel { Error = $"User with Id = {id} was not found" });
+        if (result == null)
+        {
+            return NotFound(new ErrorModel { Error = $"User with Id = {id} was not found" });
+        }
 
         return result;
     }

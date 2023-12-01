@@ -34,7 +34,10 @@ public class QuizController : ControllerBase
     {
         var result = await _quizFacade.GetByIdAsync(id);
 
-        if (result == null) return NotFound(new ErrorModel { Error = $"Quiz with Id = {id} was not found" });
+        if (result == null)
+        {
+            return NotFound(new ErrorModel { Error = $"Quiz with Id = {id} was not found" });
+        }
 
         return result;
     }

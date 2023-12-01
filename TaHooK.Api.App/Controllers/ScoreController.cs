@@ -34,7 +34,10 @@ public class ScoreController : ControllerBase
     {
         var result = await _scoreFacade.GetByIdAsync(id);
 
-        if (result == null) return NotFound(new ErrorModel { Error = $"Score with Id = {id} was not found" });
+        if (result == null)
+        {
+            return NotFound(new ErrorModel { Error = $"Score with Id = {id} was not found" });
+        }
 
         return result;
     }
