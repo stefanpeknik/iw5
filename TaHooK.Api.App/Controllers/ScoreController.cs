@@ -20,7 +20,6 @@ public class ScoreController : ControllerBase
 
     [HttpGet]
     [OpenApiOperation("GetScores", "Returns a list of all the scores.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(IEnumerable<ScoreListModel>), Description = "Successful operation.")]
     public async Task<IEnumerable<ScoreListModel>> GetScores()
     {
         return await _scoreFacade.GetAllAsync();
@@ -28,21 +27,20 @@ public class ScoreController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetScoreById", "Returns a score based on the GUID on input.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(ScoreDetailModel), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "Score not found.")]
     public async Task<ActionResult<ScoreDetailModel>> GetScoreById(Guid id)
     {
         var result = await _scoreFacade.GetByIdAsync(id);
 
-        if (result == null) return NotFound(new ErrorModel { Error = $"Score with Id = {id} was not found" });
+        if (result == null)
+        {
+            return NotFound(new ErrorModel { Error = $"Score with Id = {id} was not found" });
+        }
 
         return result;
     }
 
     [HttpPost]
     [OpenApiOperation("CreateScore", "Creates a new score.")]
-    [SwaggerResponse(HttpStatusCode.Created, typeof(IdModel), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
     public async Task<ActionResult<IdModel>> CreateScore(ScoreCreateUpdateModel score)
     {
         var result = await _scoreFacade.CreateAsync(score);
@@ -51,10 +49,6 @@ public class ScoreController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateScoreById", "Updates an existing score.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel),
-        Description = "Score with the given ID was not found.")]
     public async Task<ActionResult<IdModel>> UpdateScoreById(ScoreCreateUpdateModel score, Guid id)
     {
         try
@@ -70,8 +64,6 @@ public class ScoreController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteScore", "Deletes a score based on the input ID.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(void), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "Score with input ID was not found.")]
     public async Task<ActionResult> DeleteScore(Guid id)
     {
         try
