@@ -20,7 +20,7 @@ public class QuestionController : ControllerBase
 
     [HttpGet]
     [OpenApiOperation("GetQuestions", "Returns a list of all questions.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(IEnumerable<QuestionListModel>), Description = "Successful operation.")]
+
     public async Task<IEnumerable<QuestionListModel>> GetQuestions()
     {
         return await _questionFacade.GetAllAsync();
@@ -28,8 +28,8 @@ public class QuestionController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetQuestionById", "Returns a question based on the GUID on input.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(QuestionDetailModel), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "User not found.")]
+
+
     public async Task<ActionResult<QuestionDetailModel>> GetQuestionById(Guid id)
     {
         var result = await _questionFacade.GetByIdAsync(id);
@@ -44,8 +44,8 @@ public class QuestionController : ControllerBase
 
     [HttpPost]
     [OpenApiOperation("CreateQuestion", "Creates a new question.")]
-    [SwaggerResponse(HttpStatusCode.Created, typeof(IdModel), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
+
+
     public async Task<ActionResult<IdModel>> CreateQuestion(QuestionCreateUpdateModel question)
     {
         var result = await _questionFacade.CreateAsync(question);
@@ -54,9 +54,9 @@ public class QuestionController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateQuestionById", "Updates an existing question.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel),
+
+
+
         Description = "Question with the given ID was not found.")]
     public async Task<ActionResult<IdModel>> UpdateQuestionById(QuestionCreateUpdateModel question, Guid id)
     {
@@ -73,8 +73,8 @@ public class QuestionController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteQuestion", "Deletes a question based on the input ID.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(void), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel),
+
+
         Description = "Question with input ID was not found.")]
     public async Task<ActionResult> DeleteQuestion(Guid id)
     {
