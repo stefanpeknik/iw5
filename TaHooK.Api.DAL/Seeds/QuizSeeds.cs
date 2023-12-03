@@ -20,12 +20,13 @@ public static class QuizSeeds
         Title = "Nejbystrejsi student FIT VUT",
         Finished = true
     };
-
-    public static void Seed(this ModelBuilder modelBuilder)
+    
+    public static IEnumerable<QuizEntity> GetDefaultQuizes()
     {
-        modelBuilder.Entity<QuizEntity>().HasData(
-            DefaultQuiz with { Questions = Array.Empty<QuestionEntity>(), Scores = Array.Empty<ScoreEntity>() },
-            DefaultQuiz2 with { Questions = Array.Empty<QuestionEntity>(), Scores = Array.Empty<ScoreEntity>() }
-        );
+        return new List<QuizEntity>()
+        {
+            DefaultQuiz with { Questions = new List<QuestionEntity>(), Scores = new List<ScoreEntity>() },
+            DefaultQuiz2 with { Questions = new List<QuestionEntity>(), Scores = new List<ScoreEntity>() }
+        };
     }
 }

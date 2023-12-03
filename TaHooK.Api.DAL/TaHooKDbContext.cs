@@ -48,14 +48,47 @@ public class TaHooKDbContext : DbContext
                 .WithOne(i => i.User)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-
-        if (_seedDemoData)
+    }
+    
+    public async Task SeedDatabaseAsync()
+    {
+        if (!_seedDemoData)
         {
-            UserSeeds.Seed(modelBuilder);
-            QuizSeeds.Seed(modelBuilder);
-            QuestionSeeds.Seed(modelBuilder);
-            AnswerSeeds.Seed(modelBuilder);
-            ScoreSeeds.Seed(modelBuilder);
+            return;
+        }
+        if (!Users.Any())
+        {
+            // Add seed data for Users
+            Users.AddRange(UserSeeds.GetDefaultUsers());
+            await SaveChangesAsync();
+        }
+        
+        if (!Quizes.Any())
+        {
+            // Add seed data for Systems
+            Quizes.AddRange(QuizSeeds.GetDefaultQuizes());
+            await SaveChangesAsync();
+        }
+        
+        if (!Questions.Any())
+        {
+            // Add seed data for UserInSystems
+            Questions.AddRange(QuestionSeeds.GetDefaultQuestions());
+            await SaveChangesAsync();
+        }
+        
+        if (!Answers.Any())
+        {
+            // Add seed data for AssignsToSystems
+            Answers.AddRange(AnswerSeeds.GetDefaultAnswers());
+            await SaveChangesAsync();
+        }
+        
+        if (!Scores.Any())
+        {
+            // Add seed data for DeviceTypes
+            Scores.AddRange(ScoreSeeds.GetDefaultScores());
+            await SaveChangesAsync();
         }
     }
 }

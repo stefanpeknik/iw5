@@ -20,12 +20,13 @@ public static class QuestionSeeds
         QuizId = QuizSeeds.DefaultQuiz2.Id,
         Text = "Test Question 2"
     };
-
-    public static void Seed(this ModelBuilder modelBuilder)
+    
+    public static IEnumerable<QuestionEntity> GetDefaultQuestions()
     {
-        modelBuilder.Entity<QuestionEntity>().HasData(
-            DefaultQuestion with { Answers = Array.Empty<AnswerEntity>() },
-            DefaultQuestion2 with { Answers = Array.Empty<AnswerEntity>() }
-        );
+        return new List<QuestionEntity>()
+        {
+            DefaultQuestion with { Answers = new List<AnswerEntity>() },
+            DefaultQuestion2 with { Answers = new List<AnswerEntity>() }
+        };
     }
 }

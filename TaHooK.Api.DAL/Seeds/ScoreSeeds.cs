@@ -34,13 +34,14 @@ public static class ScoreSeeds
         User = null!,
         UserId = UserSeeds.DefaultUser.Id
     };
-
-    public static void Seed(this ModelBuilder modelBuilder)
+    
+    public static IEnumerable<ScoreEntity> GetDefaultScores()
     {
-        modelBuilder.Entity<ScoreEntity>().HasData(
+        return new List<ScoreEntity>()
+        {
             DefaultScore,
             DefaultScore2,
             DefaultScore3
-        );
+        };
     }
 }

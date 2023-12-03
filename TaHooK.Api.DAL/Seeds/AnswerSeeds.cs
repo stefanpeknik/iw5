@@ -29,11 +29,12 @@ public static class AnswerSeeds
         Type = default
     };
 
-    public static void Seed(this ModelBuilder modelBuilder)
+    public static IEnumerable<AnswerEntity> GetDefaultAnswers()
     {
-        modelBuilder.Entity<AnswerEntity>().HasData(
+        return new List<AnswerEntity>()
+        {
             DefaultAnswer,
             DefaultAnswer2
-        );
+        };
     }
 }
