@@ -35,13 +35,19 @@ public static class ScoreSeeds
         UserId = UserSeeds.DefaultUser.Id
     };
     
-    public static IEnumerable<ScoreEntity> GetDefaultScores()
+    public static void Seed(this TaHooKDbContext dbContext)
     {
-        return new List<ScoreEntity>()
+        
+        if (!dbContext.Scores.Any())
         {
-            DefaultScore,
-            DefaultScore2,
-            DefaultScore3
-        };
+            var scores = new List<ScoreEntity>()
+            {
+                DefaultScore,
+                DefaultScore2,
+                DefaultScore3
+            };
+            
+            dbContext.Scores.AddRange(scores);
+        }
     }
 }

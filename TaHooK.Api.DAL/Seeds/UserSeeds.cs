@@ -21,12 +21,18 @@ public static class UserSeeds
         Photo = new Uri("https://vltava.rozhlas.cz/sites/default/files/images/00865327.jpeg")
     };
     
-    public static IEnumerable<UserEntity> GetDefaultUsers()
+    public static void Seed(this TaHooKDbContext dbContext)
     {
-        return new List<UserEntity>()
+        
+        if (!dbContext.Users.Any())
         {
-            DefaultUser with { Scores = new List<ScoreEntity>() },
-            DefaultUser2 with { Scores = new List<ScoreEntity>() }
-        };
+            var users = new List<UserEntity>()
+            {
+                DefaultUser with { Scores = new List<ScoreEntity>() },
+                DefaultUser2 with { Scores = new List<ScoreEntity>() }
+            };
+            
+            dbContext.Users.AddRange(users);
+        }
     }
 }

@@ -56,39 +56,12 @@ public class TaHooKDbContext : DbContext
         {
             return;
         }
-        if (!Users.Any())
-        {
-            // Add seed data for Users
-            Users.AddRange(UserSeeds.GetDefaultUsers());
-            await SaveChangesAsync();
-        }
+        UserSeeds.Seed(this);
+        QuizSeeds.Seed(this);
+        QuestionSeeds.Seed(this);
+        AnswerSeeds.Seed(this);
+        ScoreSeeds.Seed(this);
         
-        if (!Quizes.Any())
-        {
-            // Add seed data for Systems
-            Quizes.AddRange(QuizSeeds.GetDefaultQuizes());
-            await SaveChangesAsync();
-        }
-        
-        if (!Questions.Any())
-        {
-            // Add seed data for UserInSystems
-            Questions.AddRange(QuestionSeeds.GetDefaultQuestions());
-            await SaveChangesAsync();
-        }
-        
-        if (!Answers.Any())
-        {
-            // Add seed data for AssignsToSystems
-            Answers.AddRange(AnswerSeeds.GetDefaultAnswers());
-            await SaveChangesAsync();
-        }
-        
-        if (!Scores.Any())
-        {
-            // Add seed data for DeviceTypes
-            Scores.AddRange(ScoreSeeds.GetDefaultScores());
-            await SaveChangesAsync();
-        }
+        await SaveChangesAsync();
     }
 }

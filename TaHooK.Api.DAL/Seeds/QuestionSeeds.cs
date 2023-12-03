@@ -21,12 +21,18 @@ public static class QuestionSeeds
         Text = "Test Question 2"
     };
     
-    public static IEnumerable<QuestionEntity> GetDefaultQuestions()
+    public static void Seed(this TaHooKDbContext dbContext)
     {
-        return new List<QuestionEntity>()
+        
+        if (!dbContext.Questions.Any())
         {
-            DefaultQuestion with { Answers = new List<AnswerEntity>() },
-            DefaultQuestion2 with { Answers = new List<AnswerEntity>() }
-        };
+            var questions = new List<QuestionEntity>()
+            {
+                DefaultQuestion with { Answers = new List<AnswerEntity>() },
+                DefaultQuestion2 with { Answers = new List<AnswerEntity>() }
+            };
+            
+            dbContext.Questions.AddRange(questions);
+        }
     }
 }

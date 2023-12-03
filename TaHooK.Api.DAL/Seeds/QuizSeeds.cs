@@ -21,12 +21,18 @@ public static class QuizSeeds
         Finished = true
     };
     
-    public static IEnumerable<QuizEntity> GetDefaultQuizes()
+    public static void Seed(this TaHooKDbContext dbContext)
     {
-        return new List<QuizEntity>()
+        
+        if (!dbContext.Quizes.Any())
         {
-            DefaultQuiz with { Questions = new List<QuestionEntity>(), Scores = new List<ScoreEntity>() },
-            DefaultQuiz2 with { Questions = new List<QuestionEntity>(), Scores = new List<ScoreEntity>() }
-        };
+            var quizes = new List<QuizEntity>()
+            {
+                DefaultQuiz with { Questions = new List<QuestionEntity>(), Scores = new List<ScoreEntity>() },
+                DefaultQuiz2 with { Questions = new List<QuestionEntity>(), Scores = new List<ScoreEntity>() }
+            };
+            
+            dbContext.Quizes.AddRange(quizes);
+        }
     }
 }
