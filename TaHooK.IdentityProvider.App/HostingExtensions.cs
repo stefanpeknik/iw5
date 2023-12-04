@@ -1,45 +1,59 @@
+using TaHooK.IdentityProvider.App.Services;
+using TaHooK.IdentityProvider.BL.Facades;
+using TaHooK.IdentityProvider.BL.Models;
+using Microsoft.AspNetCore.Mvc;
 using Serilog;
 
-namespace TaHooK.IdentityProvider.App;
-
-internal static class HostingExtensions
+namespace TaHooK.IdentityProvider.App
 {
-    public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
+    internal static class HostingExtensions
     {
-        // uncomment if you want to add a UI
-        //builder.Services.AddRazorPages();
-
-        builder.Services.AddIdentityServer(options =>
-            {
-                // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
-                options.EmitStaticAudienceClaim = true;
-            })
-            .AddInMemoryIdentityResources(Config.IdentityResources)
-            .AddInMemoryApiScopes(Config.ApiScopes)
-            .AddInMemoryClients(Config.Clients);
-
-        return builder.Build();
-    }
-
-    public static WebApplication ConfigurePipeline(this WebApplication app)
-    {
-        app.UseSerilogRequestLogging();
-
-        if (app.Environment.IsDevelopment())
+        public static WebApplication ConfigureServices(this WebApplicationBuilder builder)
         {
-            app.UseDeveloperExceptionPage();
+            builder.Services.AddRazorPages();
+
+            builder.Services.AddIdentityServer(options =>
+                {
+                    // https://docs.duendesoftware.com/identityserver/v6/fundamentals/resources/api_scopes#authorization-based-on-scopes
+                    options.EmitStaticAudienceClaim = true;
+                })
+                .AddInMemoryIdentityResources(Config.IdentityResources)
+                .AddInMemoryApiResources(Config.ApiResources)
+                .AddInMemoryApiScopes(Config.ApiScopes)
+                .AddInMemoryClients(Config.Clients)
+                .AddResourceOwnerValidator<ResourceOwnerPasswordValidator>()
+                .AddProfileService<LocalAppUserProfileService>();
+
+            return builder.Build();
         }
 
-        // uncomment if you want to add a UI
-        //app.UseStaticFiles();
-        //app.UseRouting();
+        public static WebApplication ConfigurePipeline(this WebApplication app)
+        {
+            app.UseSerilogRequestLogging();
 
-        app.UseIdentityServer();
+            app.UseCors(policy =>
+            {
+                policy.AllowAnyHeader();
+                policy.AllowAnyMethod();
+                policy.AllowAnyOrigin();
+            });
 
-        // uncomment if you want to add a UI
-        //app.UseAuthorization();
-        //app.MapRazorPages().RequireAuthorization();
+            if (app.Environment.IsDevelopment())
+            {
+                app.UseDeveloperExceptionPage();
+            }
 
-        return app;
+            app.UseStaticFiles();
+            app.UseRouting();
+
+            app.UseIdentityServer();
+
+            app.UseAuthorization();
+            app.MapRazorPages().RequireAuthorization();
+
+            app.MapPost("/user", (IAppUserFacade appUserFacade, [FromBody] AppUserCreateModel appUser) => appUserFacade.CreateAppUserAsync(appUser));
+
+            return app;
+        }
     }
 }
