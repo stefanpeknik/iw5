@@ -1,5 +1,4 @@
 using Microsoft.AspNetCore.SignalR;
-using TaHooK.Api.BL.Facades;
 using TaHooK.Api.BL.Facades.Interfaces;
 
 namespace TaHooK.Api.App.Hubs;
@@ -23,7 +22,7 @@ public class QuizHub: Hub<IQuizClient>
         await Groups.AddToGroupAsync(Context.ConnectionId, quizId.ToString());
         _quizManager.AddUserToQuiz(quizId, userId);
         
-        var quizUsers = await _quizManager.GetQuizUsers(quizId);
+        var quizUsers = _quizManager.GetQuizUsers(quizId);
         
         await Clients.Group(quizId.ToString()).UsersInLobby(quizUsers);
     }

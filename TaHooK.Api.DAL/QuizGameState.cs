@@ -1,5 +1,3 @@
-using TaHooK.Api.DAL.Entities;
-
 namespace TaHooK.Api.DAL;
 
 public class QuizGameState

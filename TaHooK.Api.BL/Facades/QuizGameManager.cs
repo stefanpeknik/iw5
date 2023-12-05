@@ -1,20 +1,24 @@
-using TaHooK.Api.BL.Facades;
+using AutoMapper;
 using TaHooK.Api.BL.Facades.Interfaces;
+using TaHooK.Api.DAL.Entities;
 using TaHooK.Api.DAL.Repositories;
+using TaHooK.Api.DAL.UnitOfWork;
 using TaHooK.Common.Models.User;
 
 namespace TaHooK.Api.BL.Facades;
 
 public class QuizGameManager: IQuizGameManager
 {
-    private readonly UserFacade _userFacade;
     private readonly IQuizGameStateRepository _quizGameStateRepository;
+    private readonly IUnitOfWorkFactory _unitOfWorkFactory;
+    private readonly IMapper _mapper;
 
 
-    public QuizGameManager(UserFacade userFacade, IQuizGameStateRepository quizGameStateRepository)
+    public QuizGameManager(IUnitOfWorkFactory unitOfWorkFactory, IQuizGameStateRepository quizGameStateRepository, IMapper mapper)
     {
-        _userFacade = userFacade;
+        _unitOfWorkFactory = unitOfWorkFactory;
         _quizGameStateRepository = quizGameStateRepository;
+        _mapper = mapper;
     }
     
     public void AddUserToQuiz(Guid quizId, Guid userId)
@@ -22,12 +26,15 @@ public class QuizGameManager: IQuizGameManager
         _quizGameStateRepository.AddUserToQuiz(quizId, userId);
     }
     
-    public async Task<IEnumerable<UserListModel>> GetQuizUsers(Guid quizId)
+    public IEnumerable<UserListModel> GetQuizUsers(Guid quizId)
     {
         var quizUsersIds = _quizGameStateRepository.GetQuizUsers(quizId);
+        var uow = _unitOfWorkFactory.Create();
+        var userRepository = uow.GetRepository<UserEntity>();
 
-        var users = await _userFacade.GetAllAsync();
-        var quizUsers = users.Where(u => quizUsersIds.Contains(u.Id));
+        var users = userRepository.Get().Where(u => quizUsersIds.Contains(u.Id));
+        var quizUsers = _mapper.Map<IEnumerable<UserListModel>>(users);
+        
         
         return quizUsers;
     }
