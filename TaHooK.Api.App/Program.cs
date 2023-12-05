@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using TaHooK.Api.App.Hubs;
 using TaHooK.Api.BL.Installers;
 using TaHooK.Api.Common.Tests.Installers;
 using TaHooK.Api.DAL.Entities.Interfaces;
@@ -27,6 +28,7 @@ var logger = new LoggerConfiguration()
 
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
+builder.Services.AddSignalR();
 ConfigureControllers(builder.Services);
 builder.Services.AddFluentValidationAutoValidation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -51,6 +53,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<QuizHub>("quizhub");
 
 app.Run();
 
