@@ -51,14 +51,20 @@ public class TaHooKDbContext : DbContext
                 .WithOne(i => i.User)
                 .OnDelete(DeleteBehavior.Cascade);
         });
-
-        if (_seedDemoData)
+    }
+    
+    public async Task SeedDatabaseAsync()
+    {
+        if (!_seedDemoData)
         {
-            UserSeeds.Seed(modelBuilder);
-            QuizTemplateSeeds.Seed(modelBuilder);
-            QuestionSeeds.Seed(modelBuilder);
-            AnswerSeeds.Seed(modelBuilder);
-            ScoreSeeds.Seed(modelBuilder);
+            return;
         }
+        UserSeeds.Seed(this);
+        QuizSeeds.Seed(this);
+        QuestionSeeds.Seed(this);
+        AnswerSeeds.Seed(this);
+        ScoreSeeds.Seed(this);
+        
+        await SaveChangesAsync();
     }
 }

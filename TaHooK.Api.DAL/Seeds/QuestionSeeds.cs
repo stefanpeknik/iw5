@@ -20,12 +20,19 @@ public static class QuestionSeeds
         QuizTemplateId = QuizTemplateSeeds.DefaultQuiz2.Id,
         Text = "Test Question 2"
     };
-
-    public static void Seed(this ModelBuilder modelBuilder)
+    
+    public static void Seed(this TaHooKDbContext dbContext)
     {
-        modelBuilder.Entity<QuestionEntity>().HasData(
-            DefaultQuestion with { Answers = Array.Empty<AnswerEntity>() },
-            DefaultQuestion2 with { Answers = Array.Empty<AnswerEntity>() }
-        );
+        
+        if (!dbContext.Questions.Any())
+        {
+            var questions = new List<QuestionEntity>()
+            {
+                DefaultQuestion with { Answers = new List<AnswerEntity>() },
+                DefaultQuestion2 with { Answers = new List<AnswerEntity>() }
+            };
+            
+            dbContext.Questions.AddRange(questions);
+        }
     }
 }

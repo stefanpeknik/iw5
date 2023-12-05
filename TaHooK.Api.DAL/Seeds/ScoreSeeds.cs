@@ -34,13 +34,20 @@ public static class ScoreSeeds
         User = null!,
         UserId = UserSeeds.DefaultUser.Id
     };
-
-    public static void Seed(this ModelBuilder modelBuilder)
+    
+    public static void Seed(this TaHooKDbContext dbContext)
     {
-        modelBuilder.Entity<ScoreEntity>().HasData(
-            DefaultScore,
-            DefaultScore2,
-            DefaultScore3
-        );
+        
+        if (!dbContext.Scores.Any())
+        {
+            var scores = new List<ScoreEntity>()
+            {
+                DefaultScore,
+                DefaultScore2,
+                DefaultScore3
+            };
+            
+            dbContext.Scores.AddRange(scores);
+        }
     }
 }

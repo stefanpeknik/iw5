@@ -44,7 +44,15 @@ app.UseSwaggerUi3();
 
 // Migrate database
 using var scope = app.Services.CreateScope();
-scope.ServiceProvider.GetRequiredService<IDbMigrator>().Migrate();
+if (app.Environment.IsDevelopment())
+{
+    scope.ServiceProvider.GetRequiredService<IDbMigrator>().Migrate(true);
+}
+else
+{
+    scope.ServiceProvider.GetRequiredService<IDbMigrator>().Migrate(false);
+}
+
 
 app.UseHttpsRedirection();
 
