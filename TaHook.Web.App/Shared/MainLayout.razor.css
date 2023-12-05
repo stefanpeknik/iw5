@@ -19,9 +19,4 @@ main {
         position: sticky;
         top: 0;
     }
-
-    article {
-        padding-left: 2rem !important;
-        padding-right: 1.5rem !important;
-    }
 }
