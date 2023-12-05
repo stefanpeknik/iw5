@@ -23,7 +23,7 @@ public class ScenarioTests : EndToEndTestsBase
         var scoreSeed = ScoreSeeds.DefaultScore;
         var scoreSeedModel = Mapper.Map<ScoreCreateUpdateModel>(scoreSeed);
         // quiz
-        var quizSeed = QuizSeeds.DefaultQuiz;
+        var quizSeed = QuizTemplateSeeds.DefaultQuiz;
         var quizSeedModel = Mapper.Map<QuizCreateUpdateModel>(quizSeed);
         // question
         var questionSeed = QuestionSeeds.DefaultQuestion;

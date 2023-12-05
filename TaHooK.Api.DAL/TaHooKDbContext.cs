@@ -24,12 +24,15 @@ public class TaHooKDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<QuizEntity>(entity =>
+        modelBuilder.Entity<QuizTemplateEntity>(entity =>
         {
             entity.HasMany(i => i.Questions)
-                .WithOne(i => i.Quiz)
+                .WithOne(i => i.QuizTemplate)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
 
+        modelBuilder.Entity<QuizEntity>(entity =>
+        {
             entity.HasMany(i => i.Scores)
                 .WithOne(i => i.Quiz)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -52,7 +55,7 @@ public class TaHooKDbContext : DbContext
         if (_seedDemoData)
         {
             UserSeeds.Seed(modelBuilder);
-            QuizSeeds.Seed(modelBuilder);
+            QuizTemplateSeeds.Seed(modelBuilder);
             QuestionSeeds.Seed(modelBuilder);
             AnswerSeeds.Seed(modelBuilder);
             ScoreSeeds.Seed(modelBuilder);

@@ -22,7 +22,7 @@ public class QuestionMapperProfile : Profile
         CreateMap<QuestionCreateUpdateModel, QuestionEntity>()
             .Ignore(dst => dst.Id)
             .Ignore(dst => dst.Answers)
-            .Ignore(dst => dst.Quiz);
+            .Ignore(dst => dst.QuizTemplate);
 
         CreateMap<QuestionEntity, IdModel>();
 
