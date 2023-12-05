@@ -7,32 +7,35 @@ public static class QuizSeeds
 {
     public static readonly QuizEntity DefaultQuiz = new()
     {
-        Id = Guid.Parse("EF2E391C-EA09-490B-9935-BBC7E7099A42"),
-        Schedule = new DateTime(2023, 5, 5),
+        Id = Guid.Parse("CFF79175-AB62-4DF0-BB77-1CD6F940CEE1"),
         Title = "Fun Trivia",
-        Finished = true
+        Finished = true,
+        StartedAt = DateTime.Now,
+        TemplateId = QuizTemplateSeeds.DefaultQuiz.Id,
+        Template = null!
     };
 
     public static readonly QuizEntity DefaultQuiz2 = new()
     {
-        Id = Guid.Parse("ABA1F111-E4CA-47BB-803C-4D6F12EBF526"),
-        Schedule = new DateTime(2023, 5, 6),
+        Id = Guid.Parse("DF6351D3-1093-4FD5-99CB-C050B8E0E531"),
         Title = "Nejbystrejsi student FIT VUT",
-        Finished = true
+        Finished = true,
+        StartedAt = DateTime.Now,
+        TemplateId = QuizTemplateSeeds.DefaultQuiz2.Id,
+        Template = null!
     };
-    
+
     public static void Seed(this TaHooKDbContext dbContext)
     {
-        
         if (!dbContext.Quizes.Any())
         {
-            var quizes = new List<QuizEntity>()
+            var templates = new List<QuizEntity>()
             {
-                DefaultQuiz with { Questions = new List<QuestionEntity>(), Scores = new List<ScoreEntity>() },
-                DefaultQuiz2 with { Questions = new List<QuestionEntity>(), Scores = new List<ScoreEntity>() }
+                DefaultQuiz with { Scores = new List<ScoreEntity>()},
+                DefaultQuiz2 with { Scores = new List<ScoreEntity>()}
             };
-            
-            dbContext.Quizes.AddRange(quizes);
+
+            dbContext.Quizes.AddRange(templates);
         }
     }
 }

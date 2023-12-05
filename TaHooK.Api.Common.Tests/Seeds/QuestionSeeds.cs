@@ -9,7 +9,7 @@ public static class QuestionSeeds
     {
         Id = Guid.Parse("574E8D70-47A1-4D76-B971-CAFB314540FD"),
         QuizTemplate = null!,
-        QuizTemplateId = Guid.Parse("EF2E391C-EA09-490B-9935-BBC7E7099A42"),
+        QuizTemplateId = QuizTemplateSeeds.DefaultQuiz.Id,
         Text = "Test Question"
     };
 

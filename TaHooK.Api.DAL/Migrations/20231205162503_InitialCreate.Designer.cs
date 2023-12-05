@@ -12,8 +12,8 @@ using TaHooK.Api.DAL;
 namespace TaHooK.Api.DAL.Migrations
 {
     [DbContext(typeof(TaHooKDbContext))]
-    [Migration("20231203201825_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20231205162503_InitialCreate")]
+    partial class InitialCreate
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -60,7 +60,7 @@ namespace TaHooK.Api.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("QuizId")
+                    b.Property<Guid>("QuizTemplateId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
@@ -69,7 +69,7 @@ namespace TaHooK.Api.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuizId");
+                    b.HasIndex("QuizTemplateId");
 
                     b.ToTable("Questions");
                 });
@@ -83,8 +83,11 @@ namespace TaHooK.Api.DAL.Migrations
                     b.Property<bool>("Finished")
                         .HasColumnType("bit");
 
-                    b.Property<DateTime>("Schedule")
+                    b.Property<DateTime>("StartedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<Guid>("TemplateId")
+                        .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
                         .IsRequired()
@@ -92,7 +95,24 @@ namespace TaHooK.Api.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("TemplateId");
+
                     b.ToTable("Quizes");
+                });
+
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizTemplateEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("QuizTemplates");
                 });
 
             modelBuilder.Entity("TaHooK.Api.DAL.Entities.ScoreEntity", b =>
@@ -155,13 +175,24 @@ namespace TaHooK.Api.DAL.Migrations
 
             modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuestionEntity", b =>
                 {
-                    b.HasOne("TaHooK.Api.DAL.Entities.QuizEntity", "Quiz")
+                    b.HasOne("TaHooK.Api.DAL.Entities.QuizTemplateEntity", "QuizTemplate")
                         .WithMany("Questions")
-                        .HasForeignKey("QuizId")
+                        .HasForeignKey("QuizTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Quiz");
+                    b.Navigation("QuizTemplate");
+                });
+
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizEntity", b =>
+                {
+                    b.HasOne("TaHooK.Api.DAL.Entities.QuizTemplateEntity", "Template")
+                        .WithMany()
+                        .HasForeignKey("TemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Template");
                 });
 
             modelBuilder.Entity("TaHooK.Api.DAL.Entities.ScoreEntity", b =>
@@ -190,9 +221,12 @@ namespace TaHooK.Api.DAL.Migrations
 
             modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizEntity", b =>
                 {
-                    b.Navigation("Questions");
-
                     b.Navigation("Scores");
+                });
+
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizTemplateEntity", b =>
+                {
+                    b.Navigation("Questions");
                 });
 
             modelBuilder.Entity("TaHooK.Api.DAL.Entities.UserEntity", b =>

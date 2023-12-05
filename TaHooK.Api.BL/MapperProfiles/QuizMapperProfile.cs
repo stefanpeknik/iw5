@@ -19,6 +19,7 @@ public class QuizMapperProfile : Profile
 
         CreateMap<QuizCreateUpdateModel, QuizEntity>()
             .Ignore(dst => dst.Id)
+            .Ignore(dst => dst.Template)
             .Ignore(dst => dst.Scores);
 
         CreateMap<QuizEntity, IdModel>();

@@ -9,7 +9,7 @@ public static class ScoreSeeds
     {
         Id = Guid.Parse("4740A96E-76D0-4815-9094-9FBFD3190F30"),
         Quiz = null!,
-        QuizId = QuizTemplateSeeds.DefaultQuiz.Id,
+        QuizId = QuizSeeds.DefaultQuiz.Id,
         Score = 10,
         User = null!,
         UserId = UserSeeds.DefaultUser.Id
@@ -23,7 +23,7 @@ public static class ScoreSeeds
 
     public static readonly ScoreEntity ScoreInQuizToDelete = DefaultScore with
     {
-        Id = Guid.Parse("E0D0D40E-298F-4958-885A-1EFCF89DA83F"), QuizId = QuizTemplateSeeds.QuizToDelete.Id
+        Id = Guid.Parse("E0D0D40E-298F-4958-885A-1EFCF89DA83F"), QuizId = QuizSeeds.DefaultQuiz.Id
     };
 
     public static readonly ScoreEntity ScoreWithUserToDelete = DefaultScore with

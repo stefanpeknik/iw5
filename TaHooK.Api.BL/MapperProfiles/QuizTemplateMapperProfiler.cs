@@ -15,6 +15,12 @@ public class QuizTemplateMapperProfile : Profile
 
         CreateMap<QuizTemplateEntity, QuizTemplateListModel>();
 
+        CreateMap<QuizTemplateEntity, QuizTemplateCreateUpdateModel>();
+
+        CreateMap<QuizTemplateCreateUpdateModel, QuizTemplateEntity>()
+            .Ignore(dst => dst.Id)
+            .Ignore(dst => dst.Questions);
+
         CreateMap<QuizTemplateEntity, IdModel>();
     }
 }

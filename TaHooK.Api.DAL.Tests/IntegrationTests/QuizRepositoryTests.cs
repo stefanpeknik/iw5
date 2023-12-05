@@ -66,7 +66,7 @@ public class QuizRepositoryTests : DALTestsBase
         await UnitOfWork.CommitAsync();
 
         // Assert
-        var retrieved = await DbContextInstance.Quizes.FindAsync(newQuiz.Id);
+        var retrieved = await DbContextInstance.QuizTemplates.FindAsync(newQuiz.Id);
         Assert.Equal(newQuiz, retrieved);
     }
 
@@ -82,7 +82,7 @@ public class QuizRepositoryTests : DALTestsBase
         await UnitOfWork.CommitAsync();
 
         // Assert
-        var contains = await DbContextInstance.Quizes.ContainsAsync(updated);
+        var contains = await DbContextInstance.QuizTemplates.ContainsAsync(updated);
         Assert.True(contains);
     }
 
@@ -98,7 +98,7 @@ public class QuizRepositoryTests : DALTestsBase
         await UnitOfWork.CommitAsync();
 
         // Assert
-        var retrieved = await DbContextInstance.Quizes.FindAsync(quiz.Id);
+        var retrieved = await DbContextInstance.QuizTemplates.FindAsync(quiz.Id);
         Assert.Null(retrieved);
     }
 
@@ -121,10 +121,10 @@ public class QuizRepositoryTests : DALTestsBase
     public async Task Delete_Quiz_With_Scores_Cascades()
     {
         // Arrange
-        var repository = UnitOfWork.GetRepository<QuizTemplateEntity>();
+        var repository = UnitOfWork.GetRepository<QuizEntity>();
 
         // Act
-        await repository.DeleteAsync(QuizTemplateSeeds.QuizToDelete.Id);
+        await repository.DeleteAsync(QuizSeeds.DefaultQuiz.Id);
         await UnitOfWork.CommitAsync();
 
         // Assert

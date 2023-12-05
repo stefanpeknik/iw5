@@ -17,6 +17,7 @@ public class TaHooKDbContext : DbContext
     public DbSet<AnswerEntity> Answers { get; set; } = null!;
     public DbSet<QuestionEntity> Questions { get; set; } = null!;
     public DbSet<QuizEntity> Quizes { get; set; } = null!;
+    public DbSet<QuizTemplateEntity> QuizTemplates { get; set; } = null!;
     public DbSet<ScoreEntity> Scores { get; set; } = null!;
     public DbSet<UserEntity> Users { get; set; } = null!;
 
@@ -60,6 +61,7 @@ public class TaHooKDbContext : DbContext
             return;
         }
         UserSeeds.Seed(this);
+        QuizTemplateSeeds.Seed(this);
         QuizSeeds.Seed(this);
         QuestionSeeds.Seed(this);
         AnswerSeeds.Seed(this);

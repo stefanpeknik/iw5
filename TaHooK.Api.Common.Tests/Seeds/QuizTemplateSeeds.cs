@@ -23,7 +23,7 @@ public static class QuizTemplateSeeds
 
     public static void Seed(this ModelBuilder modelBuilder)
     {
-        modelBuilder.Entity<QuizEntity>().HasData(
+        modelBuilder.Entity<QuizTemplateEntity>().HasData(
             DefaultQuiz with { Questions = Array.Empty<QuestionEntity>()},
             QuizToDelete with { Questions = Array.Empty<QuestionEntity>()},
             QuizToUpdate with { Questions = Array.Empty<QuestionEntity>()}

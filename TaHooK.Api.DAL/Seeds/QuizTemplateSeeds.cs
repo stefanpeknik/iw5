@@ -17,11 +17,17 @@ public static class QuizTemplateSeeds
         Title = "Nejbystrejsi student FIT VUT"
     };
 
-    public static void Seed(this ModelBuilder modelBuilder)
+    public static void Seed(this TaHooKDbContext dbContext)
     {
-        modelBuilder.Entity<QuizEntity>().HasData(
-            DefaultQuiz with { Questions = Array.Empty<QuestionEntity>()},
-            DefaultQuiz2 with { Questions = Array.Empty<QuestionEntity>()}
-        );
+        if (!dbContext.QuizTemplates.Any())
+        {
+            var templates = new List<QuizTemplateEntity>()
+            {
+                DefaultQuiz with { Questions = new List<QuestionEntity>()},
+                DefaultQuiz2 with { Questions = new List<QuestionEntity>()}
+            };
+
+            dbContext.QuizTemplates.AddRange(templates);
+        }
     }
 }

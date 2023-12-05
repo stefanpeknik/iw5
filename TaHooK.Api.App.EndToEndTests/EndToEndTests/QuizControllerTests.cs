@@ -13,7 +13,7 @@ public class QuizControllerTests : EndToEndTestsBase
     public async Task GetAllQuizzes_Returns_At_Least_One_Quiz()
     {
         // Arrange
-        var quizSeed = QuizTemplateSeeds.DefaultQuiz;
+        var quizSeed = QuizSeeds.DefaultQuiz;
         var quizSeedModel = Mapper.Map<QuizListModel>(quizSeed);
 
         // Act
@@ -31,7 +31,7 @@ public class QuizControllerTests : EndToEndTestsBase
     public async Task GetQuizById_Returns_Quiz_With_The_Same_Id()
     {
         // Arrange
-        var quizSeed = QuizTemplateSeeds.DefaultQuiz;
+        var quizSeed = QuizSeeds.DefaultQuiz;
         var quizSeedModel = Mapper.Map<QuizDetailModel>(quizSeed);
 
         // Act
@@ -57,7 +57,7 @@ public class QuizControllerTests : EndToEndTestsBase
     public async Task CreateQuiz_Returns_Created_Quiz_Id()
     {
         // Arrange
-        var quizSeed = QuizTemplateSeeds.DefaultQuiz;
+        var quizSeed = QuizSeeds.DefaultQuiz;
         var quizSeedModel = Mapper.Map<QuizCreateUpdateModel>(quizSeed);
 
         // Act
@@ -88,7 +88,7 @@ public class QuizControllerTests : EndToEndTestsBase
     public async Task UpdateQuizById_Returns_Updated_Quiz_Id()
     {
         // Arrange
-        var quizSeed = QuizTemplateSeeds.QuizToUpdate;
+        var quizSeed = QuizSeeds.DefaultQuiz;
         var quizSeedModel = Mapper.Map<QuizDetailModel>(quizSeed);
         var quizSeedModelUpdated = Mapper.Map<QuizCreateUpdateModel>(quizSeed);
         quizSeedModelUpdated.Title = "Updated text";
@@ -108,7 +108,7 @@ public class QuizControllerTests : EndToEndTestsBase
     public async Task UpdateQuizById_Returns_NotFound_When_Quiz_Does_Not_Exist()
     {
         // Arrange
-        var quizSeed = QuizTemplateSeeds.QuizToUpdate;
+        var quizSeed = QuizSeeds.DefaultQuiz;
         var quizSeedModelUpdated = Mapper.Map<QuizDetailModel>(quizSeed);
         quizSeedModelUpdated.Title = "Updated text";
         var nonExistentId = Guid.NewGuid();
@@ -124,7 +124,7 @@ public class QuizControllerTests : EndToEndTestsBase
     public async Task UpdateQuizByIdWithGarbage_Returns_BadRequest()
     {
         // Arrange
-        var quizSeed = QuizTemplateSeeds.QuizToUpdate;
+        var quizSeed = QuizSeeds.DefaultQuiz;
         var quizSeedModelUpdated = Mapper.Map<QuizDetailModel>(quizSeed);
         var garbage = new { Garbage = "Garbage" };
 
@@ -139,7 +139,7 @@ public class QuizControllerTests : EndToEndTestsBase
     public async Task DeleteQuizById_Returns_Ok()
     {
         // Arrange
-        var quizSeed = QuizTemplateSeeds.QuizToDelete;
+        var quizSeed = QuizSeeds.DefaultQuiz;
         var quizSeedModel = Mapper.Map<QuizDetailModel>(quizSeed);
 
         // Act
