@@ -1,0 +1,16 @@
+<Project Sdk="Microsoft.NET.Sdk">
+
+    <PropertyGroup>
+        <TargetFramework>net7.0</TargetFramework>
+        <ImplicitUsings>enable</ImplicitUsings>
+        <Nullable>enable</Nullable>
+    </PropertyGroup>
+
+    <ItemGroup>
+      <ProjectReference Include="..\TaHooK.Api.BL\TaHooK.Api.BL.csproj" />
+      <ProjectReference Include="..\TaHooK.Common.BL\TaHooK.Common.BL.csproj" />
+      <ProjectReference Include="..\TaHooK.Common.Models\TaHooK.Common.Models.csproj" />
+      <ProjectReference Include="..\TaHooK.Common\TaHooK.Common.csproj" />
+    </ItemGroup>
+
+</Project>
