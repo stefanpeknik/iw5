@@ -21,6 +21,7 @@ public class EndToEndTestsBase : IAsyncDisposable
             cfg.AddProfile<QuestionMapperProfile>();
             cfg.AddProfile<AnswerMapperProfile>();
             cfg.AddProfile<QuizMapperProfile>();
+            cfg.AddProfile<QuizTemplateMapperProfile>();
         });
         Mapper = mapperConfig.CreateMapper();
     }

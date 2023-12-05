@@ -8,3 +8,4 @@ riderModule.iml
 /.vs
 TaHooK.sln.DotSettings.user
 TaHooK.Api.App/appsettings.Development.json
+/TaHook.Web.App/TaHook.Web.App.csproj.user
