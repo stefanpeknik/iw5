@@ -8,6 +8,6 @@ public record QuestionDetailModel : IWithId
 
     public ICollection<AnswerListModel> Answers { get; set; } = new List<AnswerListModel>();
 
-    public required Guid QuizId { get; set; }
+    public required Guid QuizTemplateId { get; set; }
     public Guid Id { get; set; }
 }

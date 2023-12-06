@@ -8,8 +8,8 @@ public record QuestionEntity : EntityBase
 
     public ICollection<AnswerEntity> Answers { get; set; } = new List<AnswerEntity>();
 
-    public required Guid QuizId { get; set; }
-    public required QuizEntity Quiz { get; set; }
+    public required Guid QuizTemplateId { get; set; }
+    public required QuizTemplateEntity QuizTemplate { get; set; }
 
 
     public class QuestionEntityMapperProfile : Profile

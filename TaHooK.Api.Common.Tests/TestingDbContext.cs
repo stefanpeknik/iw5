@@ -21,6 +21,7 @@ public class TestingDbContext : TaHooKDbContext
         if (_seedTestingData)
         {
             QuizSeeds.Seed(modelBuilder);
+            QuizTemplateSeeds.Seed(modelBuilder);
             QuestionSeeds.Seed(modelBuilder);
             AnswerSeeds.Seed(modelBuilder);
             ScoreSeeds.Seed(modelBuilder);

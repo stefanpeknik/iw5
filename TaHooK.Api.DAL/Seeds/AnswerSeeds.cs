@@ -29,11 +29,18 @@ public static class AnswerSeeds
         Type = default
     };
 
-    public static void Seed(this ModelBuilder modelBuilder)
+    public static void Seed(this TaHooKDbContext dbContext)
     {
-        modelBuilder.Entity<AnswerEntity>().HasData(
-            DefaultAnswer,
-            DefaultAnswer2
-        );
+        
+        if (!dbContext.Answers.Any())
+        {
+            var answers = new List<AnswerEntity>()
+            {
+                DefaultAnswer,
+                DefaultAnswer2
+            };
+
+            dbContext.Answers.AddRange(answers);
+        }
     }
 }
