@@ -1,6 +1,6 @@
 ﻿using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.SignalR.Client;
-using TaHooK.Common.Models;
+using TaHooK.Common.Models.Question;
 
 
 namespace TaHook.Web.App.Pages.Quiz

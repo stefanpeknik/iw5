@@ -1,6 +1,6 @@
 using TaHooK.Common.Models.Answer;
 
-namespace TaHooK.Common.Models;
+namespace TaHooK.Common.Models.Question;
 
 public record QuestionDetailModel : IWithId
 {
