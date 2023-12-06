@@ -7,49 +7,49 @@ using TaHooK.Common.Models.User;
 
 namespace TaHooK.Api.BL.Facades;
 
-public class QuizGameManager: IQuizGameManager
+public class LiveLiveQuizFacade: ILiveQuizFacade
 {
-    private readonly IQuizGameStateRepository _quizGameStateRepository;
+    private readonly ILiveQuizStateRepository _liveQuizStateRepository;
     private readonly IUnitOfWorkFactory _unitOfWorkFactory;
     private readonly IMapper _mapper;
 
 
-    public QuizGameManager(IUnitOfWorkFactory unitOfWorkFactory, IQuizGameStateRepository quizGameStateRepository, IMapper mapper)
+    public LiveLiveQuizFacade(IUnitOfWorkFactory unitOfWorkFactory, ILiveQuizStateRepository liveQuizStateRepository, IMapper mapper)
     {
         _unitOfWorkFactory = unitOfWorkFactory;
-        _quizGameStateRepository = quizGameStateRepository;
+        _liveQuizStateRepository = liveQuizStateRepository;
         _mapper = mapper;
     }
     
     public void AddUserConnection(string connectionId, Guid userId)
     {
-        _quizGameStateRepository.AddUserConnection(connectionId, userId);
+        _liveQuizStateRepository.AddUserConnection(connectionId, userId);
     }
     
     public Guid GetUserConnection(string connectionId)
     {
-        return _quizGameStateRepository.GetUserConnection(connectionId);
+        return _liveQuizStateRepository.GetUserConnection(connectionId);
     }
     
     public void RemoveUserConnection(string connectionId)
     {
-        var userId = _quizGameStateRepository.GetUserConnection(connectionId);
-        _quizGameStateRepository.RemoveUserConnection(connectionId);
+        var userId = _liveQuizStateRepository.GetUserConnection(connectionId);
+        _liveQuizStateRepository.RemoveUserConnection(connectionId);
     }
     
     public Guid? GetUserQuiz(Guid userId)
     {
-        return _quizGameStateRepository.GetUserQuiz(userId);
+        return _liveQuizStateRepository.GetUserQuiz(userId);
     }
     
     public void AddUserToQuiz(Guid quizId, Guid userId)
     {
-        _quizGameStateRepository.AddUserToQuiz(quizId, userId);
+        _liveQuizStateRepository.AddUserToQuiz(quizId, userId);
     }
     
     public IEnumerable<UserListModel> GetQuizUsers(Guid quizId)
     {
-        var quizUsersIds = _quizGameStateRepository.GetQuizUsers(quizId);
+        var quizUsersIds = _liveQuizStateRepository.GetQuizUsers(quizId);
         var uow = _unitOfWorkFactory.Create();
         var userRepository = uow.GetRepository<UserEntity>();
 
@@ -62,6 +62,6 @@ public class QuizGameManager: IQuizGameManager
     
     public void RemoveUserFromQuiz(Guid quizId, Guid userId)
     {
-        _quizGameStateRepository.RemoveUserFromQuiz(quizId, userId);
+        _liveQuizStateRepository.RemoveUserFromQuiz(quizId, userId);
     }
 }

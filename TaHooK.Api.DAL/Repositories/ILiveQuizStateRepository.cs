@@ -1,14 +1,15 @@
-using TaHooK.Common.Models.User;
+namespace TaHooK.Api.DAL.Repositories;
 
-namespace TaHooK.Api.BL.Facades.Interfaces;
-
-public interface IQuizGameManager
+public interface ILiveQuizStateRepository
 {
-    IEnumerable<UserListModel> GetQuizUsers(Guid quizId);
     void AddUserToQuiz(Guid quizId, Guid userId);
+    public IEnumerable<Guid> GetQuizUsers(Guid quizId);
     void AddUserConnection(string connectionId, Guid userId);
     Guid GetUserConnection(string connectionId);
+
     void RemoveUserFromQuiz(Guid quizId, Guid userId);
+
     void RemoveUserConnection(string connectionId);
+
     Guid? GetUserQuiz(Guid userId);
 }

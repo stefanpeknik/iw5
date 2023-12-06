@@ -12,7 +12,7 @@ public class BlInstaller : IInstaller
     public void Install(IServiceCollection serviceCollection)
     {
         serviceCollection.AddSingleton<IUnitOfWorkFactory, UnitOfWorkFactory>();
-        serviceCollection.AddScoped<IQuizGameManager, QuizGameManager>();
+        serviceCollection.AddScoped<ILiveQuizFacade, LiveLiveQuizFacade>();
 
         serviceCollection.Scan(selector =>
             selector.FromAssemblyOf<BlInstaller>()

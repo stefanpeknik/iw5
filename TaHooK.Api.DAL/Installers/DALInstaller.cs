@@ -13,8 +13,8 @@ public class DALInstaller
         serviceCollection.AddSingleton<IDbContextFactory<TaHooKDbContext>>(provider =>
             new TaHooKDbContextFactory(connectionString, true));
         serviceCollection.AddSingleton<IDbMigrator, SqlDbMigrator>();
-        serviceCollection.AddSingleton<QuizGameState>();
-        serviceCollection.AddTransient<IQuizGameStateRepository, QuizGameStateRepository>();
+        serviceCollection.AddSingleton<LiveQuizStates>();
+        serviceCollection.AddTransient<ILiveQuizStateRepository, LiveLiveQuizStateRepository>();
         serviceCollection.Scan(selector =>
             selector.FromAssemblyOf<DALInstaller>()
                 .AddClasses(classes => classes.AssignableTo(typeof(IRepository<>)))

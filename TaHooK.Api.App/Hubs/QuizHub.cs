@@ -5,11 +5,11 @@ namespace TaHooK.Api.App.Hubs;
 
 public class QuizHub: Hub<IQuizClient>
 {
-    private readonly IQuizGameManager _quizManager;
+    private readonly ILiveQuizFacade _liveQuizManager;
 
-    public QuizHub(IQuizGameManager quizManager)
+    public QuizHub(ILiveQuizFacade liveQuizManager)
     {
-        _quizManager = quizManager;
+        _liveQuizManager = liveQuizManager;
     }
 
     public override async Task OnConnectedAsync()
@@ -19,7 +19,7 @@ public class QuizHub: Hub<IQuizClient>
         
         if (userId != null)
         {
-            _quizManager.AddUserConnection(Context.ConnectionId, Guid.Parse(userId));
+            _liveQuizManager.AddUserConnection(Context.ConnectionId, Guid.Parse(userId));
         }
         
         // Use the userId as needed
@@ -28,38 +28,38 @@ public class QuizHub: Hub<IQuizClient>
     
     public async Task JoinQuiz(Guid quizId)
     {
-        var userId = _quizManager.GetUserConnection(Context.ConnectionId);
+        var userId = _liveQuizManager.GetUserConnection(Context.ConnectionId);
         await Groups.AddToGroupAsync(Context.ConnectionId, quizId.ToString());
-        _quizManager.AddUserToQuiz(quizId, userId);
+        _liveQuizManager.AddUserToQuiz(quizId, userId);
         
-        var quizUsers = _quizManager.GetQuizUsers(quizId);
+        var quizUsers = _liveQuizManager.GetQuizUsers(quizId);
         
         await Clients.Group(quizId.ToString()).UsersInLobby(quizUsers);
     }
     
     public async Task LeaveQuiz(Guid quizId)
     {
-        var userId = _quizManager.GetUserConnection(Context.ConnectionId);
+        var userId = _liveQuizManager.GetUserConnection(Context.ConnectionId);
         await Groups.RemoveFromGroupAsync(Context.ConnectionId, quizId.ToString());
-        _quizManager.RemoveUserFromQuiz(quizId, userId);
+        _liveQuizManager.RemoveUserFromQuiz(quizId, userId);
         
-        var quizUsers = _quizManager.GetQuizUsers(quizId);
+        var quizUsers = _liveQuizManager.GetQuizUsers(quizId);
         
         await Clients.Group(quizId.ToString()).UsersInLobby(quizUsers);
     }
 
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
-        var userId = _quizManager.GetUserConnection(Context.ConnectionId);
-        var quizId = _quizManager.GetUserQuiz(userId);
+        var userId = _liveQuizManager.GetUserConnection(Context.ConnectionId);
+        var quizId = _liveQuizManager.GetUserQuiz(userId);
         if (quizId != null)
         {
             await Groups.RemoveFromGroupAsync(Context.ConnectionId, quizId.ToString());
-            _quizManager.RemoveUserFromQuiz(quizId.Value, userId);
-            var quizUsers = _quizManager.GetQuizUsers(quizId.Value);
+            _liveQuizManager.RemoveUserFromQuiz(quizId.Value, userId);
+            var quizUsers = _liveQuizManager.GetQuizUsers(quizId.Value);
             await Clients.Group(quizId.ToString()).UsersInLobby(quizUsers);
         }
-        _quizManager.RemoveUserConnection(Context.ConnectionId);
+        _liveQuizManager.RemoveUserConnection(Context.ConnectionId);
         await base.OnDisconnectedAsync(exception);
     }
 }
