@@ -21,6 +21,27 @@ public class QuizGameManager: IQuizGameManager
         _mapper = mapper;
     }
     
+    public void AddUserConnection(string connectionId, Guid userId)
+    {
+        _quizGameStateRepository.AddUserConnection(connectionId, userId);
+    }
+    
+    public Guid GetUserConnection(string connectionId)
+    {
+        return _quizGameStateRepository.GetUserConnection(connectionId);
+    }
+    
+    public void RemoveUserConnection(string connectionId)
+    {
+        var userId = _quizGameStateRepository.GetUserConnection(connectionId);
+        _quizGameStateRepository.RemoveUserConnection(connectionId);
+    }
+    
+    public Guid? GetUserQuiz(Guid userId)
+    {
+        return _quizGameStateRepository.GetUserQuiz(userId);
+    }
+    
     public void AddUserToQuiz(Guid quizId, Guid userId)
     {
         _quizGameStateRepository.AddUserToQuiz(quizId, userId);
@@ -37,5 +58,10 @@ public class QuizGameManager: IQuizGameManager
         
         
         return quizUsers;
+    }
+    
+    public void RemoveUserFromQuiz(Guid quizId, Guid userId)
+    {
+        _quizGameStateRepository.RemoveUserFromQuiz(quizId, userId);
     }
 }
