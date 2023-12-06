@@ -1,5 +1,4 @@
-﻿using System.Net;
-using Microsoft.AspNetCore.Mvc;
+﻿using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using TaHooK.Api.BL.Facades;
 using TaHooK.Common.Models.Answer;

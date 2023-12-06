@@ -28,12 +28,32 @@ public static class AnswerSeeds
         Text = "Peach",
         Type = default
     };
-
-    public static void Seed(this ModelBuilder modelBuilder)
+    
+    public static readonly AnswerEntity DefaultAnswer3 = new()
     {
-        modelBuilder.Entity<AnswerEntity>().HasData(
-            DefaultAnswer,
-            DefaultAnswer2
-        );
+        Id = Guid.Parse("FF5BE80D-8932-4D23-8547-5A0670C46486"),
+        IsCorrect = true,
+        Picture = new Uri(
+            "https://eshop.sklizeno.cz/data/images/product/498x498/400/400734_1.jpg?-62167222664"),
+        Question = null!,
+        QuestionId = QuestionSeeds.DefaultQuestion3.Id,
+        Text = "Ananas",
+        Type = default
+    };
+
+    public static void Seed(this TaHooKDbContext dbContext)
+    {
+        
+        if (!dbContext.Answers.Any())
+        {
+            var answers = new List<AnswerEntity>()
+            {
+                DefaultAnswer,
+                DefaultAnswer2,
+                DefaultAnswer3
+            };
+
+            dbContext.Answers.AddRange(answers);
+        }
     }
 }
