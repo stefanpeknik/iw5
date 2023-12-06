@@ -16,6 +16,8 @@ using TaHooK.Common.Models.Responses;
 //using TaHooK.Common.Extensions;
 var builder = WebApplication.CreateBuilder(args);
 
+ConfigureCors(builder.Services);
+
 // Add services to the container.
 ConfigureDependencies(builder.Services, builder.Configuration);
 ConfigureAutoMapper(builder.Services);
@@ -40,6 +42,7 @@ var app = builder.Build();
 
 ValidateAutoMapperConfiguration(app.Services);
 
+app.UseCors();
 app.UseOpenApi();
 app.UseSwaggerUi3();
 
@@ -118,6 +121,15 @@ void ValidateAutoMapperConfiguration(IServiceProvider serviceProvider)
     mapper.ConfigurationProvider.AssertConfigurationIsValid();
 }
 
+
+void ConfigureCors(IServiceCollection serviceCollection)
+{
+    serviceCollection.AddCors(options =>
+    {
+        options.AddDefaultPolicy(o =>
+            o.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+    });
+}
 
 // Make the implicit Program class public so test projects can access it
 public partial class Program
