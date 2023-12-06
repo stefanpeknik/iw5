@@ -38,6 +38,16 @@ public class LiveLiveQuizStateRepository: ILiveQuizStateRepository
         _liveQuizStates.UserConnections.Add(connectionId, userId);
     }
     
+    public QuizState GetQuizState(Guid quizId)
+    {
+        if (_liveQuizStates.QuizesStates.ContainsKey(quizId) is false)
+        {
+            return null;
+        }
+
+        return _liveQuizStates.QuizesStates[quizId];
+    }
+    
     public Guid GetUserConnection(string connectionId)
     {
         return _liveQuizStates.UserConnections[connectionId];

@@ -62,4 +62,27 @@ public class QuizHub: Hub<IQuizClient>
         _liveQuizManager.RemoveUserConnection(Context.ConnectionId);
         await base.OnDisconnectedAsync(exception);
     }
+    
+    public async Task StartQuiz(Guid quizId)
+    {
+        // TODO: update quiz startedAt   
+        var question = await _liveQuizManager.GetNextQuestion(quizId);
+        if (question != null)
+        {
+            await Clients.Group(quizId.ToString()).NextQuestion(question);
+        }
+    }
+    
+    public async Task GetNextQuestion(Guid quizId)
+    {
+        var question = await _liveQuizManager.GetNextQuestion(quizId);
+        if (question != null)
+        {
+            await Clients.Group(quizId.ToString()).NextQuestion(question);
+        }
+        else
+        {
+            await Clients.Client(Context.ConnectionId).NextQuestion(null);
+        }
+    }
 }

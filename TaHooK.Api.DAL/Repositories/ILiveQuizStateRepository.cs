@@ -12,4 +12,6 @@ public interface ILiveQuizStateRepository
     void RemoveUserConnection(string connectionId);
 
     Guid? GetUserQuiz(Guid userId);
+
+    QuizState GetQuizState(Guid quizId);
 }

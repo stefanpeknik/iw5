@@ -21,6 +21,14 @@ public static class QuestionSeeds
         Text = "Test Question 2"
     };
     
+    public static readonly QuestionEntity DefaultQuestion3 = new()
+    {
+        Id = Guid.Parse("CB922133-0E09-4A23-9F33-1031E1902F7C"),
+        QuizTemplate = null!,
+        QuizTemplateId = QuizTemplateSeeds.DefaultQuiz.Id,
+        Text = "Test Question 3"
+    };
+    
     public static void Seed(this TaHooKDbContext dbContext)
     {
         
@@ -29,7 +37,8 @@ public static class QuestionSeeds
             var questions = new List<QuestionEntity>()
             {
                 DefaultQuestion with { Answers = new List<AnswerEntity>() },
-                DefaultQuestion2 with { Answers = new List<AnswerEntity>() }
+                DefaultQuestion2 with { Answers = new List<AnswerEntity>() },
+                DefaultQuestion3 with { Answers = new List<AnswerEntity>() }
             };
             
             dbContext.Questions.AddRange(questions);

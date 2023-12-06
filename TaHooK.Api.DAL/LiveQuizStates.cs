@@ -10,5 +10,5 @@ public record QuizState
 {
     public Guid QuizId { get; init; }
     public HashSet<Guid> Users { get; init; } = new HashSet<Guid>();
-    public int CurrentQuestionIndex { get; init; }
+    public int CurrentQuestionIndex { get; set; }
 }
