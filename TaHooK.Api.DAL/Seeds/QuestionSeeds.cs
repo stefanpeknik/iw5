@@ -18,15 +18,15 @@ public static class QuestionSeeds
         Id = Guid.Parse("5E1E5547-9526-4FDA-9673-DD6135822CF2"),
         QuizTemplate = null!,
         QuizTemplateId = QuizTemplateSeeds.DefaultQuiz2.Id,
-        Text = "Test Question 2"
+        Text = "What do monkeys love to eat?"
     };
     
     public static readonly QuestionEntity DefaultQuestion3 = new()
     {
         Id = Guid.Parse("CB922133-0E09-4A23-9F33-1031E1902F7C"),
         QuizTemplate = null!,
-        QuizTemplateId = QuizTemplateSeeds.DefaultQuiz.Id,
-        Text = "Test Question 3"
+        QuizTemplateId = QuizTemplateSeeds.DefaultQuiz2.Id,
+        Text = "What does Jack Black love?"
     };
     
     public static void Seed(this TaHooKDbContext dbContext)
