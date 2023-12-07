@@ -11,7 +11,8 @@ public class QuizMapperProfile : Profile
     public QuizMapperProfile()
     {
         CreateMap<QuizEntity, QuizDetailModel>()
-            .MapMember(dst => dst.Scores, src => src.Scores);
+            .MapMember(dst => dst.Scores, src => src.Scores)
+            .MapMember(dst => dst.Questions, src => src.Template.Questions);
 
         CreateMap<QuizEntity, QuizListModel>();
 

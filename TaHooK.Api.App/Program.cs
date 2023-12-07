@@ -3,6 +3,7 @@ using FluentValidation.AspNetCore;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
+using TaHooK.Api.App.Hubs;
 using TaHooK.Api.BL.Installers;
 using TaHooK.Api.Common.Tests.Installers;
 using TaHooK.Api.DAL.Entities.Interfaces;
@@ -14,6 +15,8 @@ using TaHooK.Common.Models.Responses;
 
 //using TaHooK.Common.Extensions;
 var builder = WebApplication.CreateBuilder(args);
+
+ConfigureCors(builder.Services);
 
 // Add services to the container.
 ConfigureDependencies(builder.Services, builder.Configuration);
@@ -27,6 +30,7 @@ var logger = new LoggerConfiguration()
 
 builder.Logging.ClearProviders();
 builder.Logging.AddSerilog(logger);
+builder.Services.AddSignalR();
 ConfigureControllers(builder.Services);
 builder.Services.AddFluentValidationAutoValidation();
 // Learn more about configuring Swagger/OpenAPI at https://aka.ms/aspnetcore/swashbuckle
@@ -38,6 +42,7 @@ var app = builder.Build();
 
 ValidateAutoMapperConfiguration(app.Services);
 
+app.UseCors();
 app.UseOpenApi();
 app.UseSwaggerUi3();
 
@@ -59,6 +64,8 @@ app.UseHttpsRedirection();
 app.UseAuthorization();
 
 app.MapControllers();
+
+app.MapHub<QuizHub>("quizhub");
 
 app.Run();
 
@@ -114,6 +121,15 @@ void ValidateAutoMapperConfiguration(IServiceProvider serviceProvider)
     mapper.ConfigurationProvider.AssertConfigurationIsValid();
 }
 
+
+void ConfigureCors(IServiceCollection serviceCollection)
+{
+    serviceCollection.AddCors(options =>
+    {
+        options.AddDefaultPolicy(o =>
+            o.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
+    });
+}
 
 // Make the implicit Program class public so test projects can access it
 public partial class Program

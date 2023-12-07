@@ -25,13 +25,13 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaHooK.Common.Models", "TaH
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Tests", "Tests", "{64776641-32F9-43D7-9306-F4FC6D2D6248}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaHooK.Api.DAL.Tests", "TaHooK.Api.DAL.Tests\TaHooK.Api.DAL.Tests.csproj", "{431CA36F-6D6C-47A3-9233-5FD0F1CCF08B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaHooK.Api.DAL.Tests", "TaHooK.Api.DAL.Tests\TaHooK.Api.DAL.Tests.csproj", "{431CA36F-6D6C-47A3-9233-5FD0F1CCF08B}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaHooK.Api.Common.Tests", "TaHooK.Api.Common.Tests\TaHooK.Api.Common.Tests.csproj", "{55A59382-771C-4602-A722-C937FF96DB3C}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaHooK.Api.Common.Tests", "TaHooK.Api.Common.Tests\TaHooK.Api.Common.Tests.csproj", "{55A59382-771C-4602-A722-C937FF96DB3C}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TaHooK.Api.App.EndToEndTests", "TaHooK.Api.App.EndToEndTests\TaHooK.Api.App.EndToEndTests.csproj", "{68E73E72-9AED-426D-BFD5-2C1518BDF969}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaHooK.Api.App.EndToEndTests", "TaHooK.Api.App.EndToEndTests\TaHooK.Api.App.EndToEndTests.csproj", "{68E73E72-9AED-426D-BFD5-2C1518BDF969}"
 EndProject
-Project("{00000000-0000-0000-0000-000000000000}") = "TaHook.Web.App", "TaHook.Web.App\TaHook.Web.App.csproj", "{F00F2EDE-8859-465C-AE61-C83833004448}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "TaHook.Web.App", "TaHook.Web.App\TaHook.Web.App.csproj", "{F00F2EDE-8859-465C-AE61-C83833004448}"
 EndProject
 Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Web", "Web", "{395DDD4D-EB85-4605-8775-6FB9CB6AE60C}"
 EndProject
