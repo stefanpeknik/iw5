@@ -20,7 +20,7 @@
         <div class="flex flex-row justify-around flex-wrap">
             @foreach (var answer in @Question.Answers)
             {
-                <div @onclick="() => OnAnswerQuestion(answer)" class="flex flex-col w-full sm:w-1/2 md:w-1/4 border-2 border-navBlue bg-lightBlue rounded-lg shadow-2xl hover:cursor-pointer">
+                <div @onclick="() => OnAnswerQuestion(answer)" class="flex flex-col flex-1 mx-5 max-w-[33%] border-2 border-navBlue bg-lightBlue rounded-lg shadow-2xl hover:cursor-pointer">
                     <img src="@answer.Picture" class="rounded-t-lg grow object-cover border-b-2 border-navBlue"/>
                     <div class="p-5">
                         <h3 class="text-center text-white font-bold align-middle">@answer.Text</h3>
