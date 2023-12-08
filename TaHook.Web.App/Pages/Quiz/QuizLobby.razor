@@ -1,26 +1,33 @@
 ﻿@page "/lobby/{id:guid}"
 
+<div class="flex items-center h-screen">
 
 @if (_quizStarted is false)
 {
-    <h1>Welcome to the lobby</h1>
-    <button @onclick="@OnStartQuizButton" class="bg-transparent hover:bg-navBlue text-navBlue hover:text-white font-semibold 
-                p-4 border border-navBlue rounded">
-        Start Quiz
-    </button>
+    <div>
+        <h1>Welcome to the lobby</h1>
+        <button @onclick="@OnStartQuizButton" class="bg-transparent hover:bg-navBlue text-navBlue hover:text-white font-semibold 
+                    p-4 border border-navBlue rounded">
+            Start Quiz
+        </button>
+    </div>
 }
 
 @if (Question is not null)
 {
-    <h1 class="text-2xl mb-10 text-center font-bold">@Question.Text</h1>
-    <div class="flex flex-row justify-around h-full">
-        @foreach (var answer in @Question.Answers)
-        {
-            <div class="w-1/4 pb-6 border border-navBlue rounded">
-                <img src="@answer.Picture" class="h-full object-cover"/>
-                <h3 class="text-center">@answer.Text</h3>
-            </div>
-        }
+    <div>
+    <h1 class="text-5xl mb-20 text-center font-bold">@Question.Text</h1>
+        <div class="flex flex-row justify-around flex-wrap">
+            @foreach (var answer in @Question.Answers)
+            {
+                <div @onclick="() => OnAnswerQuestion(answer)" class="flex flex-col w-full sm:w-1/2 md:w-1/4 border-2 border-navBlue bg-lightBlue rounded-lg shadow-2xl hover:cursor-pointer">
+                    <img src="@answer.Picture" class="rounded-t-lg grow object-cover border-b-2 border-navBlue"/>
+                    <div class="p-5">
+                        <h3 class="text-center text-white font-bold align-middle">@answer.Text</h3>
+                    </div>
+                </div>
+            }
+        </div>
     </div>
 
 }
@@ -29,3 +36,5 @@
 {
     <h2>Results</h2>
 }
+
+</div>

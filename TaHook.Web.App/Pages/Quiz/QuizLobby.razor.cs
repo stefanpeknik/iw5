@@ -1,6 +1,8 @@
-﻿using Microsoft.AspNetCore.Components;
+﻿using System.Runtime.CompilerServices;
+using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.SignalR.Client;
+using TaHooK.Common.Models.Answer;
 using TaHooK.Common.Models.Question;
 
 
@@ -11,7 +13,7 @@ namespace TaHook.Web.App.Pages.Quiz
         [Parameter]
         public Guid? Id { get; set; }
 
-        public Guid User { get; init; } = Guid.Parse("14B1DEFA-2350-46C9-9C1C-01E4C63ACD79"); // TODO: temp hardcoded
+        public Guid User { get; set; } // TODO: temp hardcoded
 
         public QuestionDetailModel? Question { get; set; }
 
@@ -35,11 +37,7 @@ namespace TaHook.Web.App.Pages.Quiz
                 .Build();
 
             //TODO: Events for next question, quiz start, etc..
-            _hubConnection.On("NextQuestion", (QuestionDetailModel? question) =>
-            {
-                Console.WriteLine("Received a question");
-                OnNextQuestion(question);
-            });
+            _hubConnection.On("NextQuestion", (QuestionDetailModel? question) => OnNextQuestion(question));
 
 
             await _hubConnection.StartAsync();
@@ -49,7 +47,7 @@ namespace TaHook.Web.App.Pages.Quiz
         }
         protected void OnNextQuestion(QuestionDetailModel? question)
         {
-            Console.WriteLine("Received a new message");
+            Console.WriteLine(question);
             if (question is null)
             {
                 _quizFinished = true;
@@ -66,6 +64,11 @@ namespace TaHook.Web.App.Pages.Quiz
                 Console.WriteLine("Started the quiz");
                 _quizStarted = true;
             }
+        }
+
+        protected async Task OnAnswerQuestion(AnswerListModel answer)
+        {
+            Console.WriteLine($"Seleceted the answer {answer.Text}");
         }
     }
 }
