@@ -50,6 +50,7 @@ namespace TaHook.Web.App.Pages.Quiz
         }
         protected void OnNextQuestion(QuestionDetailModel? question)
         {
+            _quizStarted = true;
             if (question is null)
             {
                 _quizFinished = true;

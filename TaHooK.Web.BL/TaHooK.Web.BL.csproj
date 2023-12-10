@@ -15,4 +15,8 @@
       <ProjectReference Include="..\TaHooK.Common.Models\TaHooK.Common.Models.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <Folder Include="Clients\" />
+    </ItemGroup>
+
 </Project>
