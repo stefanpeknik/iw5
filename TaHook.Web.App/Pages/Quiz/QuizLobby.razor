@@ -1,35 +1,52 @@
 ﻿@page "/lobby/{id:guid}"
 
-<div class="flex items-center h-screen">
+@* Debug only *@
+<div>
+    <select @bind="@User">
+        <option value={@Guid.Parse("A7F6F50A-3B1A-4065-8274-62EDD210CD1A")}>Ferda</option>
+        <option value={@Guid.Parse("14B1DEFA-2350-46C9-9C1C-01E4C63ACD79")}>Brouk Pytlík</option>
+    </select>
+    <button @onclick="OnInitializedAsync">Reconnect</button>
+</div>
+@* ---------- *@
 
 @if (_quizStarted is false)
 {
-    <div>
-        <h1>Welcome to the lobby</h1>
-        <button @onclick="@OnStartQuizButton" class="bg-transparent hover:bg-navBlue text-navBlue hover:text-white font-semibold 
-                    p-4 border border-navBlue rounded">
-            Start Quiz
-        </button>
+    <div class="flex flex-col justify-between items-center h-screen">
+        <h1 class="text-center text-3xl font-bold m-5">Welcome to the lobby</h1>
+        <Button Text="Start Quiz" OnClickEvent="@OnStartQuizButton" Variant="1"></Button>
+        <div class="flex flex-row justify-around w-full basis-2/3">
+            @foreach (var user in @Users)
+            {
+                <div>
+                    <img src="@user.Photo" class="rounded-full w-[100px] h-[100px] border border-navBlue" />
+                    <p class="text-center font-semibold mt-2">@user.Name</p>
+                </div>
+            }
+        </div>
+
     </div>
 }
 
 @if (Question is not null)
 {
-    <div>
-    <h1 class="text-5xl mb-20 text-center font-bold">@Question.Text</h1>
-        <div class="flex flex-row justify-around flex-wrap">
-            @foreach (var answer in @Question.Answers)
-            {
-                <div @onclick="() => OnAnswerQuestion(answer)" class="flex flex-col flex-1 mx-5 max-w-[33%] border-2 border-navBlue bg-lightBlue rounded-lg shadow-2xl hover:cursor-pointer">
-                    <img src="@answer.Picture" class="rounded-t-lg grow object-cover border-b-2 border-navBlue"/>
-                    <div class="p-5">
-                        <h3 class="text-center text-white font-bold align-middle">@answer.Text</h3>
+    <div class="flex items-center h-screen">
+
+        <div>
+            <h1 class="text-5xl mb-20 text-center font-bold">@Question.Text</h1>
+            <div class="flex flex-row justify-around flex-wrap">
+                @foreach (var answer in @Question.Answers)
+                {
+                    <div @onclick="() => OnAnswerQuestion(answer)" class="flex flex-col flex-1 mx-5 max-w-[33%] border-2 border-navBlue bg-lightBlue rounded-lg shadow-2xl hover:cursor-pointer">
+                        <img src="@answer.Picture" class="rounded-t-lg grow object-cover border-b-2 border-navBlue" />
+                        <div class="p-5">
+                            <h3 class="text-center text-white font-bold align-middle">@answer.Text</h3>
+                        </div>
                     </div>
-                </div>
-            }
+                }
+            </div>
         </div>
     </div>
-
 }
 
 @if (_quizFinished)
@@ -37,4 +54,3 @@
     <h2>Results</h2>
 }
 
-</div>
