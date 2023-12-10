@@ -17,7 +17,7 @@ public class QuizHub: Hub<IQuizClient>
         var httpContext = Context.GetHttpContext();
         var userId = httpContext?.Request.Query["userId"].ToString();
         
-        if (userId != null)
+        if (userId != null || userId != Guid.Empty.ToString())
         {
             _liveQuizManager.AddUserConnection(Context.ConnectionId, Guid.Parse(userId));
         }
