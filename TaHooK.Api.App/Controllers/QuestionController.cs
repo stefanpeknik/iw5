@@ -27,6 +27,7 @@ public class QuestionController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetQuestionById", "Returns a question based on the GUID on input.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(QuestionDetailModel))]
     [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<QuestionDetailModel>> GetQuestionById(Guid id)
     {
@@ -52,6 +53,7 @@ public class QuestionController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateQuestionById", "Updates an existing question.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel))]
     [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel))]
     [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<IdModel>> UpdateQuestionById(QuestionCreateUpdateModel question, Guid id)
@@ -69,6 +71,7 @@ public class QuestionController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteQuestion", "Deletes a question based on the input ID.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(void))]
     [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult> DeleteQuestion(Guid id)
     {

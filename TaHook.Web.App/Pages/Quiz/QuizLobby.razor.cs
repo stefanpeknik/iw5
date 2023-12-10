@@ -14,7 +14,7 @@ namespace TaHook.Web.App.Pages.Quiz
         [Parameter]
         public Guid? Id { get; set; }
 
-        public Guid User { get; set; }// = Guid.Parse("A7F6F50A-3B1A-4065-8274-62EDD210CD1A"); // TODO: temp hardcoded
+        public Guid User { get; set; } = Guid.Parse("A7F6F50A-3B1A-4065-8274-62EDD210CD1A"); // TODO: temp hardcoded
 
         public QuestionDetailModel? Question { get; set; }
         public List<UserListModel> Users { get; set; } = new ();

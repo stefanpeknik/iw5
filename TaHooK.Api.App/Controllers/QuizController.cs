@@ -27,6 +27,7 @@ public class QuizController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetQuizById", "Returns a quiz based on the GUID on input.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(QuizDetailModel))]
     [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<QuizDetailModel>> GetQuizById(Guid id)
     {
@@ -52,6 +53,7 @@ public class QuizController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateQuizById", "Updates an existing quiz.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel))]
     [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel))]
     [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<IdModel>> UpdateQuizById(QuizCreateUpdateModel quiz, Guid id)
@@ -69,6 +71,7 @@ public class QuizController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteQuiz", "Deletes a quiz based on the input ID.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(void))]
     [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult> DeleteQuiz(Guid id)
     {

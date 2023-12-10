@@ -27,7 +27,7 @@ namespace TaHook.Web.App.Pages.Quiz
         protected async void OnLobbyCreateButton(MouseEventArgs e)
         {
             var gameId = await Facade!.CreateFromTemplate(Data!);
-            Navigation!.NavigateTo($"/lobby/{gameId}");
+            Navigation!.NavigateTo($"/lobby/{gameId.Id}");
         }
 
         protected void OnEditQuizTemplate(MouseEventArgs e)

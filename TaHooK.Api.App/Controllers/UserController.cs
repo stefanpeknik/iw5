@@ -27,6 +27,7 @@ public class UserController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetUserById", "Returns a user based on the GUID on input.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(UserDetailModel))]
     [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<UserDetailModel>> GetUserById(Guid id)
     {
@@ -52,6 +53,7 @@ public class UserController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateUserById", "Updates an existing user.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel))]
     [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel))]
     [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<IdModel>> UpdateUserById(UserCreateUpdateModel user, Guid id)
@@ -69,6 +71,7 @@ public class UserController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteUser", "Deletes a user based on the input ID.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(void))]
     [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult> DeleteUser(Guid id)
     {
