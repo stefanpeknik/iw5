@@ -7,6 +7,36 @@ public class WebBLInstaller
 {
     public void Install(IServiceCollection serviceCollection, string apiBaseUrl)
     {
+        serviceCollection.AddTransient<IAnswerApiClient, AnswerApiClient>(provider =>
+        {
+            var client = CreateApiHttpClient(provider, apiBaseUrl);
+            return new AnswerApiClient(client, apiBaseUrl);
+        });
+
+        serviceCollection.AddTransient<IQuestionApiClient, QuestionApiClient>(provider =>
+        {
+            var client = CreateApiHttpClient(provider, apiBaseUrl);
+            return new QuestionApiClient(client, apiBaseUrl);
+        });
+
+        serviceCollection.AddTransient<IScoreApiClient, ScoreApiClient>(provider =>
+        {
+            var client = CreateApiHttpClient(provider, apiBaseUrl);
+            return new ScoreApiClient(client, apiBaseUrl);
+        });
+
+        serviceCollection.AddTransient<ISearchApiClient, SearchApiClient>(provider =>
+        {
+            var client = CreateApiHttpClient(provider, apiBaseUrl);
+            return new SearchApiClient(client, apiBaseUrl);
+        });
+
+        serviceCollection.AddTransient<IUserApiClient, UserApiClient>(provider =>
+        {
+            var client = CreateApiHttpClient(provider, apiBaseUrl);
+            return new UserApiClient(client, apiBaseUrl);
+        });
+
         serviceCollection.AddTransient<IQuizApiClient, QuizApiClient>(provider =>
         {
             var client = CreateApiHttpClient(provider, apiBaseUrl);
