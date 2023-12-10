@@ -12,8 +12,7 @@ public class QuizFacade : IWebAppFacade
 {
     private readonly IQuizApiClient _apiClient;
 
-    public QuizFacade(
-        IQuizApiClient apiClient)
+    public QuizFacade(IQuizApiClient apiClient)
     {
         _apiClient = apiClient;
     }
