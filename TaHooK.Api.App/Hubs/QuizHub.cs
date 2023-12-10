@@ -54,7 +54,6 @@ public class QuizHub: Hub<IQuizClient>
         var quizId = _liveQuizManager.GetUserQuiz(userId);
         if (quizId != null)
         {
-            await Groups.RemoveFromGroupAsync(Context.ConnectionId, quizId.ToString());
             _liveQuizManager.RemoveUserFromQuiz(quizId.Value, userId);
             var quizUsers = _liveQuizManager.GetQuizUsers(quizId.Value);
             await Clients.Group(quizId.ToString()).UsersInLobby(quizUsers);
@@ -65,7 +64,7 @@ public class QuizHub: Hub<IQuizClient>
     
     public async Task StartQuiz(Guid quizId)
     {
-        // TODO: update quiz startedAt   
+        await _liveQuizManager.InitializeQuiz(quizId);
         var question = await _liveQuizManager.GetNextQuestion(quizId);
         if (question != null)
         {
@@ -73,9 +72,29 @@ public class QuizHub: Hub<IQuizClient>
         }
     }
     
+    public async Task GetResults(Guid quizId)
+    {
+        var results = await _liveQuizManager.CalculateResult(quizId);
+        await Clients.Client(Context.ConnectionId).QuizResults(results);
+    }
+    
     public async Task GetNextQuestion(Guid quizId)
     {
         var question = await _liveQuizManager.GetNextQuestion(quizId);
+        
+        // clear answered group
+        var users = _liveQuizManager.GetQuizUsers(quizId);
+        var answeredGroup = $"{quizId}-answered";
+        foreach (var user in users)
+        {
+            var userConnectionId = _liveQuizManager.GetUserConnectionId(user.Id);
+            if (userConnectionId == null)
+            {
+                continue;
+            }
+            await Groups.RemoveFromGroupAsync(userConnectionId, answeredGroup);
+        }
+        
         if (question != null)
         {
             await Clients.Group(quizId.ToString()).NextQuestion(question);
@@ -84,5 +103,17 @@ public class QuizHub: Hub<IQuizClient>
         {
             await Clients.Client(Context.ConnectionId).NextQuestion(null);
         }
+    }
+
+    public async Task AnswerQuestion(Guid quizId, Guid answerId)
+    {
+        var answeredGroup = $"{quizId}-answered";
+        var userId = _liveQuizManager.GetUserConnection(Context.ConnectionId);
+        await Groups.AddToGroupAsync(Context.ConnectionId, answeredGroup);
+        _liveQuizManager.AnswerQuestion(quizId, userId, answerId);
+        
+        var answerDistribution = await _liveQuizManager.GetAnswerDistribution(quizId);
+        
+        await Clients.Group(answeredGroup).AnswerDistribution(answerDistribution);
     }
 }

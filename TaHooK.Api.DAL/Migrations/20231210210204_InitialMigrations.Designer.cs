@@ -12,8 +12,8 @@ using TaHooK.Api.DAL;
 namespace TaHooK.Api.DAL.Migrations
 {
     [DbContext(typeof(TaHooKDbContext))]
-    [Migration("20231205162503_InitialCreate")]
-    partial class InitialCreate
+    [Migration("20231210210204_InitialMigrations")]
+    partial class InitialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
