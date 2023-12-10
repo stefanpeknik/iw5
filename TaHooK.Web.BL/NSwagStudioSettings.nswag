@@ -1,102 +1,1520 @@
 ﻿{
-  "runtime": "Default",
-  "defaultVariables": null,
-  "documentGenerator": {
-    "fromDocument": {
-      "json": "{\r\n  \"x-generator\": \"NSwag v13.17.0.0 (NJsonSchema v10.8.0.0 (Newtonsoft.Json v13.0.0.0))\",\r\n  \"openapi\": \"3.0.0\",\r\n  \"info\": {\r\n    \"title\": \"My Title\",\r\n    \"version\": \"1.0.0\"\r\n  },\r\n  \"servers\": [\r\n    {\r\n      \"url\": \"https://localhost:44378\"\r\n    }\r\n  ],\r\n  \"paths\": {\r\n    \"/api/ingredient\": {\r\n      \"get\": {\r\n        \"tags\": [\r\n          \"ingredient\"\r\n        ],\r\n        \"operationId\": \"GetApiIngredientAll\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"type\": \"array\",\r\n                  \"items\": {\r\n                    \"$ref\": \"#/components/schemas/IngredientListModel\"\r\n                  }\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"post\": {\r\n        \"tags\": [\r\n          \"ingredient\"\r\n        ],\r\n        \"operationId\": \"PostApiIngredient\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"requestBody\": {\r\n          \"x-name\": \"ingredient\",\r\n          \"description\": \"\",\r\n          \"content\": {\r\n            \"application/json\": {\r\n              \"schema\": {\r\n                \"$ref\": \"#/components/schemas/IngredientDetailModel\"\r\n              }\r\n            }\r\n          },\r\n          \"required\": true,\r\n          \"x-position\": 1\r\n        },\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"type\": \"string\",\r\n                  \"format\": \"guid\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"put\": {\r\n        \"tags\": [\r\n          \"ingredient\"\r\n        ],\r\n        \"operationId\": \"PutApiIngredient\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"requestBody\": {\r\n          \"x-name\": \"ingredient\",\r\n          \"description\": \"\",\r\n          \"content\": {\r\n            \"application/json\": {\r\n              \"schema\": {\r\n                \"$ref\": \"#/components/schemas/IngredientDetailModel\"\r\n              }\r\n            }\r\n          },\r\n          \"required\": true,\r\n          \"x-position\": 1\r\n        },\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"type\": \"string\",\r\n                  \"format\": \"guid\",\r\n                  \"nullable\": true\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"/api/ingredient/{id}\": {\r\n      \"get\": {\r\n        \"tags\": [\r\n          \"ingredient\"\r\n        ],\r\n        \"operationId\": \"GetApiIngredient\",\r\n        \"parameters\": [\r\n          {\r\n            \"name\": \"id\",\r\n            \"in\": \"path\",\r\n            \"required\": true,\r\n            \"schema\": {\r\n              \"type\": \"string\",\r\n              \"format\": \"guid\"\r\n            },\r\n            \"x-position\": 1\r\n          },\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"$ref\": \"#/components/schemas/IngredientDetailModel\"\r\n                }\r\n              }\r\n            }\r\n          },\r\n          \"404\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"type\": \"string\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"delete\": {\r\n        \"tags\": [\r\n          \"ingredient\"\r\n        ],\r\n        \"operationId\": \"DeleteApiIngredient\",\r\n        \"parameters\": [\r\n          {\r\n            \"name\": \"id\",\r\n            \"in\": \"path\",\r\n            \"required\": true,\r\n            \"schema\": {\r\n              \"type\": \"string\",\r\n              \"format\": \"guid\"\r\n            },\r\n            \"x-position\": 1\r\n          },\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\"\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"/api/ingredient/upsert\": {\r\n      \"post\": {\r\n        \"tags\": [\r\n          \"ingredient\"\r\n        ],\r\n        \"operationId\": \"PostApiIngredientUpsert\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"requestBody\": {\r\n          \"x-name\": \"ingredient\",\r\n          \"description\": \"\",\r\n          \"content\": {\r\n            \"application/json\": {\r\n              \"schema\": {\r\n                \"$ref\": \"#/components/schemas/IngredientDetailModel\"\r\n              }\r\n            }\r\n          },\r\n          \"required\": true,\r\n          \"x-position\": 1\r\n        },\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"type\": \"string\",\r\n                  \"format\": \"guid\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"/api/recipe\": {\r\n      \"get\": {\r\n        \"tags\": [\r\n          \"recipe\"\r\n        ],\r\n        \"operationId\": \"GetApiRecipeAll\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"type\": \"array\",\r\n                  \"items\": {\r\n                    \"$ref\": \"#/components/schemas/RecipeListModel\"\r\n                  }\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"post\": {\r\n        \"tags\": [\r\n          \"recipe\"\r\n        ],\r\n        \"operationId\": \"PostApiRecipe\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"requestBody\": {\r\n          \"x-name\": \"recipe\",\r\n          \"description\": \"\",\r\n          \"content\": {\r\n            \"application/json\": {\r\n              \"schema\": {\r\n                \"$ref\": \"#/components/schemas/RecipeDetailModel\"\r\n              }\r\n            }\r\n          },\r\n          \"required\": true,\r\n          \"x-position\": 1\r\n        },\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"type\": \"string\",\r\n                  \"format\": \"guid\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"put\": {\r\n        \"tags\": [\r\n          \"recipe\"\r\n        ],\r\n        \"operationId\": \"PutApiRecipe\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"requestBody\": {\r\n          \"x-name\": \"recipe\",\r\n          \"description\": \"\",\r\n          \"content\": {\r\n            \"application/json\": {\r\n              \"schema\": {\r\n                \"$ref\": \"#/components/schemas/RecipeDetailModel\"\r\n              }\r\n            }\r\n          },\r\n          \"required\": true,\r\n          \"x-position\": 1\r\n        },\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"type\": \"string\",\r\n                  \"format\": \"guid\",\r\n                  \"nullable\": true\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"/api/recipe/{id}\": {\r\n      \"get\": {\r\n        \"tags\": [\r\n          \"recipe\"\r\n        ],\r\n        \"operationId\": \"GetApiRecipe\",\r\n        \"parameters\": [\r\n          {\r\n            \"name\": \"id\",\r\n            \"in\": \"path\",\r\n            \"required\": true,\r\n            \"schema\": {\r\n              \"type\": \"string\",\r\n              \"format\": \"guid\"\r\n            },\r\n            \"x-position\": 1\r\n          },\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"$ref\": \"#/components/schemas/RecipeDetailModel\"\r\n                }\r\n              }\r\n            }\r\n          },\r\n          \"404\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"type\": \"string\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"delete\": {\r\n        \"tags\": [\r\n          \"recipe\"\r\n        ],\r\n        \"operationId\": \"DeleteApiRecipe\",\r\n        \"parameters\": [\r\n          {\r\n            \"name\": \"id\",\r\n            \"in\": \"path\",\r\n            \"required\": true,\r\n            \"schema\": {\r\n              \"type\": \"string\",\r\n              \"format\": \"guid\"\r\n            },\r\n            \"x-position\": 1\r\n          },\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\"\r\n          }\r\n        }\r\n      }\r\n    },\r\n    \"/api/recipe/upsert\": {\r\n      \"post\": {\r\n        \"tags\": [\r\n          \"recipe\"\r\n        ],\r\n        \"operationId\": \"PostApiRecipeUpsert\",\r\n        \"parameters\": [\r\n          {\r\n            \"type\": \"string\",\r\n            \"name\": \"culture\",\r\n            \"in\": \"query\"\r\n          }\r\n        ],\r\n        \"requestBody\": {\r\n          \"x-name\": \"recipe\",\r\n          \"description\": \"\",\r\n          \"content\": {\r\n            \"application/json\": {\r\n              \"schema\": {\r\n                \"$ref\": \"#/components/schemas/RecipeDetailModel\"\r\n              }\r\n            }\r\n          },\r\n          \"required\": true,\r\n          \"x-position\": 1\r\n        },\r\n        \"responses\": {\r\n          \"200\": {\r\n            \"description\": \"\",\r\n            \"content\": {\r\n              \"application/json\": {\r\n                \"schema\": {\r\n                  \"type\": \"string\",\r\n                  \"format\": \"guid\"\r\n                }\r\n              }\r\n            }\r\n          }\r\n        }\r\n      }\r\n    }\r\n  },\r\n  \"components\": {\r\n    \"schemas\": {\r\n      \"IngredientListModel\": {\r\n        \"type\": \"object\",\r\n        \"additionalProperties\": false,\r\n        \"properties\": {\r\n          \"id\": {\r\n            \"type\": \"string\",\r\n            \"format\": \"guid\"\r\n          },\r\n          \"name\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"imageUrl\": {\r\n            \"type\": \"string\",\r\n            \"nullable\": true\r\n          }\r\n        }\r\n      },\r\n      \"IngredientDetailModel\": {\r\n        \"type\": \"object\",\r\n        \"additionalProperties\": false,\r\n        \"required\": [\r\n          \"name\",\r\n          \"description\"\r\n        ],\r\n        \"properties\": {\r\n          \"id\": {\r\n            \"type\": \"string\",\r\n            \"format\": \"guid\"\r\n          },\r\n          \"name\": {\r\n            \"type\": \"string\",\r\n            \"minLength\": 1\r\n          },\r\n          \"description\": {\r\n            \"type\": \"string\",\r\n            \"minLength\": 1\r\n          },\r\n          \"imageUrl\": {\r\n            \"type\": \"string\",\r\n            \"nullable\": true\r\n          }\r\n        }\r\n      },\r\n      \"RecipeListModel\": {\r\n        \"type\": \"object\",\r\n        \"additionalProperties\": false,\r\n        \"properties\": {\r\n          \"id\": {\r\n            \"type\": \"string\",\r\n            \"format\": \"guid\"\r\n          },\r\n          \"name\": {\r\n            \"type\": \"string\"\r\n          },\r\n          \"duration\": {\r\n            \"type\": \"string\",\r\n            \"format\": \"duration\"\r\n          },\r\n          \"foodType\": {\r\n            \"$ref\": \"#/components/schemas/FoodType\"\r\n          },\r\n          \"imageUrl\": {\r\n            \"type\": \"string\",\r\n            \"nullable\": true\r\n          }\r\n        }\r\n      },\r\n      \"FoodType\": {\r\n        \"type\": \"integer\",\r\n        \"description\": \"\",\r\n        \"x-enumNames\": [\r\n          \"Unknown\",\r\n          \"MainDish\",\r\n          \"Soup\",\r\n          \"Dessert\"\r\n        ],\r\n        \"enum\": [\r\n          0,\r\n          1,\r\n          2,\r\n          3\r\n        ]\r\n      },\r\n      \"RecipeDetailModel\": {\r\n        \"type\": \"object\",\r\n        \"additionalProperties\": false,\r\n        \"required\": [\r\n          \"name\",\r\n          \"description\"\r\n        ],\r\n        \"properties\": {\r\n          \"id\": {\r\n            \"type\": \"string\",\r\n            \"format\": \"guid\"\r\n          },\r\n          \"name\": {\r\n            \"type\": \"string\",\r\n            \"minLength\": 1\r\n          },\r\n          \"description\": {\r\n            \"type\": \"string\",\r\n            \"minLength\": 10\r\n          },\r\n          \"imageUrl\": {\r\n            \"type\": \"string\",\r\n            \"nullable\": true\r\n          },\r\n          \"duration\": {\r\n            \"type\": \"string\",\r\n            \"format\": \"duration\"\r\n          },\r\n          \"foodType\": {\r\n            \"$ref\": \"#/components/schemas/FoodType\"\r\n          },\r\n          \"ingredientAmounts\": {\r\n            \"type\": \"array\",\r\n            \"items\": {\r\n              \"$ref\": \"#/components/schemas/RecipeDetailIngredientModel\"\r\n            }\r\n          }\r\n        }\r\n      },\r\n      \"RecipeDetailIngredientModel\": {\r\n        \"type\": \"object\",\r\n        \"additionalProperties\": false,\r\n        \"properties\": {\r\n          \"id\": {\r\n            \"type\": \"string\",\r\n            \"format\": \"guid\"\r\n          },\r\n          \"amount\": {\r\n            \"type\": \"number\",\r\n            \"format\": \"double\",\r\n            \"minimum\": 0.0\r\n          },\r\n          \"unit\": {\r\n            \"$ref\": \"#/components/schemas/Unit\"\r\n          },\r\n          \"ingredient\": {\r\n            \"$ref\": \"#/components/schemas/IngredientListModel\"\r\n          }\r\n        }\r\n      },\r\n      \"Unit\": {\r\n        \"type\": \"integer\",\r\n        \"description\": \"\",\r\n        \"x-enumNames\": [\r\n          \"Unknown\",\r\n          \"Kg\",\r\n          \"L\",\r\n          \"Ml\",\r\n          \"G\",\r\n          \"Pieces\",\r\n          \"Spoon\"\r\n        ],\r\n        \"enum\": [\r\n          0,\r\n          1,\r\n          2,\r\n          3,\r\n          4,\r\n          5,\r\n          6\r\n        ]\r\n      }\r\n    }\r\n  }\r\n}",
-      "url": "https://localhost:44378/swagger/v1/swagger.json",
-      "output": null,
-      "newLineBehavior": "Auto"
+  "x-generator": "NSwag v13.20.0.0 (NJsonSchema v10.9.0.0 (Newtonsoft.Json v13.0.0.0))",
+  "openapi": "3.0.0",
+  "info": {
+    "title": "TaHooK API",
+    "version": "1.0.0"
+  },
+  "servers": [
+    {
+      "url": "https://localhost:7273"
+    }
+  ],
+  "paths": {
+    "/api/answers": {
+      "get": {
+        "tags": [
+          "Answer"
+        ],
+        "summary": "GetAnswers",
+        "description": "Returns a list of all answers.",
+        "operationId": "Answer_GetAnswers",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/AnswerListModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Answer"
+        ],
+        "summary": "CreateAnswer",
+        "description": "Creates a new answer.",
+        "operationId": "Answer_CreateAnswer",
+        "requestBody": {
+          "x-name": "answer",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnswerCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/answers/{id}": {
+      "get": {
+        "tags": [
+          "Answer"
+        ],
+        "summary": "GetAnswerById",
+        "description": "Returns an answer based on the GUID on input.",
+        "operationId": "Answer_GetAnswerById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/AnswerDetailModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Answer"
+        ],
+        "summary": "UpdateAnswerById",
+        "description": "Updates an existing answer.",
+        "operationId": "Answer_UpdateAnswerById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "answer",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/AnswerCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Answer"
+        ],
+        "summary": "DeleteAnswer",
+        "description": "Deletes an answer based on the input ID.",
+        "operationId": "Answer_DeleteAnswer",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/questions": {
+      "get": {
+        "tags": [
+          "Question"
+        ],
+        "summary": "GetQuestions",
+        "description": "Returns a list of all questions.",
+        "operationId": "Question_GetQuestions",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QuestionListModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Question"
+        ],
+        "summary": "CreateQuestion",
+        "description": "Creates a new question.",
+        "operationId": "Question_CreateQuestion",
+        "requestBody": {
+          "x-name": "question",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/questions/{id}": {
+      "get": {
+        "tags": [
+          "Question"
+        ],
+        "summary": "GetQuestionById",
+        "description": "Returns a question based on the GUID on input.",
+        "operationId": "Question_GetQuestionById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuestionDetailModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Question"
+        ],
+        "summary": "UpdateQuestionById",
+        "description": "Updates an existing question.",
+        "operationId": "Question_UpdateQuestionById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "question",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuestionCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Question"
+        ],
+        "summary": "DeleteQuestion",
+        "description": "Deletes a question based on the input ID.",
+        "operationId": "Question_DeleteQuestion",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/quizzes": {
+      "get": {
+        "tags": [
+          "Quiz"
+        ],
+        "summary": "GetQuizzes",
+        "description": "Returns a list of all quizzes.",
+        "operationId": "Quiz_GetQuizzes",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QuizListModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Quiz"
+        ],
+        "summary": "CreateQuiz",
+        "description": "Creates a new quiz.",
+        "operationId": "Quiz_CreateQuiz",
+        "requestBody": {
+          "x-name": "quiz",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuizCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/quizzes/{id}": {
+      "get": {
+        "tags": [
+          "Quiz"
+        ],
+        "summary": "GetQuizById",
+        "description": "Returns a quiz based on the GUID on input.",
+        "operationId": "Quiz_GetQuizById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuizDetailModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Quiz"
+        ],
+        "summary": "UpdateQuizById",
+        "description": "Updates an existing quiz.",
+        "operationId": "Quiz_UpdateQuizById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "quiz",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuizCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Quiz"
+        ],
+        "summary": "DeleteQuiz",
+        "description": "Deletes a quiz based on the input ID.",
+        "operationId": "Quiz_DeleteQuiz",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/templates": {
+      "get": {
+        "tags": [
+          "QuizTemplate"
+        ],
+        "summary": "GetQuizTemplates",
+        "description": "Returns a list of all quiz templates.",
+        "operationId": "QuizTemplate_GetQuizTemplates",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/QuizTemplateListModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "QuizTemplate"
+        ],
+        "summary": "CreateQuizTemplate",
+        "description": "Creates a new quiz template.",
+        "operationId": "QuizTemplate_CreateQuizTemplate",
+        "requestBody": {
+          "x-name": "quiz",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuizTemplateCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/templates/{id}": {
+      "get": {
+        "tags": [
+          "QuizTemplate"
+        ],
+        "summary": "GetQuizTemplateById",
+        "description": "Returns a quiz template based on the GUID on input.",
+        "operationId": "QuizTemplate_GetQuizTemplateById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/QuizTemplateDetailModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "QuizTemplate"
+        ],
+        "summary": "UpdateQuizTemplateById",
+        "description": "Updates an existing quiz template.",
+        "operationId": "QuizTemplate_UpdateQuizTemplateById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "quiz",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/QuizTemplateCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "QuizTemplate"
+        ],
+        "summary": "DeleteQuizTemplate",
+        "description": "Deletes a quiz template based on the input ID.",
+        "operationId": "QuizTemplate_DeleteQuizTemplate",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/scores": {
+      "get": {
+        "tags": [
+          "Score"
+        ],
+        "summary": "GetScores",
+        "description": "Returns a list of all the scores.",
+        "operationId": "Score_GetScores",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/ScoreListModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "Score"
+        ],
+        "summary": "CreateScore",
+        "description": "Creates a new score.",
+        "operationId": "Score_CreateScore",
+        "requestBody": {
+          "x-name": "score",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoreCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/scores/{id}": {
+      "get": {
+        "tags": [
+          "Score"
+        ],
+        "summary": "GetScoreById",
+        "description": "Returns a score based on the GUID on input.",
+        "operationId": "Score_GetScoreById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/ScoreDetailModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "Score"
+        ],
+        "summary": "UpdateScoreById",
+        "description": "Updates an existing score.",
+        "operationId": "Score_UpdateScoreById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "score",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/ScoreCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "Score"
+        ],
+        "summary": "DeleteScore",
+        "description": "Deletes a score based on the input ID.",
+        "operationId": "Score_DeleteScore",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/search": {
+      "get": {
+        "tags": [
+          "Search"
+        ],
+        "summary": "GetSearch",
+        "description": "Returns a list of found entities based on the searched query.",
+        "operationId": "Search_GetSearch",
+        "parameters": [
+          {
+            "name": "q",
+            "in": "query",
+            "schema": {
+              "type": "string"
+            },
+            "x-position": 1
+          },
+          {
+            "name": "p",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 2
+          },
+          {
+            "name": "size",
+            "in": "query",
+            "schema": {
+              "type": "integer",
+              "format": "int32"
+            },
+            "x-position": 3
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/SearchListModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "GetUsers",
+        "description": "Returns a list of all users.",
+        "operationId": "User_GetUsers",
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "type": "array",
+                  "items": {
+                    "$ref": "#/components/schemas/UserListModel"
+                  }
+                }
+              }
+            }
+          }
+        }
+      },
+      "post": {
+        "tags": [
+          "User"
+        ],
+        "summary": "CreateUser",
+        "description": "Creates a new user.",
+        "operationId": "User_CreateUser",
+        "requestBody": {
+          "x-name": "user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      }
+    },
+    "/api/users/{id}": {
+      "get": {
+        "tags": [
+          "User"
+        ],
+        "summary": "GetUserById",
+        "description": "Returns a user based on the GUID on input.",
+        "operationId": "User_GetUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/UserDetailModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "put": {
+        "tags": [
+          "User"
+        ],
+        "summary": "UpdateUserById",
+        "description": "Updates an existing user.",
+        "operationId": "User_UpdateUserById",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 2
+          }
+        ],
+        "requestBody": {
+          "x-name": "user",
+          "content": {
+            "application/json": {
+              "schema": {
+                "$ref": "#/components/schemas/UserCreateUpdateModel"
+              }
+            }
+          },
+          "required": true,
+          "x-position": 1
+        },
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/json": {
+                "schema": {
+                  "$ref": "#/components/schemas/IdModel"
+                }
+              }
+            }
+          }
+        }
+      },
+      "delete": {
+        "tags": [
+          "User"
+        ],
+        "summary": "DeleteUser",
+        "description": "Deletes a user based on the input ID.",
+        "operationId": "User_DeleteUser",
+        "parameters": [
+          {
+            "name": "id",
+            "in": "path",
+            "required": true,
+            "schema": {
+              "type": "string",
+              "format": "guid"
+            },
+            "x-position": 1
+          }
+        ],
+        "responses": {
+          "200": {
+            "description": "",
+            "content": {
+              "application/octet-stream": {
+                "schema": {
+                  "type": "string",
+                  "format": "binary"
+                }
+              }
+            }
+          }
+        }
+      }
     }
   },
-  "codeGenerators": {
-    "openApiToCSharpClient": {
-      "clientBaseClass": null,
-      "configurationClass": null,
-      "generateClientClasses": true,
-      "generateClientInterfaces": true,
-      "clientBaseInterface": null,
-      "injectHttpClient": true,
-      "disposeHttpClient": true,
-      "protectedMethods": [],
-      "generateExceptionClasses": true,
-      "exceptionClass": "ApiException",
-      "wrapDtoExceptions": true,
-      "useHttpClientCreationMethod": false,
-      "httpClientType": "System.Net.Http.HttpClient",
-      "useHttpRequestMessageCreationMethod": false,
-      "useBaseUrl": true,
-      "generateBaseUrlProperty": true,
-      "generateSyncMethods": false,
-      "generatePrepareRequestAndProcessResponseAsAsyncMethods": false,
-      "exposeJsonSerializerSettings": false,
-      "clientClassAccessModifier": "public",
-      "typeAccessModifier": "public",
-      "generateContractsOutput": false,
-      "contractsNamespace": null,
-      "contractsOutputFilePath": null,
-      "parameterDateTimeFormat": "s",
-      "parameterDateFormat": "yyyy-MM-dd",
-      "generateUpdateJsonSerializerSettingsMethod": true,
-      "useRequestAndResponseSerializationSettings": false,
-      "serializeTypeInformation": false,
-      "queryNullValue": "",
-      "className": "{controller}ApiClient",
-      "operationGenerationMode": "MultipleClientsFromFirstTagAndPathSegments",
-      "additionalNamespaceUsages": [
-        "CookBook.Common.Models"
-      ],
-      "additionalContractNamespaceUsages": [],
-      "generateOptionalParameters": false,
-      "generateJsonMethods": false,
-      "enforceFlagEnums": false,
-      "parameterArrayType": "System.Collections.Generic.IEnumerable",
-      "parameterDictionaryType": "System.Collections.Generic.IDictionary",
-      "responseArrayType": "System.Collections.Generic.ICollection",
-      "responseDictionaryType": "System.Collections.Generic.IDictionary",
-      "wrapResponses": false,
-      "wrapResponseMethods": [],
-      "generateResponseClasses": true,
-      "responseClass": "SwaggerResponse",
-      "namespace": "CookBook.Web.BL",
-      "requiredPropertiesMustBeDefined": true,
-      "dateType": "System.DateTimeOffset",
-      "jsonConverters": null,
-      "anyType": "object",
-      "dateTimeType": "System.DateTimeOffset",
-      "timeType": "System.TimeSpan",
-      "timeSpanType": "System.TimeSpan",
-      "arrayType": "System.Collections.Generic.ICollection",
-      "arrayInstanceType": "System.Collections.ObjectModel.Collection",
-      "dictionaryType": "System.Collections.Generic.IDictionary",
-      "dictionaryInstanceType": "System.Collections.Generic.Dictionary",
-      "arrayBaseType": "System.Collections.ObjectModel.Collection",
-      "dictionaryBaseType": "System.Collections.Generic.Dictionary",
-      "classStyle": "Poco",
-      "jsonLibrary": "NewtonsoftJson",
-      "generateDefaultValues": true,
-      "generateDataAnnotations": true,
-      "excludedTypeNames": [],
-      "excludedParameterNames": [],
-      "handleReferences": false,
-      "generateImmutableArrayProperties": false,
-      "generateImmutableDictionaryProperties": false,
-      "jsonSerializerSettingsTransformationMethod": null,
-      "inlineNamedArrays": false,
-      "inlineNamedDictionaries": false,
-      "inlineNamedTuples": true,
-      "inlineNamedAny": false,
-      "generateDtoTypes": false,
-      "generateOptionalPropertiesAsNullable": false,
-      "generateNullableReferenceTypes": false,
-      "templateDirectory": null,
-      "typeNameGeneratorType": null,
-      "propertyNameGeneratorType": null,
-      "enumNameGeneratorType": null,
-      "serviceHost": null,
-      "serviceSchemes": null,
-      "output": "CookBook.Web.BL/GeneratedApiClient.cs",
-      "newLineBehavior": "Auto"
+  "components": {
+    "schemas": {
+      "AnswerListModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/AnswerType"
+          },
+          "text": {
+            "type": "string"
+          },
+          "picture": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "isCorrect": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "AnswerType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Text",
+          "Number",
+          "Picture",
+          "YesNo"
+        ],
+        "enum": [
+          0,
+          1,
+          2,
+          3
+        ]
+      },
+      "AnswerDetailModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/AnswerType"
+          },
+          "text": {
+            "type": "string"
+          },
+          "picture": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "isCorrect": {
+            "type": "boolean"
+          },
+          "questionId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "IdModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "AnswerCreateUpdateModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "type": {
+            "$ref": "#/components/schemas/AnswerType"
+          },
+          "text": {
+            "type": "string"
+          },
+          "picture": {
+            "type": "string",
+            "format": "uri",
+            "nullable": true
+          },
+          "isCorrect": {
+            "type": "boolean"
+          },
+          "questionId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "QuestionListModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "QuestionDetailModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "answers": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/AnswerListModel"
+            }
+          },
+          "quizTemplateId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "QuestionCreateUpdateModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "text": {
+            "type": "string"
+          },
+          "quizTemplateId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "QuizListModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished": {
+            "type": "boolean"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "QuizDetailModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished": {
+            "type": "boolean"
+          },
+          "templateId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "scores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScoreListModel"
+            }
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionListModel"
+            }
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "ScoreListModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "quizId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "QuizCreateUpdateModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "startedAt": {
+            "type": "string",
+            "format": "date-time"
+          },
+          "finished": {
+            "type": "boolean"
+          },
+          "templateId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "QuizTemplateListModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "QuizTemplateDetailModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          },
+          "questions": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/QuestionListModel"
+            }
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "QuizTemplateCreateUpdateModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "title": {
+            "type": "string"
+          }
+        }
+      },
+      "ScoreDetailModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "quizId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "ScoreCreateUpdateModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "score": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "userId": {
+            "type": "string",
+            "format": "guid"
+          },
+          "quizId": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "SearchListModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "page": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalPages": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "totalItems": {
+            "type": "integer",
+            "format": "int32"
+          },
+          "items": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/SearchListItemModel"
+            }
+          }
+        }
+      },
+      "SearchListItemModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "type": {
+            "$ref": "#/components/schemas/SearchEntityType"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "SearchEntityType": {
+        "type": "integer",
+        "description": "",
+        "x-enumNames": [
+          "Question",
+          "Answer",
+          "User"
+        ],
+        "enum": [
+          0,
+          1,
+          2
+        ]
+      },
+      "UserListModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string",
+            "format": "uri"
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "UserDetailModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string",
+            "format": "uri"
+          },
+          "scores": {
+            "type": "array",
+            "items": {
+              "$ref": "#/components/schemas/ScoreListModel"
+            }
+          },
+          "id": {
+            "type": "string",
+            "format": "guid"
+          }
+        }
+      },
+      "UserCreateUpdateModel": {
+        "type": "object",
+        "additionalProperties": false,
+        "properties": {
+          "name": {
+            "type": "string"
+          },
+          "email": {
+            "type": "string"
+          },
+          "photo": {
+            "type": "string",
+            "format": "uri"
+          }
+        }
+      }
     }
   }
 }

@@ -9,11 +9,9 @@ using TaHooK.Common;
 namespace TaHooK.Web.BL.Facades;
 
 public abstract class FacadeBase<TDetailModel,TListModel>
+    where TDetailModel : IWithId
 {
-    protected virtual string apiVersion => "3";
-    protected virtual string culture => CultureInfo.DefaultThreadCurrentCulture?.Name ?? "cs";
-    
-    protected  FacadeBase () {}
+    protected virtual string Culture => CultureInfo.DefaultThreadCurrentCulture?.Name ?? "cs";
 
 
     public virtual List<TListModel> GetAll()

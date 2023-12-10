@@ -1,4 +1,5 @@
 ﻿@page "/fetchdata"
+@using TaHooK.Web.BL.Facades
 @inject HttpClient Http
 
 <PageTitle>Weather forecast</PageTitle>
@@ -41,8 +42,12 @@ else
 @code {
     private WeatherForecast[]? forecasts;
 
+    [Inject] private QuizFacade? Facade { get; set; }
+
     protected override async Task OnInitializedAsync()
     {
+        var res = await Facade.GetAllAsync();
+        Console.WriteLine(res);
         forecasts = await Http.GetFromJsonAsync<WeatherForecast[]>("sample-data/weather.json");
     }
 

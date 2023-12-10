@@ -2,6 +2,7 @@
 using System.Net.Http;
 using TaHooK.Api.BL;
 using Microsoft.Extensions.DependencyInjection;
+using TaHooK.Web.BL.Facades;
 
 namespace TaHooK.Web.BL.Installers;
 
@@ -17,7 +18,7 @@ public class WebBLInstaller
         
         serviceCollection.Scan(selector =>
             selector.FromAssemblyOf<WebBLInstaller>()
-                .AddClasses(classes => classes.AssignableTo<IAppFacade>())
+                .AddClasses(classes => classes.AssignableTo<IWebAppFacade>())
                 .AsSelfWithInterfaces()
                 .WithTransientLifetime());
     }
