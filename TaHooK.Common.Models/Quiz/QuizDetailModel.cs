@@ -12,5 +12,6 @@ public record QuizDetailModel : IWithId
     public required Guid TemplateId { get; set; }
 
     public ICollection<ScoreListModel> Scores { get; set; } = new List<ScoreListModel>();
+    public ICollection<QuestionListModel> Questions { get; set; } = new List<QuestionListModel>();
     public Guid Id { get; set; }
 }

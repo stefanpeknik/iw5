@@ -19,7 +19,7 @@ public static class QuizSeeds
     {
         Id = Guid.Parse("DF6351D3-1093-4FD5-99CB-C050B8E0E531"),
         Title = "Nejbystrejsi student FIT VUT",
-        Finished = true,
+        Finished = false,
         StartedAt = DateTime.Now,
         TemplateId = QuizTemplateSeeds.DefaultQuiz2.Id,
         Template = null!
