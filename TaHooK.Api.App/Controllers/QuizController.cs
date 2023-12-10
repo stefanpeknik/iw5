@@ -27,6 +27,7 @@ public class QuizController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetQuizById", "Returns a quiz based on the GUID on input.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<QuizDetailModel>> GetQuizById(Guid id)
     {
         var result = await _quizFacade.GetByIdAsync(id);
@@ -41,6 +42,8 @@ public class QuizController : ControllerBase
 
     [HttpPost]
     [OpenApiOperation("CreateQuiz", "Creates a new quiz.")]
+    [SwaggerResponse(HttpStatusCode.Created, typeof(IdModel))]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel))]
     public async Task<ActionResult<IdModel>> CreateQuiz(QuizCreateUpdateModel quiz)
     {
         var result = await _quizFacade.CreateAsync(quiz);
@@ -49,6 +52,8 @@ public class QuizController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateQuizById", "Updates an existing quiz.")]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel))]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<IdModel>> UpdateQuizById(QuizCreateUpdateModel quiz, Guid id)
     {
         try
@@ -64,6 +69,7 @@ public class QuizController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteQuiz", "Deletes a quiz based on the input ID.")]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult> DeleteQuiz(Guid id)
     {
         try
