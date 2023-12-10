@@ -6,6 +6,7 @@ public interface ILiveQuizStateRepository
     public IEnumerable<Guid> GetQuizUsers(Guid quizId);
     void AddUserConnection(string connectionId, Guid userId);
     Guid GetUserConnection(string connectionId);
+    string? GetUserConnectionId(Guid userId);
 
     void RemoveUserFromQuiz(Guid quizId, Guid userId);
 
@@ -14,4 +15,6 @@ public interface ILiveQuizStateRepository
     Guid? GetUserQuiz(Guid userId);
 
     QuizState GetQuizState(Guid quizId);
+
+    void AnswerQuestion(Guid quizId, Guid userId, Guid answerId);
 }
