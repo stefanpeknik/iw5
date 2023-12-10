@@ -17,7 +17,7 @@ public class QuizHub: Hub<IQuizClient>
         var httpContext = Context.GetHttpContext();
         var userId = httpContext?.Request.Query["userId"].ToString();
         
-        if (userId != null || userId != Guid.Empty.ToString())
+        if (userId != null && userId != Guid.Empty.ToString())
         {
             _liveQuizManager.AddUserConnection(Context.ConnectionId, Guid.Parse(userId));
         }
@@ -29,6 +29,10 @@ public class QuizHub: Hub<IQuizClient>
     public async Task JoinQuiz(Guid quizId)
     {
         var userId = _liveQuizManager.GetUserConnection(Context.ConnectionId);
+        if (userId == Guid.Empty)
+        {
+            return;
+        }
         await Groups.AddToGroupAsync(Context.ConnectionId, quizId.ToString());
         _liveQuizManager.AddUserToQuiz(quizId, userId);
         
@@ -51,14 +55,20 @@ public class QuizHub: Hub<IQuizClient>
     public override async Task OnDisconnectedAsync(Exception? exception)
     {
         var userId = _liveQuizManager.GetUserConnection(Context.ConnectionId);
-        var quizId = _liveQuizManager.GetUserQuiz(userId);
-        if (quizId != null)
+
+        if (userId != Guid.Empty)
         {
-            _liveQuizManager.RemoveUserFromQuiz(quizId.Value, userId);
-            var quizUsers = _liveQuizManager.GetQuizUsers(quizId.Value);
-            await Clients.Group(quizId.ToString()).UsersInLobby(quizUsers);
+            var quizId = _liveQuizManager.GetUserQuiz(userId);
+            if (quizId != null)
+            {
+                _liveQuizManager.RemoveUserFromQuiz(quizId.Value, userId);
+                var quizUsers = _liveQuizManager.GetQuizUsers(quizId.Value);
+                await Clients.Group(quizId.ToString()).UsersInLobby(quizUsers);
+            }
+
+            _liveQuizManager.RemoveUserConnection(Context.ConnectionId);
         }
-        _liveQuizManager.RemoveUserConnection(Context.ConnectionId);
+
         await base.OnDisconnectedAsync(exception);
     }
     
