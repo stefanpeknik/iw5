@@ -2,33 +2,32 @@
 using Microsoft.AspNetCore.Components.Web;
 using TaHooK.Common.Models.Question;
 using TaHooK.Common.Models.Quiz;
+using TaHooK.Web.BL.Facades;
 
 namespace TaHook.Web.App.Pages.Quiz
 {
     public partial class QuizDetail
     {
         [Parameter]
-        public int? Id { get; set; } //TODO: guids
+        public Guid Id { get; set; }
 
         [Inject] private NavigationManager? Navigation { get; set; }
 
-        public QuizTemplateDetailModel Data = new()
-        {
-            Title = "Placeholder Quiz Template",
-            Id = Guid.NewGuid(),
-            Questions = {new QuestionListModel() {Id = Guid.NewGuid(), Text = "Placeholder question"}}
-        };
+        [Inject] private QuizTemplateFacade? TemplateFacade { get; set; }
+        [Inject] private QuizFacade? Facade { get; set; }
+
+        public QuizTemplateDetailModel? Data { get; set; }
 
         protected override async Task OnInitializedAsync()
         {
-            //await LoadData();
+            Data = await TemplateFacade!.GetByIdAsync(Id);
             await base.OnInitializedAsync();
         }
 
-        protected void OnLobbyCreateButton(MouseEventArgs e)
+        protected async void OnLobbyCreateButton(MouseEventArgs e)
         {
-            //TODO: Create a quiz game from quiz template, get its ID and navigate to the URI based on the ID
-            Navigation!.NavigateTo("/lobby/DF6351D3-1093-4FD5-99CB-C050B8E0E531");
+            var gameId = await Facade!.CreateFromTemplate(Data!);
+            Navigation!.NavigateTo($"/lobby/{gameId}");
         }
 
         protected void OnEditQuizTemplate(MouseEventArgs e)

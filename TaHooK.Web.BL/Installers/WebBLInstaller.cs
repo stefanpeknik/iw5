@@ -12,7 +12,13 @@ public class WebBLInstaller
             var client = CreateApiHttpClient(provider, apiBaseUrl);
             return new QuizApiClient(client, apiBaseUrl);
         });
-        
+
+        serviceCollection.AddTransient<IQuizTemplateApiClient, QuizTemplateApiClient>(provider =>
+        {
+            var client = CreateApiHttpClient(provider, apiBaseUrl);
+            return new QuizTemplateApiClient(client, apiBaseUrl);
+        });
+
         serviceCollection.Scan(selector =>
             selector.FromAssemblyOf<WebBLInstaller>()
                 .AddClasses(classes => classes.AssignableTo<IWebAppFacade>())
