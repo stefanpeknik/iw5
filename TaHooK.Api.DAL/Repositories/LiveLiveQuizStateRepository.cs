@@ -50,6 +50,10 @@ public class LiveLiveQuizStateRepository: ILiveQuizStateRepository
     
     public Guid GetUserConnection(string connectionId)
     {
+        if (_liveQuizStates.UserConnections.ContainsKey(connectionId) is false)
+        {
+            return Guid.Empty;
+        }
         return _liveQuizStates.UserConnections[connectionId];
     }
     
