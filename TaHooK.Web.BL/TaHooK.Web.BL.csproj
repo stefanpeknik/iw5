@@ -8,13 +8,11 @@
 
     <ItemGroup>
       <PackageReference Include="Newtonsoft.Json" Version="13.0.3" />
+      <PackageReference Include="Scrutor" Version="4.2.2" />
     </ItemGroup>
 
     <ItemGroup>
-      <ProjectReference Include="..\TaHooK.Api.BL\TaHooK.Api.BL.csproj" />
-      <ProjectReference Include="..\TaHooK.Common.BL\TaHooK.Common.BL.csproj" />
       <ProjectReference Include="..\TaHooK.Common.Models\TaHooK.Common.Models.csproj" />
-      <ProjectReference Include="..\TaHooK.Common\TaHooK.Common.csproj" />
     </ItemGroup>
 
 </Project>

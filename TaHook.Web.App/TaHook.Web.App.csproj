@@ -9,7 +9,6 @@
 
 
     <ItemGroup>
-      <ProjectReference Include="..\TaHooK.Web.BL\TaHooK.Web.BL.csproj" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly" Version="7.0.3" />
         <PackageReference Include="Microsoft.AspNetCore.Components.WebAssembly.DevServer" Version="7.0.3" PrivateAssets="all" />
         <PackageReference Include="Microsoft.AspNetCore.SignalR.Client" Version="7.0.3" />
@@ -17,6 +16,7 @@
 
     <ItemGroup>
       <ProjectReference Include="..\TaHooK.Common.Models\TaHooK.Common.Models.csproj" />
+      <ProjectReference Include="..\TaHooK.Web.BL\TaHooK.Web.BL.csproj" />
     </ItemGroup>
   
   <Target Name="NpxTailwindBuild" BeforeTargets="BeforeBuild">

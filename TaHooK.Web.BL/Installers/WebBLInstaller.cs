@@ -1,7 +1,4 @@
-﻿using System;
-using System.Net.Http;
-using TaHooK.Api.BL;
-using Microsoft.Extensions.DependencyInjection;
+﻿using Microsoft.Extensions.DependencyInjection;
 using TaHooK.Web.BL.Facades;
 
 namespace TaHooK.Web.BL.Installers;
