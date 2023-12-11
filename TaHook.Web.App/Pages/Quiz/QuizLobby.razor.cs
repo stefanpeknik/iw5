@@ -4,7 +4,9 @@ using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.SignalR.Client;
 using TaHooK.Common.Models.Answer;
 using TaHooK.Common.Models.Question;
+using TaHooK.Common.Models.Quiz;
 using TaHooK.Common.Models.User;
+using TaHooK.Web.BL.Facades;
 
 
 namespace TaHook.Web.App.Pages.Quiz
@@ -12,13 +14,15 @@ namespace TaHook.Web.App.Pages.Quiz
     public partial class QuizLobby : IAsyncDisposable
     {
         [Parameter]
-        public Guid? Id { get; set; }
+        public Guid Id { get; set; }
 
         public Guid User { get; set; } = Guid.Parse("A7F6F50A-3B1A-4065-8274-62EDD210CD1A"); // TODO: temp hardcoded
 
+        public QuizDetailModel? QuizModel { get; set; }
         public QuestionDetailModel? Question { get; set; }
         public List<UserListModel> Users { get; set; } = new ();
 
+        [Inject] private QuizFacade? Facade { get; set; }
         [Inject] private NavigationManager? Navigation { get; set; }
         private HubConnection? _hubConnection;
         private bool _quizStarted = false;
@@ -34,6 +38,8 @@ namespace TaHook.Web.App.Pages.Quiz
 
         protected override async Task OnInitializedAsync()
         {
+            QuizModel = await Facade!.GetByIdAsync(Id);
+
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl($"https://localhost:7273/quizhub?userId={User}")
                 .Build();

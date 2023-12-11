@@ -1,6 +1,10 @@
 ﻿@namespace TaHook.Web.App
 
 <button @onclick="@OnClickEvent" class="@ButtonClasses">
+    @if (Icon is not null)
+    {
+        <i class="@Icon"></i>
+    }
     @Text
 </button>
 
@@ -14,6 +18,9 @@
     // 0 - normal, 1 - success, 2 - warning, 3 - danger
     [Parameter]
     public int Variant { get; set; } = 0;
+
+    [Parameter]
+    public string? Icon { get; set; }
 
     private string ButtonClasses
     {

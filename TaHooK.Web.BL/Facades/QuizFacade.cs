@@ -23,11 +23,16 @@ public class QuizFacade : IWebAppFacade
         return (await _apiClient.QuizzesGetAsync()).ToList();
     }
 
+    public async Task<QuizDetailModel> GetByIdAsync(Guid id)
+    {
+        return await _apiClient.QuizzesGetAsync(id);
+    }
+
     public async Task<IdModel> CreateFromTemplate(QuizTemplateDetailModel template)
     {
         var model = new QuizCreateUpdateModel
         {
-            Finished = false, StartedAt = DateTime.MinValue, TemplateId = template.Id, Title = template.Title
+            Finished = false, StartedAt = DateTime.Now, TemplateId = template.Id, Title = template.Title
         };
         
         return await _apiClient.QuizzesPostAsync(model);

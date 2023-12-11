@@ -1,0 +1,22 @@
+﻿@page "/games"
+@inherits PageBase
+
+<div class="flex flex-col items-center h-screen w-full items-stretch">
+    <h1 class="font-bold text-3xl text-center my-10">Active Quiz Games</h1>
+
+    @if (QuizGames is not null)
+    {
+        <div class="mx-[10%] grow flex flex-col gap-5 overflow-y-auto mb-5 p-5 border-y">
+            @foreach (var quizGame in QuizGames)
+            {
+                <div class="border rounded shadow-lg flex flex-row justify-between px-10 py-5">
+                    <div>
+                        <h3 class="font-semibold">@quizGame.Title</h3>
+                        <p>Started at: <time>@quizGame.StartedAt</time></p>
+                    </div>
+                    <Button OnClickEvent="() => OnJoinQuiz(quizGame.Id)" Text="Join Quiz"></Button>
+                </div>
+            }
+        </div>
+    }
+</div>

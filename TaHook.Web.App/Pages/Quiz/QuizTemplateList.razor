@@ -1,0 +1,38 @@
+﻿@page "/templates"
+@inherits PageBase
+
+<div class="flex flex-col items-center h-screen w-full items-stretch">
+    <h1 class="font-bold text-3xl text-center my-10">Quiz Templates</h1>
+
+    @if (QuizTemplates is not null)
+    {
+        <div class="mx-[10%] grow flex flex-col gap-5 overflow-y-auto mb-5 p-5 border-y">
+            @foreach (var quizTemplate in QuizTemplates)
+            {
+                <div class="border rounded shadow-lg flex flex-row justify-between items-center px-10 py-5">
+                    <h3 class="font-semibold">@quizTemplate.Title</h3>
+                    <div>
+                        @* TODO: if creator *@
+                        <Button OnClickEvent="() => OnDeleteTemplate(quizTemplate.Id)" Variant="3" Icon="fa fa-trash-can"></Button>
+                        <Button OnClickEvent="() => OnEditTemplate(quizTemplate.Id)" Variant="2" Icon="fa fa-pen"></Button>
+                        @* ------- *@
+                        <Button OnClickEvent="() => OnShowDetail(quizTemplate.Id)" Icon="fa fa-circle-info"></Button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>
+
+@if (_showDeleteModal)
+{
+    <div class="h-screen w-screen bg-gray-500/50 absolute top-0 left-0 z-10 flex items-center">
+        <div class="mx-auto w-[20%] bg-offWhite p-5 rounded-lg border-b-4 flex flex-col">
+            <h3 class="text-center font-bold">Do you really want to delete the template?</h3>
+            <div class="mt-10 flex justify-around">
+                <Button OnClickEvent="DeleteConfirm" Text="Yes" Variant="3"></Button>
+                <Button OnClickEvent="DeleteCancel" Text="No"></Button>
+            </div>
+        </div>
+    </div>
+}
