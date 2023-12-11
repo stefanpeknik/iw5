@@ -51,6 +51,14 @@ public class TaHooKDbContext : DbContext
             entity.HasMany(i => i.Scores)
                 .WithOne(i => i.User)
                 .OnDelete(DeleteBehavior.Cascade);
+
+            entity.HasMany(i => i.Quizes)
+                .WithOne(i => i.Creator)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasMany(i => i.QuizTemplates)
+                .WithOne(i => i.Creator)
+                .OnDelete(DeleteBehavior.SetNull);
         });
     }
     

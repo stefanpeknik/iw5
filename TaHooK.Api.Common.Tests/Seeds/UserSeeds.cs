@@ -27,9 +27,9 @@ public static class UserSeeds
     public static void Seed(this ModelBuilder modelBuilder)
     {
         modelBuilder.Entity<UserEntity>().HasData(
-            DefaultUser with { Scores = Array.Empty<ScoreEntity>() },
-            UserToDelete with { Scores = Array.Empty<ScoreEntity>() },
-            UserToUpdate with { Scores = Array.Empty<ScoreEntity>() }
+            DefaultUser with { Scores = Array.Empty<ScoreEntity>(), Quizes = new List<QuizEntity>(), QuizTemplates = new List<QuizTemplateEntity>()},
+            UserToDelete with { Scores = Array.Empty<ScoreEntity>(), Quizes = new List<QuizEntity>(), QuizTemplates = new List<QuizTemplateEntity>()},
+            UserToUpdate with { Scores = Array.Empty<ScoreEntity>(), Quizes = new List<QuizEntity>(), QuizTemplates = new List<QuizTemplateEntity>()}
         );
     }
 }

@@ -1,4 +1,9 @@
-﻿<div class="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-navBlue">
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+
+<div class="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-navBlue">
     <div class="text-gray-100 text-xl">
         <div class="p-2.5 mt-1">
             <h1 class="font-bold text-center text-gray-200 text-[15px]">TaHoooK!</h1>
@@ -10,4 +15,22 @@
     <NavButton href="/games" Title="Join Quiz" />
     <NavButton href="/templates" Title="Start Quiz" />
     <NavButton href="quiz/ABA1F111-E4CA-47BB-803C-4D6F12EBF526" Title="TEMP: Quiz" />
+    @if (_isUserAuthenticated)
+    {
+        <LogoutButton />
+    }
+    else
+    {
+        <NavButton href="authentication/login" Title="Log In" />
+    }
 </div>
+
+@code {
+    private bool _isUserAuthenticated;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _isUserAuthenticated = authState.User.Identity.IsAuthenticated;
+    }
+}

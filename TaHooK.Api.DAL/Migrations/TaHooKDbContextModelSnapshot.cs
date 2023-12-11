@@ -77,6 +77,9 @@ namespace TaHooK.Api.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<bool>("Finished")
                         .HasColumnType("bit");
 
@@ -92,6 +95,8 @@ namespace TaHooK.Api.DAL.Migrations
 
                     b.HasKey("Id");
 
+                    b.HasIndex("CreatorId");
+
                     b.HasIndex("TemplateId");
 
                     b.ToTable("Quizes");
@@ -103,11 +108,16 @@ namespace TaHooK.Api.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
+                    b.Property<Guid>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
 
                     b.ToTable("QuizTemplates");
                 });
@@ -183,13 +193,32 @@ namespace TaHooK.Api.DAL.Migrations
 
             modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizEntity", b =>
                 {
+                    b.HasOne("TaHooK.Api.DAL.Entities.UserEntity", "Creator")
+                        .WithMany("Quizes")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
                     b.HasOne("TaHooK.Api.DAL.Entities.QuizTemplateEntity", "Template")
                         .WithMany()
                         .HasForeignKey("TemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
+                    b.Navigation("Creator");
+
                     b.Navigation("Template");
+                });
+
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizTemplateEntity", b =>
+                {
+                    b.HasOne("TaHooK.Api.DAL.Entities.UserEntity", "Creator")
+                        .WithMany("QuizTemplates")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.SetNull)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
                 });
 
             modelBuilder.Entity("TaHooK.Api.DAL.Entities.ScoreEntity", b =>
@@ -228,6 +257,10 @@ namespace TaHooK.Api.DAL.Migrations
 
             modelBuilder.Entity("TaHooK.Api.DAL.Entities.UserEntity", b =>
                 {
+                    b.Navigation("QuizTemplates");
+
+                    b.Navigation("Quizes");
+
                     b.Navigation("Scores");
                 });
 #pragma warning restore 612, 618
