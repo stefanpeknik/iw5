@@ -111,6 +111,8 @@ namespace TaHook.Web.App.Pages.Quiz
                 await _hubConnection.SendAsync("GetNextQuestion", Id);
             }
         }
+        
+        #region Chart ---
 
         private PieChart? _pieChart = default;
         private PieChartOptions _pieChartOptions = default!;
@@ -159,5 +161,6 @@ namespace TaHook.Web.App.Pages.Quiz
             }
             await base.OnAfterRenderAsync(firstRender);
         }
+#endregion
     }
 }

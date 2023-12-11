@@ -18,7 +18,7 @@ namespace TaHook.Web.App.Pages.Quiz
 
         protected override async Task OnInitializedAsync()
         {
-            QuizGames = await Facade!.GetAllAsync();
+            QuizGames = (await Facade!.GetAllAsync()).OrderByDescending(o => o.StartedAt).ToList();
             await base.OnInitializedAsync();
         }
 

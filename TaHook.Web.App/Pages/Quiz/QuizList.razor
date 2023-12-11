@@ -9,13 +9,16 @@
         <div class="mx-[10%] grow flex flex-col gap-5 overflow-y-auto mb-5 p-5 border-y">
             @foreach (var quizGame in QuizGames)
             {
-                <div class="border rounded shadow-lg flex flex-row justify-between px-10 py-5">
-                    <div>
-                        <h3 class="font-semibold">@quizGame.Title</h3>
-                        <p>Started at: <time>@quizGame.StartedAt</time></p>
+                @if (quizGame.Finished is false)
+                {
+                    <div class="border rounded shadow-lg flex flex-row justify-between px-10 py-5">
+                        <div>
+                            <h3 class="font-semibold">@quizGame.Title</h3>
+                            <p>Started at: <time>@quizGame.StartedAt</time></p>
+                        </div>
+                        <Button OnClickEvent="() => OnJoinQuiz(quizGame.Id)" Text="Join Quiz"></Button>
                     </div>
-                    <Button OnClickEvent="() => OnJoinQuiz(quizGame.Id)" Text="Join Quiz"></Button>
-                </div>
+                }
             }
         </div>
     }
