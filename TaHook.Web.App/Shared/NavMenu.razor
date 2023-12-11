@@ -1,7 +1,7 @@
 ﻿@using Microsoft.AspNetCore.Components.Authorization
 @using Microsoft.AspNetCore.Components.WebAssembly.Authentication
 @inject AuthenticationStateProvider AuthenticationStateProvider
-@inject NavigationManager Navigation
+
 
 <div class="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-navBlue">
     <div class="text-gray-100 text-xl">
@@ -15,12 +15,11 @@
     <NavButton href="quiz/ABA1F111-E4CA-47BB-803C-4D6F12EBF526" Title="TEMP: Quiz" />
     @if (_isUserAuthenticated)
     {
-        <button class="nav-link btn btn-link" @onclick="BeginLogOut">Log out</button>
+        <LogoutButton />
     }
     else
     {
         <NavButton href="authentication/login" Title="Log In" />
-        <NavButton href="authentication/register" Title="Register" />
     }
 </div>
 
@@ -31,10 +30,5 @@
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _isUserAuthenticated = authState.User.Identity.IsAuthenticated;
-    }
-    
-    private void BeginLogOut()
-    {
-        Navigation.NavigateToLogout("authentication/logout");
     }
 }
