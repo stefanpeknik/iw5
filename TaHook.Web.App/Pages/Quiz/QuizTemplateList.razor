@@ -1,0 +1,25 @@
+﻿@page "/templates"
+@inherits PageBase
+
+<div class="flex flex-col items-center h-screen w-full items-stretch">
+    <h1 class="font-bold text-3xl text-center my-10">Quiz Templates</h1>
+
+    @if (QuizTemplates is not null)
+    {
+        <div class="mx-[10%] flex flex-col gap-5 overflow-y-scroll mb-5 p-5 border-y">
+            @foreach (var quizTemplate in QuizTemplates)
+            {
+                <div class="border rounded shadow-lg flex flex-row justify-between items-center px-10 py-5">
+                    <h3 class="font-semibold">@quizTemplate.Title</h3>
+                    <div>
+                        @* TODO: if creator *@
+                        <Button OnClickEvent="() => OnShowDetail(quizTemplate.Id)" Variant="3" Icon="fa fa-trash-can"></Button>
+                        <Button OnClickEvent="() => OnShowDetail(quizTemplate.Id)" Variant="2" Icon="fa fa-pen"></Button>
+                        @* ------- *@
+                        <Button OnClickEvent="() => OnShowDetail(quizTemplate.Id)" Icon="fa fa-circle-info"></Button>
+                    </div>
+                </div>
+            }
+        </div>
+    }
+</div>

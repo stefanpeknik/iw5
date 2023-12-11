@@ -10,15 +10,15 @@
 </div>
 @* ---------- *@
 
-@if (_quizStarted is false)
+@if (_quizStarted is false && QuizModel is not null)
 {
-    <div class="flex flex-col justify-between items-center h-screen">
-        <h1 class="text-center text-3xl font-bold m-5">Welcome to the lobby</h1>
+    <div class="flex flex-col justify-between items-center h-screen w-full">
+        <h1 class="text-center text-3xl font-bold m-5">@QuizModel.Title lobby</h1>
         <Button Text="Start Quiz" OnClickEvent="@OnStartQuizButton" Variant="1"></Button>
-        <div class="flex flex-row justify-around w-full basis-2/3">
+        <div class="flex flex-row flex-wrap justify-around mx-[10%] basis-2/3">
             @foreach (var user in @Users)
             {
-                <div>
+                <div class="mx-5">
                     <img src="@user.Photo" class="rounded-full w-[100px] h-[100px] border border-navBlue" />
                     <p class="text-center font-semibold mt-2">@user.Name</p>
                 </div>
