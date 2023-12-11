@@ -12,5 +12,7 @@ public interface IQuizClient
     
     Task AnswerDistribution(List<AnswerDistributionModel> question);
     
-    Task QuizResults(List<ScoreListModel> results);
+    Task QuestionResult(QuestionResult result);
+
+    Task QuizResult(List<ScoreListModel> result);
 }

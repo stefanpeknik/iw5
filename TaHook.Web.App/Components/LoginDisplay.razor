@@ -1,0 +1,12 @@
+@using Microsoft.AspNetCore.Components.Authorization
+
+@namespace TaHook.Web.App
+
+<AuthorizeView>
+    <Authorized>
+        <NavButton href="authentication/logout" Title="Log Out"></NavButton>
+    </Authorized>
+    <NotAuthorized>
+        <NavButton href="authentication/login" Title="Log In"></NavButton>
+    </NotAuthorized>
+</AuthorizeView>

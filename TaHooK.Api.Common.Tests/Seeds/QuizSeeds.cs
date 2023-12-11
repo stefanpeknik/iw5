@@ -12,7 +12,9 @@ public static class QuizSeeds
         Finished = true,
         StartedAt = DateTime.Now,
         TemplateId = QuizTemplateSeeds.DefaultQuiz.Id,
-        Template = null!
+        Template = null!,
+        CreatorId = UserSeeds.DefaultUser.Id,
+        Creator = null!
     };
 
     public static void Seed(this ModelBuilder modelBuilder)

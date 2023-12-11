@@ -11,6 +11,10 @@ public record QuizEntity : EntityBase
     public required DateTime StartedAt { get; set; }
     public required bool Finished { get; set; }
     public ICollection<ScoreEntity> Scores { get; set; } = new List<ScoreEntity>();
+    
+    public Guid? CreatorId { get; set; }
+    
+    public UserEntity? Creator { get; set; }
 
 
     public class QuizEntityMapperProfile : Profile

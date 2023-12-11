@@ -61,7 +61,7 @@ public abstract class
         return entity == null ? null : Mapper.Map<TDetailModel>(entity);
     }
 
-    public async Task<IdModel> CreateAsync(TCreateUpdateModel model)
+    public virtual async Task<IdModel> CreateAsync(TCreateUpdateModel model)
     {
         var entity = Mapper.Map<TEntity>(model);
 
@@ -77,7 +77,7 @@ public abstract class
         return result;
     }
 
-    public async Task<IdModel> UpdateAsync(TCreateUpdateModel model, Guid id)
+    public virtual async Task<IdModel> UpdateAsync(TCreateUpdateModel model, Guid id)
     {
         var entity = Mapper.Map<TEntity>(model);
 
@@ -90,6 +90,29 @@ public abstract class
         await uow.CommitAsync();
 
         var result = Mapper.Map<IdModel>(updatedEntity);
+        return result;
+    }
+    
+    public virtual async Task<IdModel> CreateOrUpdateAsync(TCreateUpdateModel model, Guid id)
+    {
+        var entity = Mapper.Map<TEntity>(model);
+
+        await using var uow = UnitOfWorkFactory.Create();
+        var repository = uow.GetRepository<TEntity>();
+
+        entity.Id = id;
+        IdModel result;
+        if (await repository.ExistsAsync(id))
+        {
+            result = Mapper.Map<IdModel>(await repository.UpdateAsync(entity));
+        }
+        else
+        {
+            result = Mapper.Map<IdModel>(await repository.InsertAsync(entity));
+        }
+
+        await uow.CommitAsync();
+
         return result;
     }
 

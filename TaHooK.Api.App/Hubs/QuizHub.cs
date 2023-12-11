@@ -1,5 +1,6 @@
 using Microsoft.AspNetCore.SignalR;
 using TaHooK.Api.BL.Facades.Interfaces;
+using TaHooK.Common.Models.Question;
 
 namespace TaHooK.Api.App.Hubs;
 
@@ -82,10 +83,11 @@ public class QuizHub: Hub<IQuizClient>
         }
     }
     
-    public async Task GetResults(Guid quizId)
+    public async Task QuizFinished(Guid quizId)
     {
+        await _liveQuizManager.FinishQuiz(quizId);
         var results = await _liveQuizManager.CalculateResult(quizId);
-        await Clients.Client(Context.ConnectionId).QuizResults(results);
+        await Clients.Group(quizId.ToString()).QuizResult(results);
     }
     
     public async Task GetNextQuestion(Guid quizId)
@@ -109,10 +111,6 @@ public class QuizHub: Hub<IQuizClient>
         {
             await Clients.Group(quizId.ToString()).NextQuestion(question);
         }
-        else
-        {
-            await Clients.Client(Context.ConnectionId).NextQuestion(null);
-        }
     }
 
     public async Task AnswerQuestion(Guid quizId, Guid answerId)
@@ -122,8 +120,21 @@ public class QuizHub: Hub<IQuizClient>
         await Groups.AddToGroupAsync(Context.ConnectionId, answeredGroup);
         _liveQuizManager.AnswerQuestion(quizId, userId, answerId);
         
+        var allUsersAnswered = _liveQuizManager.AllUsersAnswered(quizId);
         var answerDistribution = await _liveQuizManager.GetAnswerDistribution(quizId);
-        
-        await Clients.Group(answeredGroup).AnswerDistribution(answerDistribution);
+        if (!allUsersAnswered)
+        {
+            await Clients.Group(answeredGroup).AnswerDistribution(answerDistribution);
+        }
+        else
+        {
+            var results = await _liveQuizManager.CalculateResult(quizId);
+            var questionResult = new QuestionResult
+            {
+                Results = results,
+                AnswerDistribution = answerDistribution
+            };
+            await Clients.Client(Context.ConnectionId).QuestionResult(questionResult);
+        }
     }
 }
