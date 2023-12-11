@@ -8,7 +8,9 @@ public static class QuizTemplateSeeds
     public static readonly QuizTemplateEntity DefaultQuiz = new()
     {
         Id = Guid.Parse("EF2E391C-EA09-490B-9935-BBC7E7099A42"),
-        Title = "Fun Trivia"
+        Title = "Fun Trivia",
+        CreatorId = UserSeeds.DefaultUser.Id,
+        Creator = null!
     };
 
     public static readonly QuizTemplateEntity QuizToDelete = DefaultQuiz with

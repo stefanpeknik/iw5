@@ -1,5 +1,6 @@
 using AutoMapper;
 using FluentValidation.AspNetCore;
+using Microsoft.AspNetCore.Authentication.JwtBearer;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.IdentityModel.Tokens;
 using Serilog;
@@ -21,7 +22,7 @@ ConfigureCors(builder.Services);
 // Add services to the container.
 ConfigureDependencies(builder.Services, builder.Configuration);
 ConfigureAutoMapper(builder.Services);
-
+ConfigureAuthentication(builder.Services, builder.Configuration.GetValue<string>("IdentityServerUrl")!);
 
 var logger = new LoggerConfiguration()
     .ReadFrom.Configuration(builder.Configuration)
@@ -60,6 +61,10 @@ else
 
 
 app.UseHttpsRedirection();
+
+app.UseRouting();
+
+app.UseAuthentication();
 
 app.UseAuthorization();
 
@@ -108,6 +113,19 @@ void ConfigureDependencies(IServiceCollection serviceCollection, IConfiguration 
     }
 
     serviceCollection.AddInstaller<BlInstaller>();
+}
+
+void ConfigureAuthentication(IServiceCollection serviceCollection, string identityServerUrl)
+{
+    serviceCollection.AddAuthentication(JwtBearerDefaults.AuthenticationScheme)
+        .AddJwtBearer(options =>
+        {
+            options.Authority = identityServerUrl;
+            options.TokenValidationParameters.ValidateAudience = false;
+        });
+
+    serviceCollection.AddAuthorization();
+    serviceCollection.AddHttpContextAccessor();
 }
 
 void ConfigureAutoMapper(IServiceCollection serviceCollection)

@@ -6,4 +6,6 @@ public record QuizCreateUpdateModel
     public required DateTime StartedAt { get; set; }
     public required bool Finished { get; set; }
     public required Guid TemplateId { get; set; }
+    
+    public Guid? CreatorId { get; set; }
 }

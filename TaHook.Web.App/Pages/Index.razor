@@ -1,4 +1,10 @@
 ﻿@page "/"
+@using System.Security.Claims
+@using Microsoft.AspNetCore.Components.Authorization
+@using TaHooK.Common.Models.User
+@using TaHooK.Web.BL.Facades
+@inject AuthenticationStateProvider AuthenticationStateProvider
+@inject IUserApiClient UserApiClient
 
 <PageTitle>Index</PageTitle>
 
@@ -7,3 +13,47 @@
 Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?"/>
+
+
+<h3>User Information</h3>
+@if (user != null)
+{
+    @foreach(var claim in user.Claims)
+    {
+        <p>@claim.Type: @claim.Value</p>
+    }    
+}
+
+
+<button onclick="@Call">try to create user</button>
+
+<div>
+    <p>ID: @idreturned</p>
+</div>
+
+@code {
+    private ClaimsPrincipal? user;
+
+    private string idreturned = "";
+    
+    private async void Call()
+    {
+        if (user == null) return;
+        
+        var u = new UserCreateUpdateModel
+        {
+            
+            Email = user.Claims.First(c => c.Type.ToLower() == "email").Value,
+            Name = user.Claims.First(c => c.Type.ToLower() == "displayname").Value,
+            Photo = new Uri("https://media.istockphoto.com/id/1337144146/cs/vektor/v%C3%BDchoz%C3%AD-vektor-ikony-profilu-avatara.jpg?s=2048x2048&w=is&k=20&c=diCfuahjWHOGGfMly2iM-q4VgkHl35O9HLu7J6Qr01M=")
+        };
+        var x = await UserApiClient.UsersPostAsync(u);
+        idreturned = x.Id.ToString();
+    }
+    
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        user = authState.User;
+    }
+}

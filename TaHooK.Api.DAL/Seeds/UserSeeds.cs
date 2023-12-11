@@ -28,8 +28,8 @@ public static class UserSeeds
         {
             var users = new List<UserEntity>()
             {
-                DefaultUser with { Scores = new List<ScoreEntity>() },
-                DefaultUser2 with { Scores = new List<ScoreEntity>() }
+                DefaultUser with { Scores = new List<ScoreEntity>(), Quizes = new List<QuizEntity>(), QuizTemplates = new List<QuizTemplateEntity>()},
+                DefaultUser2 with { Scores = new List<ScoreEntity>(), Quizes = new List<QuizEntity>(), QuizTemplates = new List<QuizTemplateEntity>()}
             };
             
             dbContext.Users.AddRange(users);

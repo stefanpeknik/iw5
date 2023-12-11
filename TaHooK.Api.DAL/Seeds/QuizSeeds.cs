@@ -12,17 +12,21 @@ public static class QuizSeeds
         Finished = true,
         StartedAt = DateTime.Now,
         TemplateId = QuizTemplateSeeds.DefaultQuiz.Id,
-        Template = null!
+        Template = null!,
+        CreatorId = UserSeeds.DefaultUser.Id,
+        Creator = null!
     };
 
     public static readonly QuizEntity DefaultQuiz2 = new()
     {
         Id = Guid.Parse("DF6351D3-1093-4FD5-99CB-C050B8E0E531"),
         Title = "Nejbystrejsi student FIT VUT",
-        Finished = false,
+        Finished = true,
         StartedAt = DateTime.Now,
         TemplateId = QuizTemplateSeeds.DefaultQuiz2.Id,
-        Template = null!
+        Template = null!,
+        CreatorId = UserSeeds.DefaultUser.Id,
+        Creator = null!
     };
 
     public static void Seed(this TaHooKDbContext dbContext)

@@ -1,0 +1,11 @@
+﻿namespace TaHooK.IdentityProvider.BL.Models.AppUser;
+
+public class AppUserCreateModel
+{
+    public required string UserName { get; set; }
+    public required string Password { get; set; }
+    public required string Subject { get; set; }
+    public required string Email { get; set; }
+    
+    public string DisplayName { get; set; }
+}
