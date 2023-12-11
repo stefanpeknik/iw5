@@ -556,12 +556,20 @@ video {
   left: 0px !important;
 }
 
+.right-0 {
+  right: 0px !important;
+}
+
 .top-0 {
   top: 0px !important;
 }
 
 .z-10 {
   z-index: 10 !important;
+}
+
+.m-10 {
+  margin: 2.5rem !important;
 }
 
 .m-5 {
@@ -621,6 +629,10 @@ video {
 
 .me-2 {
   margin-inline-end: 0.5rem !important;
+}
+
+.mr-10 {
+  margin-right: 2.5rem !important;
 }
 
 .mt-1 {
@@ -909,6 +921,11 @@ video {
 
 .font-nunito {
   font-family: Nunito Sans, sans-serif !important;
+}
+
+.text-2xl {
+  font-size: 1.5rem !important;
+  line-height: 2rem !important;
 }
 
 .text-3xl {

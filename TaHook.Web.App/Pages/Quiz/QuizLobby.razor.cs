@@ -25,13 +25,23 @@ namespace TaHook.Web.App.Pages.Quiz
         public List<UserListModel> Users { get; set; } = new ();
         public List<AnswerDistributionModel> Distribution { get; set; } = new();
 
+        private int _currentQuestion = 0;
+        private int _questionCount;
 
         [Inject] private QuizFacade? Facade { get; set; }
         [Inject] private NavigationManager? Navigation { get; set; }
         private HubConnection? _hubConnection;
-        private bool _quizStarted = false;
-        private bool _quizFinished = false;
-        private bool _answered = false;
+
+        private QuizState _state = QuizState.Lobby;
+
+        private enum QuizState
+        {
+            Lobby,
+            Question,
+            QuestionAnswered,
+            QuestionResult,
+            QuizResult
+        }
 
         public async ValueTask DisposeAsync()
         {
@@ -44,12 +54,12 @@ namespace TaHook.Web.App.Pages.Quiz
         protected override async Task OnInitializedAsync()
         {
             QuizModel = await Facade!.GetByIdAsync(Id);
+            _questionCount = QuizModel.Questions.Count;
 
             _hubConnection = new HubConnectionBuilder()
                 .WithUrl($"https://localhost:7273/quizhub?userId={User}")
                 .Build();
 
-            //TODO: Events for next question, quiz start, etc..
             _hubConnection.On("NextQuestion", (QuestionDetailModel? question) => OnNextQuestion(question));
             _hubConnection.On("UsersInLobby", (IEnumerable<UserListModel> users) => OnUsersUpdate(users));
             _hubConnection.On("AnswerDistribution",
@@ -63,12 +73,13 @@ namespace TaHook.Web.App.Pages.Quiz
         }
         protected void OnNextQuestion(QuestionDetailModel? question)
         {
-            _quizStarted = true;
-            if (question is null)
+            _state = QuizState.Question;
+            if (_currentQuestion == _questionCount)
             {
-                _quizFinished = true;
+                _state = QuizState.QuizResult;
             }
-            _answered = false;
+
+            _currentQuestion++;
             Question = question;
             InvokeAsync(StateHasChanged);
         }
@@ -81,7 +92,7 @@ namespace TaHook.Web.App.Pages.Quiz
 
         protected void OnAnswerDistribution(List<AnswerDistributionModel> answerDistribution)
         {
-            Console.WriteLine("received distribution");
+            _state = QuizState.QuestionAnswered;
             Distribution = answerDistribution;
             UpdateChart();
             InvokeAsync(StateHasChanged);
@@ -92,7 +103,6 @@ namespace TaHook.Web.App.Pages.Quiz
             if (_hubConnection is not null)
             {
                 await _hubConnection.SendAsync("StartQuiz", Id);
-                _quizStarted = true;
             }
         }
 
@@ -101,7 +111,6 @@ namespace TaHook.Web.App.Pages.Quiz
             if (_hubConnection is not null)
             {
                 await _hubConnection.SendAsync("AnswerQuestion", Id, answer.Id);
-                _answered = true;
             }
         }
         protected async void OnGetNextQuestionButton()
@@ -111,8 +120,6 @@ namespace TaHook.Web.App.Pages.Quiz
                 await _hubConnection.SendAsync("GetNextQuestion", Id);
             }
         }
-        
-        #region Chart ---
 
         private PieChart? _pieChart = default;
         private PieChartOptions _pieChartOptions = default!;
@@ -150,17 +157,20 @@ namespace TaHook.Web.App.Pages.Quiz
             {
                 Responsive = true
             };
-            await _pieChart!.UpdateAsync(_chartData, _pieChartOptions);
+
+            if (_pieChart is not null)
+            {
+                await _pieChart.UpdateAsync(_chartData, _pieChartOptions);
+            }
         }
 
         protected override async Task OnAfterRenderAsync(bool firstRender)
         {
-            if (_pieChart is not null && firstRender)
+            if (_pieChart is not null)
             {
                 await _pieChart.InitializeAsync(_chartData, _pieChartOptions);
             }
             await base.OnAfterRenderAsync(firstRender);
         }
-#endregion
     }
 }
