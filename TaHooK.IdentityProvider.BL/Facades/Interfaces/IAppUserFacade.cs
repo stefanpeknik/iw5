@@ -1,8 +1,8 @@
 ﻿using TaHooK.Common.BL.Facades;
-using TaHooK.IdentityProvider.BL.Models;
+using TaHooK.IdentityProvider.BL.Models.AppUser;
 using TaHooK.IdentityProvider.DAL.Entities;
 
-namespace TaHooK.IdentityProvider.BL.Facades;
+namespace TaHooK.IdentityProvider.BL.Facades.Interfaces;
 
 public interface IAppUserFacade : IAppFacade
 {

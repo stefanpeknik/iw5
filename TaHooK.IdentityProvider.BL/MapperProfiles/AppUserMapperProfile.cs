@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using TaHooK.Common.Extensions;
 using TaHooK.IdentityProvider.BL.Models;
+using TaHooK.IdentityProvider.BL.Models.AppUser;
 using TaHooK.IdentityProvider.DAL.Entities;
 
 namespace TaHooK.IdentityProvider.BL.MapperProfiles;

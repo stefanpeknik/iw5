@@ -3,7 +3,7 @@
 
 using Duende.IdentityServer.Models;
 
-namespace TaHooK.IdentityProvider.App.Pages.Error;
+namespace TaHooK.IdentityProvider.App.Pages.Home.Error;
 
 public class ViewModel
 {

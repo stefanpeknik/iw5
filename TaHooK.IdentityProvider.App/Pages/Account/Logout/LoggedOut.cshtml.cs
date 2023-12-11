@@ -2,7 +2,7 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TaHooK.IdentityProvider.App.Pages.Logout;
+namespace TaHooK.IdentityProvider.App.Pages.Account.Logout;
 
 [SecurityHeaders]
 [AllowAnonymous]

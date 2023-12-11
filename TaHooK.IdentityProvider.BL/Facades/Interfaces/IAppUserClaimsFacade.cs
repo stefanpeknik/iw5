@@ -1,7 +1,7 @@
 ﻿using TaHooK.Common.BL.Facades;
-using TaHooK.IdentityProvider.BL.Models;
+using TaHooK.IdentityProvider.BL.Models.AppUserClaim;
 
-namespace TaHooK.IdentityProvider.BL.Facades;
+namespace TaHooK.IdentityProvider.BL.Facades.Interfaces;
 
 public interface IAppUserClaimsFacade : IAppFacade
 {

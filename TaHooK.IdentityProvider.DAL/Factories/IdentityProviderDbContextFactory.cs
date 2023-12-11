@@ -20,16 +20,10 @@ public class IdentityProviderDbContextFactory : IDesignTimeDbContextFactory<Iden
     public IdentityProviderDbContext CreateDbContext()
     {
         var configuration = new ConfigurationBuilder()
-            .AddJsonFile("appsettings.json")
-#if DEBUG
-            .AddJsonFile("appsettings.Development.json", optional: true)
-#endif
             .AddUserSecrets<IdentityProviderDbContextFactory>(optional: true)
             .AddUserSecrets(startupAssembly, optional: true)
             .Build();
 
-        // TODO : add the configuration jsons
-        
         var optionsBuilder = new DbContextOptionsBuilder<IdentityProviderDbContext>();
         optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
         return new IdentityProviderDbContext(optionsBuilder.Options);

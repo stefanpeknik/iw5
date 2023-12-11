@@ -1,4 +1,4 @@
-﻿namespace TaHooK.IdentityProvider.BL.Models;
+﻿namespace TaHooK.IdentityProvider.BL.Models.AppUserClaim;
 
 public class AppUserClaimListModel
 {

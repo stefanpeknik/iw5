@@ -1,5 +1,5 @@
 
-namespace TaHooK.IdentityProvider.App.Pages.Logout;
+namespace TaHooK.IdentityProvider.App.Pages.Account.Logout;
 
 public class LogoutOptions
 {

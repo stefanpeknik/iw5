@@ -1,6 +1,7 @@
 ﻿using System.Security.Claims;
 using AutoMapper;
 using TaHooK.IdentityProvider.BL.Models;
+using TaHooK.IdentityProvider.BL.Models.AppUserClaim;
 
 namespace TaHooK.IdentityProvider.BL.MapperProfiles;
 

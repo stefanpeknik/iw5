@@ -1,6 +1,6 @@
 ﻿using System.Security.Claims;
 
-namespace TaHooK.IdentityProvider.BL.Models;
+namespace TaHooK.IdentityProvider.BL.Models.AppUser;
 
 public class AppUserExternalCreateModel
 {

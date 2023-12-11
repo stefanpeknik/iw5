@@ -4,7 +4,7 @@
 
 using System.ComponentModel.DataAnnotations;
 
-namespace TaHooK.IdentityProvider.App.Pages.Create;
+namespace TaHooK.IdentityProvider.App.Pages.Account.Create;
 
 public class InputModel
 {

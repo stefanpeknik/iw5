@@ -2,7 +2,7 @@ using System.Reflection;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TaHooK.IdentityProvider.App.Pages.Home;
+namespace TaHooK.IdentityProvider.App.Pages;
 
 [AllowAnonymous]
 public class Index : PageModel

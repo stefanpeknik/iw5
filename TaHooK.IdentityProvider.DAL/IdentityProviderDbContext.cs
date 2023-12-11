@@ -12,7 +12,5 @@ public class IdentityProviderDbContext : IdentityDbContext<
     public IdentityProviderDbContext(DbContextOptions options)
         : base(options)
     {
-        // TODO : does this work?
-        // TODO : make one 
     }
 }

@@ -2,6 +2,8 @@
 using TaHooK.IdentityProvider.BL.Models;
 using TaHooK.IdentityProvider.DAL.Entities;
 using Microsoft.AspNetCore.Identity;
+using TaHooK.IdentityProvider.BL.Facades.Interfaces;
+using TaHooK.IdentityProvider.BL.Models.AppUserClaim;
 
 namespace TaHooK.IdentityProvider.BL.Facades;
 

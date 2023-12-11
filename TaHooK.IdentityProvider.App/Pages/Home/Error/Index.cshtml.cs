@@ -2,7 +2,7 @@ using Duende.IdentityServer.Services;
 using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc.RazorPages;
 
-namespace TaHooK.IdentityProvider.App.Pages.Error;
+namespace TaHooK.IdentityProvider.App.Pages.Home.Error;
 
 [AllowAnonymous]
 [SecurityHeaders]

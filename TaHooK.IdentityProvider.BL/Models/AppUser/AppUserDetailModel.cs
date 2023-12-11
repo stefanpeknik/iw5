@@ -1,4 +1,4 @@
-﻿namespace TaHooK.IdentityProvider.BL.Models;
+﻿namespace TaHooK.IdentityProvider.BL.Models.AppUser;
 
 public class AppUserDetailModel
 {

@@ -3,7 +3,7 @@
 // See LICENSE in the project root for license information.
 
 
-namespace TaHooK.IdentityProvider.App.Pages.Logout;
+namespace TaHooK.IdentityProvider.App.Pages.Account.Logout;
 
 public class LoggedOutViewModel
 {

@@ -1,4 +1,4 @@
-﻿namespace TaHooK.IdentityProvider.App.Pages.Login;
+﻿namespace TaHooK.IdentityProvider.App.Pages.Account.Login;
 
 public class LoginOptions
 {
