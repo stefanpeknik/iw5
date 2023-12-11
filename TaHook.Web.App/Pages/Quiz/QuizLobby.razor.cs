@@ -1,4 +1,6 @@
-﻿using System.Runtime.CompilerServices;
+﻿using System.Collections.Generic;
+using System.Runtime.CompilerServices;
+using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -21,12 +23,15 @@ namespace TaHook.Web.App.Pages.Quiz
         public QuizDetailModel? QuizModel { get; set; }
         public QuestionDetailModel? Question { get; set; }
         public List<UserListModel> Users { get; set; } = new ();
+        public List<AnswerDistributionModel> Distribution { get; set; } = new();
+
 
         [Inject] private QuizFacade? Facade { get; set; }
         [Inject] private NavigationManager? Navigation { get; set; }
         private HubConnection? _hubConnection;
         private bool _quizStarted = false;
         private bool _quizFinished = false;
+        private bool _answered = false;
 
         public async ValueTask DisposeAsync()
         {
@@ -47,6 +52,8 @@ namespace TaHook.Web.App.Pages.Quiz
             //TODO: Events for next question, quiz start, etc..
             _hubConnection.On("NextQuestion", (QuestionDetailModel? question) => OnNextQuestion(question));
             _hubConnection.On("UsersInLobby", (IEnumerable<UserListModel> users) => OnUsersUpdate(users));
+            _hubConnection.On("AnswerDistribution",
+                (List<AnswerDistributionModel> distribution) => OnAnswerDistribution(distribution));
 
 
             await _hubConnection.StartAsync();
@@ -61,16 +68,22 @@ namespace TaHook.Web.App.Pages.Quiz
             {
                 _quizFinished = true;
             }
+            _answered = false;
             Question = question;
             InvokeAsync(StateHasChanged);
         }
 
         protected void OnUsersUpdate(IEnumerable<UserListModel> users)
         {
-            var userList = users.ToList();
-            Console.WriteLine("Loaded users");
-            Console.WriteLine(userList.Count);
-            Users = userList;
+            Users = users.ToList();
+            InvokeAsync(StateHasChanged);
+        }
+
+        protected void OnAnswerDistribution(List<AnswerDistributionModel> answerDistribution)
+        {
+            Console.WriteLine("received distribution");
+            Distribution = answerDistribution;
+            UpdateChart();
             InvokeAsync(StateHasChanged);
         }
 
@@ -79,14 +92,72 @@ namespace TaHook.Web.App.Pages.Quiz
             if (_hubConnection is not null)
             {
                 await _hubConnection.SendAsync("StartQuiz", Id);
-                Console.WriteLine("Started the quiz");
                 _quizStarted = true;
             }
         }
 
-        protected void OnAnswerQuestion(AnswerListModel answer)
+        protected async void OnAnswerQuestion(AnswerListModel answer)
         {
-            Console.WriteLine($"Seleceted the answer {answer.Text}");
+            if (_hubConnection is not null)
+            {
+                await _hubConnection.SendAsync("AnswerQuestion", Id, answer.Id);
+                _answered = true;
+            }
+        }
+        protected async void OnGetNextQuestionButton()
+        {
+            if (_hubConnection is not null)
+            {
+                await _hubConnection.SendAsync("GetNextQuestion", Id);
+            }
+        }
+
+        private PieChart? _pieChart = default;
+        private PieChartOptions _pieChartOptions = default!;
+        private ChartData _chartData = default!;
+        protected async void UpdateChart()
+        {
+            var labels = new List<string>();
+            var datasets = new List<IChartDataset>();
+            var counts = new List<double>();
+            var colors = new List<string>();
+            int index = 0;
+            foreach (var model in Distribution)
+            {
+                labels.Add(model.Name!);
+                counts.Add((double)model.Count!);
+                colors.Add(ColorBuilder.CategoricalTwelveColors[index]);
+                index++;
+            }
+
+            var dataset = new PieChartDataset()
+            {
+                Data = counts,
+                BackgroundColor = colors,
+                BorderColor = colors,
+            };
+            datasets.Add(dataset);
+
+            _chartData = new ChartData
+            {
+                Labels = labels,
+                Datasets = datasets
+            };
+
+            _pieChartOptions = new PieChartOptions()
+            {
+                Responsive = true
+            };
+            await _pieChart!.UpdateAsync(_chartData, _pieChartOptions);
+        }
+
+        protected override async Task OnAfterRenderAsync(bool firstRender)
+        {
+            if (_pieChart is not null && firstRender)
+            {
+                await _pieChart.InitializeAsync(_chartData, _pieChartOptions);
+            }
+            await base.OnAfterRenderAsync(firstRender);
         }
     }
 }

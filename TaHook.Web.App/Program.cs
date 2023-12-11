@@ -9,8 +9,8 @@ builder.RootComponents.Add<App>("#app");
 builder.RootComponents.Add<HeadOutlet>("head::after");
 
 string apiBaseUrl = builder.Configuration.GetValue<string>("ApiBaseUrl")!;
-Console.WriteLine(apiBaseUrl);
 
+builder.Services.AddBlazorBootstrap();
 builder.Services.AddInstaller<WebBLInstaller>(apiBaseUrl);
 builder.Services.AddScoped(sp => new HttpClient { BaseAddress = new Uri(apiBaseUrl) });
 
