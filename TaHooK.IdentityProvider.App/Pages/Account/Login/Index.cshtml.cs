@@ -88,15 +88,15 @@ public class Index : PageModel
         if (ModelState.IsValid)
         {
             // validate email is verified
-            if (await appUserFacade.IsEmailConfirmedAsync(Input.Username) is false)
-            {
-                await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "not verified email address", clientId: context?.Client.ClientId));
-                ModelState.AddModelError(string.Empty, LoginOptions.NotVerifiedEmailAddress);
-
-                // something went wrong, show form with error
-                await BuildModelAsync(Input.ReturnUrl);
-                return Page();
-            }
+            // if (await appUserFacade.IsEmailConfirmedAsync(Input.Username) is false)
+            // {
+            //     await _events.RaiseAsync(new UserLoginFailureEvent(Input.Username, "not verified email address", clientId: context?.Client.ClientId));
+            //     ModelState.AddModelError(string.Empty, LoginOptions.NotVerifiedEmailAddress);
+            //
+            //     // something went wrong, show form with error
+            //     await BuildModelAsync(Input.ReturnUrl);
+            //     return Page();
+            // }
 
             // validate username/password against in-memory store
             if (await appUserFacade.ValidateCredentialsAsync(Input.Username, Input.Password))

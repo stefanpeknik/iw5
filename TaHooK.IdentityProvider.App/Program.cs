@@ -5,6 +5,7 @@ using TaHooK.IdentityProvider.App.Installers;
 using TaHooK.IdentityProvider.BL.Installers;
 using TaHooK.IdentityProvider.DAL.Installers;
 using Serilog;
+using TaHooK.IdentityProvider.DAL.Extensions;
 using TaHooK.IdentityProvider.DAL.Migrators;
 
 Log.Logger = new LoggerConfiguration()
@@ -17,7 +18,9 @@ try
 {
     var builder = WebApplication.CreateBuilder(args);
 
-    builder.Services.AddInstaller<IdentityProviderDALInstaller>();
+    var connectionString = builder.Configuration.GetConnectionString("DefaultConnection") ??
+                           throw new ArgumentException("The connection string is missing");
+    builder.Services.AddInstaller<IdentityProviderDALInstaller>(connectionString);
     builder.Services.AddInstaller<IdentityProviderBLInstaller>();
     builder.Services.AddInstaller<IdentityProviderAppInstaller>();
 

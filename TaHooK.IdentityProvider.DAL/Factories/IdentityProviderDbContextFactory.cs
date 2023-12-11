@@ -7,11 +7,11 @@ namespace TaHooK.IdentityProvider.DAL.Factories;
 
 public class IdentityProviderDbContextFactory : IDesignTimeDbContextFactory<IdentityProviderDbContext>, IDbContextFactory<IdentityProviderDbContext>
 {
-    private readonly Assembly startupAssembly;
+    private readonly string _connectionString;
 
-    public IdentityProviderDbContextFactory()
+    public IdentityProviderDbContextFactory(string connectionString)
     {
-        startupAssembly = Assembly.GetEntryAssembly()!;
+        _connectionString = connectionString;
     }
 
     public IdentityProviderDbContext CreateDbContext(string[] args)
@@ -19,13 +19,9 @@ public class IdentityProviderDbContextFactory : IDesignTimeDbContextFactory<Iden
 
     public IdentityProviderDbContext CreateDbContext()
     {
-        var configuration = new ConfigurationBuilder()
-            .AddUserSecrets<IdentityProviderDbContextFactory>(optional: true)
-            .AddUserSecrets(startupAssembly, optional: true)
-            .Build();
-
+        
         var optionsBuilder = new DbContextOptionsBuilder<IdentityProviderDbContext>();
-        optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+        optionsBuilder.UseSqlServer(_connectionString);
         return new IdentityProviderDbContext(optionsBuilder.Options);
     }
 }

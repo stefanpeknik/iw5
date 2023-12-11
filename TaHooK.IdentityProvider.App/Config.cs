@@ -35,8 +35,9 @@ namespace TaHooK.IdentityProvider.App
                     RedirectUris = new List<string>
                     {
                         "https://oauth.pstmn.io/v1/callback",
-                        "https://localhost:44355/authentication/login-callback",
+                        "https://localhost:7289/authentication/login-callback",
                     },
+                    PostLogoutRedirectUris = { "https://localhost:7289/" },
                     AllowedGrantTypes = new List<string>
                     {
                         GrantType.ClientCredentials,

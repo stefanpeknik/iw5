@@ -9,11 +9,12 @@ using TaHooK.IdentityProvider.DAL.Migrators;
 
 namespace TaHooK.IdentityProvider.DAL.Installers;
 
-public class IdentityProviderDALInstaller : IInstaller
+public class IdentityProviderDALInstaller
 {
-    public void Install(IServiceCollection serviceCollection)
+    public void Install(IServiceCollection serviceCollection, string connectionString)
     {
-        serviceCollection.AddSingleton<IDbContextFactory<IdentityProviderDbContext>, IdentityProviderDbContextFactory>();
+        serviceCollection.AddSingleton<IDbContextFactory<IdentityProviderDbContext>>(provider => 
+            new IdentityProviderDbContextFactory(connectionString));
         serviceCollection.AddSingleton<IDbMigrator, SqlDbMigrator>();
         serviceCollection.AddScoped<IUserStore<AppUserEntity>, UserStore<AppUserEntity, AppRoleEntity, IdentityProviderDbContext, Guid, AppUserClaimEntity, AppUserRoleEntity, AppUserLoginEntity, AppUserTokenEntity, AppRoleClaimEntity>>();
         serviceCollection.AddScoped<IRoleStore<AppRoleEntity>, RoleStore<AppRoleEntity, IdentityProviderDbContext, Guid, AppUserRoleEntity, AppRoleClaimEntity>>();
