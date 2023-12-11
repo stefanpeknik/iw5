@@ -36,3 +36,29 @@
         </div>
     </div>
 }
+
+@* new create button for a new quiz template *@
+
+
+    <div class="fixed bottom-10 right-10">
+        <Button OnClickEvent="OnCreateTemplateButton" Icon="fa fa-plus" Variant="1"></Button>
+    </div>
+@if (_showCreateTemplate)
+{
+    <div class="h-screen w-screen bg-gray-500/50 absolute top-0 left-0 z-10 flex items-center">
+        <div class="mx-auto w-[20%] bg-offWhite p-5 rounded-lg border-b-4 flex flex-col">
+            <h3 class="text-center font-bold">New template add</h3>
+            <div class="mt-10 mb-5">
+                <input type="text" 
+                       @bind="templateTitle" 
+                       class="w-full p-2 border-2 border-gray-300 rounded"
+                       placeholder="Template title"
+                       />
+            </div>
+            <div class="flex justify-around">
+                <Button OnClickEvent="OnConfirmCreateTemplate" Text="Create" Variant="3"></Button>
+                <Button OnClickEvent="CreateTemplateCancel" Text="Cancel"></Button>
+            </div>
+        </div>
+    </div>
+}

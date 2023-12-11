@@ -21,6 +21,10 @@
       <ProjectReference Include="..\TaHooK.Common.Models\TaHooK.Common.Models.csproj" />
       <ProjectReference Include="..\TaHooK.Web.BL\TaHooK.Web.BL.csproj" />
     </ItemGroup>
+
+    <ItemGroup>
+      <Folder Include="Pages\Answer" />
+    </ItemGroup>
   
   <Target Name="NpxTailwindBuild" BeforeTargets="BeforeBuild">
     <Exec Command="npx --yes tailwindcss -i ./Shared/tailwind.css -o ./wwwroot/css/tailwind.css" />

@@ -64,6 +64,8 @@ namespace TaHook.Web.App.Pages.Quiz
             _hubConnection.On("UsersInLobby", (IEnumerable<UserListModel> users) => OnUsersUpdate(users));
             _hubConnection.On("AnswerDistribution",
                 (List<AnswerDistributionModel> distribution) => OnAnswerDistribution(distribution));
+            _hubConnection.On("QuestionResult",
+                (QuestionResult result) => OnAnswerDistribution(result.AnswerDistribution));
 
 
             await _hubConnection.StartAsync();

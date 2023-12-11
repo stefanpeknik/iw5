@@ -30,4 +30,8 @@
         <ProjectReference Include="..\TaHooK.Common\TaHooK.Common.csproj" />
     </ItemGroup>
 
+    <ItemGroup>
+      <None Include="appsettings.Development.json" />
+    </ItemGroup>
+
 </Project>

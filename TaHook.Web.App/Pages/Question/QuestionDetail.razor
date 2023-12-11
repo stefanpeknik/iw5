@@ -1,0 +1,42 @@
+﻿@page "/QuestionDetail"
+@inherits PageBase
+
+@if (Data is not null)
+{
+    <div class="flex justify-center items-center h-screen">
+        <div class="flex flex-col items-center bg-white shadow-lg rounded-lg p-8">
+            <div class="border-2 border-black p-5 w-full max-w-lg text-center">
+                <h3 class="font-bold text-2xl">@Data.QuestionText</h3>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-5 w-full max-w-lg">
+                @foreach (var answer in Data.Answers)
+                {
+                    <Button Text="@answer" OnClickEvent="@(() => OnAnswerSelected(answer))" Variant="4"></Button>
+                }
+            </div>
+        </div>
+    </div>
+}
+@code {
+    // Mock Data
+    private QuestionData Data = new QuestionData
+    {
+        QuestionText = "What is the capital of France?",
+        Answers = new List<string>
+        {
+            "Paris", "London", "Berlin", "Madrid"
+        }
+    };
+
+    private class QuestionData
+    {
+        public string QuestionText { get; set; }
+        public List<string> Answers { get; set; }
+    }
+
+    private void OnAnswerSelected(string answer)
+    {
+    // Handle the answer selection logic here
+    }
+}

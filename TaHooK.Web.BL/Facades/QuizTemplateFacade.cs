@@ -5,6 +5,7 @@ using AutoMapper;
 using TaHooK.Common.Models;
 using Microsoft.Extensions.Options;
 using TaHooK.Common.Models.Quiz;
+using TaHooK.Common.Models.Responses;
 
 namespace TaHooK.Web.BL.Facades;
 
@@ -31,4 +32,15 @@ public class QuizTemplateFacade : IWebAppFacade
     {
         await _apiClient.TemplatesDeleteAsync(id);
     }
+    
+    public async Task<IdModel> CreateTemplateAsync(String title)
+    {
+        var model = new QuizTemplateCreateUpdateModel
+        {
+            Title = title
+        };
+        
+        return await _apiClient.TemplatesPostAsync(model);
+    }
+    
 }

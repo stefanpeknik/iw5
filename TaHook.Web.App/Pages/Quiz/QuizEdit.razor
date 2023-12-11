@@ -1,0 +1,70 @@
+﻿@page "/quiz-edit/{id:guid}"
+@inherits PageBase
+
+<div class="flex flex-col justify-around items-stretch h-screen">
+    <div class="flex flex-col items-center  items-stretch">
+        <h1 class="font-bold text-3xl text-center my-10">@(quizTitle)</h1>
+        </div>
+    <div class="flex flex-col items-center bg-white shadow-lg rounded-lg mx-[10%] p-8">
+        <div class="flex items-center border-2 border-black p-5 w-full max-w-lg">
+            <input type="text" value="@QuestionText"
+                   @oninput="@(e => UpdateQuestionText(e.Value.ToString()))"
+                   @onblur="@(e => SaveQuestion())"
+                   placeholder="Enter your question here"
+                   class="flex-grow text-center font-bold text-2xl "/>
+            <p class="fa fa-image"></p>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-5 w-full max-w-lg">
+            @for (int i = 0; i < MaxAnswers; i++)
+            {
+                int localIndex = i;
+                <div class="p-5 bg-gray-400 rounded shadow">
+                    @if (i < Answers.Count)
+                    {
+                        <input type="text"
+                               value="@Answers[localIndex].Text"
+                               @oninput="@(e => UpdateAnswerText(localIndex, e.Value.ToString()))"
+                               @onblur="@(e => SaveAnswer(localIndex))"
+                               placeholder="Text for your answer"
+                               class="p-2 border-gray-300 rounded"/>
+                        <!-- Include Image Upload/Selection Here -->
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-5 w-full max-w-lg">
+            @if (Answers.Count < MaxAnswers)
+            {
+                <Button Text="Add Answer" OnClickEvent="@AddAnswer" IsDisabled="false" Variant="1"></Button>
+            }
+            else
+            {
+                <Button Text="Add Answer" OnClickEvent="@AddAnswer" IsDisabled="true" Variant="1"></Button>
+            }
+            @if (Answers.Count > 0)
+            {
+                <Button Text="Remove Answer" OnClickEvent="@RemoveAnswer" IsDisabled="false" Variant="3"></Button>
+            }
+            else
+            {
+                <Button Text="Remove Answer" OnClickEvent="@RemoveAnswer" IsDisabled="true" Variant="3"></Button>
+            }
+        </div>
+    </div>
+    <div class="flex flex-row justify-around">
+        @if (_currentQuestion > 1)
+        {
+            <div class="">
+                <Button OnClickEvent="OnPreviousQuestion" Text="Previous" Variant="3"></Button>
+            </div>
+        }
+        <div class="">
+            <Button OnClickEvent="OnNextQuestion" Text="Complete" Variant="4"></Button>
+        </div>
+        <div class="">
+            <Button OnClickEvent="OnNextQuestion" Text="Next" Variant="1"></Button>
+        </div>
+    </div>
+</div>

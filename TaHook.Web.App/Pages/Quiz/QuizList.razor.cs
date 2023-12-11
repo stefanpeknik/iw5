@@ -16,6 +16,8 @@ namespace TaHook.Web.App.Pages.Quiz
 
         List<QuizListModel>? QuizGames { get; set; }
 
+        private bool _showPast = false;
+
         protected override async Task OnInitializedAsync()
         {
             QuizGames = (await Facade!.GetAllAsync()).OrderByDescending(o => o.StartedAt).ToList();

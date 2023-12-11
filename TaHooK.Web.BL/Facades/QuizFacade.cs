@@ -32,7 +32,7 @@ public class QuizFacade : IWebAppFacade
     {
         var model = new QuizCreateUpdateModel
         {
-            Finished = false, StartedAt = DateTime.Now, TemplateId = template.Id, Title = template.Title
+            Finished = false, StartedAt = DateTime.MaxValue, TemplateId = template.Id, Title = template.Title
         };
         
         return await _apiClient.QuizzesPostAsync(model);
