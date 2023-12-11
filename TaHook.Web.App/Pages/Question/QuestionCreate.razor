@@ -1,0 +1,110 @@
+﻿@page "/QuestionCreate"
+@inherits PageBase
+
+<div class="flex justify-center items-center h-screen">
+    <div class="flex flex-col items-center bg-white shadow-lg rounded-lg p-8">
+        <div class="flex items-center border-2 border-black p-5 w-full max-w-lg">
+            <input type="text" value="@QuestionText" 
+                   @oninput="@(e => UpdateQuestionText(e.Value.ToString()))" 
+                   @onblur="@(e => SaveQuestion())" 
+                   placeholder="Enter your question here" 
+                   class="flex-grow text-center font-bold text-2xl"/>
+            <img src="edit-pen.svg" class="ml-4 cursor-pointer" alt="Edit"/>
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-5 w-full max-w-lg">
+            @for (int i = 0; i < MaxAnswers; i++)
+            {
+                int localIndex = i;
+                <div class="p-5 bg-gray-400 rounded shadow">
+                    @if (i < Answers.Count)
+                    {
+                        <input type="text"
+                               value="@Answers[localIndex].Text"
+                               @oninput="@(e => UpdateAnswerText(localIndex, e.Value.ToString()))"
+                               @onblur="@(e => SaveAnswer(localIndex))"
+                               placeholder="Text for your answer"
+                               class="p-2 border-gray-300 rounded"/>
+                        <!-- Include Image Upload/Selection Here -->
+                    }
+                </div>
+            }
+        </div>
+
+        <div class="grid grid-cols-2 gap-4 mt-5 w-full max-w-lg">
+            @if (Answers.Count < MaxAnswers)
+            {
+                <Button Text="Add Answer" OnClickEvent="@AddAnswer" Variant="1"></Button>
+            }
+            @if (Answers.Count > 0)
+            {
+                <Button Text="Remove Answer" OnClickEvent="@RemoveAnswer" Variant="3"></Button>
+            }
+        </div>
+    </div>
+</div>
+
+@code {
+    private string QuestionText { get; set; }
+    private const int MaxAnswers = 4;
+    private List<Answer> Answers = new List<Answer>();
+
+    private class Answer
+    {
+        public string? Text { get; set; }
+        // Add image property if needed
+    }
+
+    private void AddAnswer()
+    {
+        if (Answers.Count < MaxAnswers)
+        {
+            Answers.Add(new Answer());
+        }
+    }
+
+    private void RemoveAnswer()
+    {
+        if (Answers.Count > 0)
+        {
+            Answers.RemoveAt(Answers.Count - 1);
+        }
+    }
+
+    private void UpdateAnswerText(int index, string text)
+    {
+        if (index >= 0 && index < Answers.Count)
+        {
+            Console.WriteLine($"contentbefore: {Answers[index].Text}");
+            Answers[index].Text = text;
+            StateHasChanged();
+        }
+    }
+
+    private void SaveAnswer(int index)
+    {
+    // Logic to save the answer
+    // This could involve updating the backend or just confirming the change locally
+        Console.WriteLine($"Answer {index}");
+        // output all answers
+        int i = 0;
+        foreach (var answer in Answers)
+        {
+            
+            Console.WriteLine($"Answer {i}: {answer.Text}");
+            i++;
+        }
+    }
+    
+    private void UpdateQuestionText(string text)
+    {
+        QuestionText = text;
+    }
+    
+    private void SaveQuestion()
+    {
+        // Logic to save the question
+        // This could involve updating the backend or just confirming the change locally
+        Console.WriteLine($"Question saved: {QuestionText}");
+    }
+}
