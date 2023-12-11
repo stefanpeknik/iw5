@@ -26,4 +26,9 @@ public class QuizTemplateFacade : IWebAppFacade
     {
         return await _apiClient.TemplatesGetAsync(id);
     }
+
+    public async ValueTask DeleteById(Guid id)
+    {
+        await _apiClient.TemplatesDeleteAsync(id);
+    }
 }
