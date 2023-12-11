@@ -11,15 +11,20 @@ public class SqlDbMigrator : IDbMigrator
         _dbContextFactory = dbContextFactory;
     }
 
-    public void Migrate()
+    public void Migrate(bool isDev = false)
     {
-        MigrateAsync(CancellationToken.None).GetAwaiter().GetResult();
+        MigrateAsync(CancellationToken.None, isDev).GetAwaiter().GetResult();
     }
 
-    public async Task MigrateAsync(CancellationToken cancellationToken)
+    public async Task MigrateAsync(CancellationToken cancellationToken, bool isDev = false)
     {
         await using var dbContext = await _dbContextFactory.CreateDbContextAsync(cancellationToken);
+        if (isDev)
+        {
+            await dbContext.Database.EnsureDeletedAsync(cancellationToken);
+        }
+        await dbContext.Database.MigrateAsync(cancellationToken);
         
-        await dbContext.Database.EnsureCreatedAsync(cancellationToken);
+        // await dbContext.SeedDatabaseAsync();
     }
 }

@@ -5,6 +5,7 @@ using TaHooK.IdentityProvider.App.Installers;
 using TaHooK.IdentityProvider.BL.Installers;
 using TaHooK.IdentityProvider.DAL.Installers;
 using Serilog;
+using TaHooK.IdentityProvider.DAL.Migrators;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -32,6 +33,17 @@ try
 
     app.ConfigurePipeline();
 
+    // Migrate database
+    using var scope = app.Services.CreateScope();
+    if (app.Environment.IsDevelopment())
+    {
+        scope.ServiceProvider.GetRequiredService<IDbMigrator>().Migrate(true);
+    }
+    else
+    {
+        scope.ServiceProvider.GetRequiredService<IDbMigrator>().Migrate(false);
+    }
+    
     app.Run();
 }
 catch (Exception ex)
