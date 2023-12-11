@@ -12,3 +12,4 @@ TaHooK.IdentityProvider.App/appsettings.Development.json
 
 /TaHook.Web.App/TaHook.Web.App.csproj.user
 /TaHook.Web.App/wwwroot/appsettings.Development.json
+/TaHooK.IdentityProvider.App/keys/

@@ -2,6 +2,7 @@
 using Microsoft.AspNetCore.Components.Web;
 using TaHooK.Common.Models.Question;
 using TaHooK.Common.Models.Quiz;
+using TaHooK.Common.Models.Answer;
 using TaHooK.Web.BL.Facades;
 
 namespace TaHook.Web.App.Pages.Quiz;
@@ -21,7 +22,8 @@ public partial class QuizEdit
     private int _currentQuestion = 1;
     
     private string quizTitle { get; set; } = String.Empty;
-    private ICollection<QuestionListModel> Questions { get; set; } = new List<QuestionListModel>();
+    private ICollection<QuestionListModel> QuestionsModel { get; set; } = new List<QuestionListModel>();
+    private ICollection<AnswerListModel> AnswersModel { get; set; } = new List<AnswerListModel>();
 
     [Parameter]
     public Guid Id { get; set; }
@@ -37,7 +39,30 @@ public partial class QuizEdit
         Data = await Facade!.GetByIdAsync(Id);
         quizTitle = Data.Title;
         await base.OnInitializedAsync();
-        Questions = Data.Questions;
+        QuestionsModel = Data.Questions;
+        GetCurrentQuestionData(_currentQuestion);
+    }
+    
+    protected void GetCurrentQuestionData(int currentQuestion)
+    {
+        // check if currentQuestion is in range of Questions
+        if (currentQuestion < 0 || currentQuestion >= QuestionsModel.Count)
+        {
+            return;
+        }
+        QuestionText = QuestionsModel.ElementAt(currentQuestion).Text;
+        InvokeAsync(StateHasChanged);
+    }
+
+    protected void GetCurrentAnswersData(int currentQuestion)
+    {
+        // check if currentQuestion is in range of Questions
+        if (currentQuestion < 0 || currentQuestion >= QuestionsModel.Count)
+        {
+            return;
+        }
+        // Answers = QuestionsModel.ElementAt(currentQuestion)();
+        InvokeAsync(StateHasChanged);
     }
     
     private void AddAnswer()
@@ -96,8 +121,9 @@ public partial class QuizEdit
     private void OnNextQuestion()
     {
         _notfirstquestion = true;
-        InvokeAsync(StateHasChanged);
         _currentQuestion++;
+        GetCurrentQuestionData(_currentQuestion);
+        InvokeAsync(StateHasChanged);
     }
     
     private void OnPreviousQuestion()
