@@ -4,11 +4,13 @@ module.exports = {
   theme: {
       extend: {
           fontFamily: {
+              'montserrat': ["Montserrat"],
               'nunito': ["Nunito Sans", "sans-serif"]
           },
           colors: {
               offWhite: "#F9F9F9",
-              navBlue: "#03045E"
+              navBlue: "#03045E",
+              lightBlue: "#0077B6",
           }
       },
   },

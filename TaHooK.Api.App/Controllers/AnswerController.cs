@@ -1,4 +1,5 @@
-﻿using Microsoft.AspNetCore.Mvc;
+﻿using System.Net;
+using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using TaHooK.Api.BL.Facades;
 using TaHooK.Common.Models.Answer;
@@ -26,6 +27,8 @@ public class AnswerController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetAnswerById", "Returns an answer based on the GUID on input.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(AnswerDetailModel))]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<AnswerDetailModel>> GetAnswerById(Guid id)
     {
         var result = await _answerFacade.GetByIdAsync(id);
@@ -40,6 +43,8 @@ public class AnswerController : ControllerBase
 
     [HttpPost]
     [OpenApiOperation("CreateAnswer", "Creates a new answer.")]
+    [SwaggerResponse(HttpStatusCode.Created, typeof(IdModel))]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel))]
     public async Task<ActionResult<IdModel>> CreateAnswer(AnswerCreateUpdateModel answer)
     {
         var result = await _answerFacade.CreateAsync(answer);
@@ -48,6 +53,9 @@ public class AnswerController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateAnswerById", "Updates an existing answer.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel))]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel))]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<IdModel>> UpdateAnswerById(AnswerCreateUpdateModel answer, Guid id)
     {
         try
@@ -63,6 +71,8 @@ public class AnswerController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteAnswer", "Deletes an answer based on the input ID.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(void))]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult> DeleteAnswer(Guid id)
     {
         try

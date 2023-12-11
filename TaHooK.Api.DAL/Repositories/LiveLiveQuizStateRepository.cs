@@ -16,7 +16,7 @@ public class LiveLiveQuizStateRepository: ILiveQuizStateRepository
             {
                 QuizId = quizId,
                 Users = new HashSet<Guid>(),
-                CurrentQuestionIndex = 0
+                NextQuestionIndex = 0
             });
         }
 
@@ -50,7 +50,24 @@ public class LiveLiveQuizStateRepository: ILiveQuizStateRepository
     
     public Guid GetUserConnection(string connectionId)
     {
+        if (_liveQuizStates.UserConnections.ContainsKey(connectionId) is false)
+        {
+            return Guid.Empty;
+        }
         return _liveQuizStates.UserConnections[connectionId];
+    }
+    
+    public string? GetUserConnectionId(Guid userId)
+    {
+        foreach (var userConnection in _liveQuizStates.UserConnections)
+        {
+            if (userConnection.Value == userId)
+            {
+                return userConnection.Key;
+            }
+        }
+
+        return null;
     }
     
     public void RemoveUserConnection(string connectionId)
@@ -79,5 +96,20 @@ public class LiveLiveQuizStateRepository: ILiveQuizStateRepository
         }
 
         _liveQuizStates.QuizesStates[quizId].Users.Remove(userId);
+    }
+    
+    public void AnswerQuestion(Guid quizId, Guid userId, Guid answerId)
+    {
+        if (_liveQuizStates.QuizesStates.ContainsKey(quizId) is false)
+        {
+            return;
+        }
+
+        _liveQuizStates.QuizesStates[quizId].UsersAnswers.Add(new UserAnswer
+        {
+            AnswerId = answerId,
+            UserId = userId,
+            AnswerTime = DateTime.Now
+        });
     }
 }

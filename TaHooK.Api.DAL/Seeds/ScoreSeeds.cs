@@ -38,16 +38,16 @@ public static class ScoreSeeds
     public static void Seed(this TaHooKDbContext dbContext)
     {
         
-        if (!dbContext.Scores.Any())
-        {
-            var scores = new List<ScoreEntity>()
-            {
-                DefaultScore,
-                DefaultScore2,
-                DefaultScore3
-            };
-            
-            dbContext.Scores.AddRange(scores);
-        }
+        // if (!dbContext.Scores.Any())
+        // {
+        //     var scores = new List<ScoreEntity>()
+        //     {
+        //         DefaultScore,
+        //         DefaultScore2,
+        //         DefaultScore3
+        //     };
+        //     
+        //     dbContext.Scores.AddRange(scores);
+        // }
     }
 }
