@@ -3,6 +3,7 @@ using System.Runtime.CompilerServices;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.SignalR.Client;
 using TaHooK.Common.Models.Answer;
 using TaHooK.Common.Models.Question;
@@ -30,6 +31,7 @@ namespace TaHook.Web.App.Pages.Quiz
 
         [Inject] private QuizFacade? Facade { get; set; }
         [Inject] private NavigationManager? Navigation { get; set; }
+        [Inject] private IAccessTokenProvider? TokenProvider { get; set; }
         private HubConnection? _hubConnection;
 
         private QuizState _state = QuizState.Lobby;
@@ -55,10 +57,18 @@ namespace TaHook.Web.App.Pages.Quiz
         {
             QuizModel = await Facade!.GetByIdAsync(Id);
             _questionCount = QuizModel.Questions.Count;
+            var accessTokenResult = await TokenProvider!.RequestAccessToken();
 
-            _hubConnection = new HubConnectionBuilder()
-                .WithUrl($"https://localhost:7273/quizhub?userId={User}")
-                .Build();
+            if (accessTokenResult.TryGetToken(out var accessToken))
+            {
+                _hubConnection = new HubConnectionBuilder()
+                    .WithUrl($"https://localhost:7273/quizhub", options =>
+                    {
+                        options.AccessTokenProvider = () => Task.FromResult(accessToken.Value);
+                    })
+                    .Build();
+            }
+ 
 
             _hubConnection.On("NextQuestion", (QuestionDetailModel? question) => OnNextQuestion(question));
             _hubConnection.On("UsersInLobby", (IEnumerable<UserListModel> users) => OnUsersUpdate(users));
