@@ -10,7 +10,7 @@ using TaHooK.IdentityProvider.DAL.Migrators;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
-    .CreateBootstrapLogger();
+    .CreateBootstrapLogger();   
 
 Log.Information("Starting up");
 

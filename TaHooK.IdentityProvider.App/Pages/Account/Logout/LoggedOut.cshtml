@@ -6,6 +6,8 @@
         Logout
         <small>You are now logged out</small>
     </h1>
+    
+    <p>@Model.View.PostLogoutRedirectUri</p>
 
     @if (Model.View.PostLogoutRedirectUri != null)
     {

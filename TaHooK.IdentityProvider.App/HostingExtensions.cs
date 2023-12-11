@@ -1,6 +1,5 @@
+using Duende.IdentityServer.Configuration;
 using TaHooK.IdentityProvider.App.Services;
-using TaHooK.IdentityProvider.BL.Facades;
-using TaHooK.IdentityProvider.BL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
 using TaHooK.IdentityProvider.BL.Facades.Interfaces;
