@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TaHooK.Api.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigration : Migration
+    public partial class InitialMigrations : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -31,7 +31,7 @@ namespace TaHooK.Api.DAL.Migrations
                 {
                     Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -72,7 +72,7 @@ namespace TaHooK.Api.DAL.Migrations
                     TemplateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StartedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Finished = table.Column<bool>(type: "bit", nullable: false),
-                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: true)
                 },
                 constraints: table =>
                 {

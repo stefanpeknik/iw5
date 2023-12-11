@@ -12,8 +12,8 @@ using TaHooK.Api.DAL;
 namespace TaHooK.Api.DAL.Migrations
 {
     [DbContext(typeof(TaHooKDbContext))]
-    [Migration("20231211195653_InitialMigration")]
-    partial class InitialMigration
+    [Migration("20231211205451_InitialMigrations")]
+    partial class InitialMigrations
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -80,7 +80,7 @@ namespace TaHooK.Api.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CreatorId")
+                    b.Property<Guid?>("CreatorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<bool>("Finished")
@@ -111,7 +111,7 @@ namespace TaHooK.Api.DAL.Migrations
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("CreatorId")
+                    b.Property<Guid?>("CreatorId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Title")
@@ -199,8 +199,7 @@ namespace TaHooK.Api.DAL.Migrations
                     b.HasOne("TaHooK.Api.DAL.Entities.UserEntity", "Creator")
                         .WithMany("Quizes")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.HasOne("TaHooK.Api.DAL.Entities.QuizTemplateEntity", "Template")
                         .WithMany()
@@ -218,8 +217,7 @@ namespace TaHooK.Api.DAL.Migrations
                     b.HasOne("TaHooK.Api.DAL.Entities.UserEntity", "Creator")
                         .WithMany("QuizTemplates")
                         .HasForeignKey("CreatorId")
-                        .OnDelete(DeleteBehavior.SetNull)
-                        .IsRequired();
+                        .OnDelete(DeleteBehavior.SetNull);
 
                     b.Navigation("Creator");
                 });
