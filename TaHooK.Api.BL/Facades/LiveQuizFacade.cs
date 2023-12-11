@@ -89,8 +89,6 @@ public class LiveQuizFacade: ILiveQuizFacade
 
         if (quizState.NextQuestionIndex >= quiz?.Template.Questions.Count)
         {
-            quiz.Finished = true;
-            await uow.CommitAsync();
             return null;
         }
         
