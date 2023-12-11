@@ -20,7 +20,7 @@ public class IdentityProviderAppInstaller : IInstaller
             options.Password.RequireNonAlphanumeric = false;
             options.Password.RequiredLength = 5;
 
-            options.SignIn.RequireConfirmedEmail = true;
+            options.SignIn.RequireConfirmedEmail = false;
         });
     }
 }

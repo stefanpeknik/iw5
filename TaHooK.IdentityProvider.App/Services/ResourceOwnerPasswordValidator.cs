@@ -1,6 +1,7 @@
 ﻿using TaHooK.IdentityProvider.BL.Facades;
 using Duende.IdentityServer.Validation;
 using IdentityModel;
+using TaHooK.IdentityProvider.BL.Facades.Interfaces;
 
 namespace TaHooK.IdentityProvider.App.Services;
 

@@ -3,6 +3,8 @@ using TaHooK.IdentityProvider.BL.Facades;
 using TaHooK.IdentityProvider.BL.Models;
 using Microsoft.AspNetCore.Mvc;
 using Serilog;
+using TaHooK.IdentityProvider.BL.Facades.Interfaces;
+using TaHooK.IdentityProvider.BL.Models.AppUser;
 
 namespace TaHooK.IdentityProvider.App
 {

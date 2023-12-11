@@ -3,6 +3,7 @@ using TaHooK.IdentityProvider.BL.Facades;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
+using TaHooK.IdentityProvider.BL.Facades.Interfaces;
 
 namespace TaHooK.IdentityProvider.App.Services;
 
