@@ -1,5 +1,4 @@
 ﻿using System.Security.Claims;
-using TaHooK.IdentityProvider.BL.Facades;
 using Duende.IdentityServer.Extensions;
 using Duende.IdentityServer.Models;
 using Duende.IdentityServer.Services;
@@ -26,16 +25,23 @@ public class LocalAppUserProfileService : IProfileService
         var user = await appUserFacade.GetUserByUserNameAsync(userName);
         if (user is not null)
         {
-            var appUserClaims = await appUserClaimsFacade.GetAppUserClaimsByUserIdAsync(user.Id);
-            var claims = appUserClaims.Select(claim =>
+            var claims = new List<Claim>
             {
-                if (claim.ClaimType is not null
-                    && claim.ClaimValue is not null)
-                {
-                    return new Claim(claim.ClaimType, claim.ClaimValue);
-                }
-                return null;
-            }).ToList();
+                new (nameof(user.Id), user.Id.ToString()),
+                new (nameof(user.Email), user.Email),
+                new (nameof(user.DisplayName), user.DisplayName)
+            };
+            // var appUserClaims = await appUserClaimsFacade.GetAppUserClaimsByUserIdAsync(user.Id);
+            // var claims = appUserClaims.Select(claim =>
+            // {
+            //     if (claim.ClaimType is not null
+            //         && claim.ClaimValue is not null)
+            //     {
+            //         return new Claim(claim.ClaimType, claim.ClaimValue);
+            //     }
+            //     return null;
+            // }).ToList();
+            context.RequestedClaimTypes = claims.Select(claim => claim.Type);
             context.AddRequestedClaims(claims);
         }
 

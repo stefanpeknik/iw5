@@ -13,9 +13,22 @@ public class IdentityProviderDbContextFactory : IDesignTimeDbContextFactory<Iden
     {
         _connectionString = connectionString;
     }
+    
+    public IdentityProviderDbContextFactory()
+    {
+    }
 
     public IdentityProviderDbContext CreateDbContext(string[] args)
-        => CreateDbContext();
+    {
+        var configuration = new ConfigurationBuilder()
+            .AddUserSecrets<IdentityProviderDbContextFactory>()
+            .Build();
+        
+        var optionsBuilder = new DbContextOptionsBuilder<IdentityProviderDbContext>();
+        optionsBuilder.UseSqlServer(configuration.GetConnectionString("DefaultConnection"));
+        
+        return new IdentityProviderDbContext(optionsBuilder.Options);
+    }
 
     public IdentityProviderDbContext CreateDbContext()
     {
