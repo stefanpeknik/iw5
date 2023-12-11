@@ -552,8 +552,16 @@ video {
   bottom: 0px;
 }
 
+.bottom-10 {
+  bottom: 2.5rem;
+}
+
 .left-0 {
   left: 0px;
+}
+
+.right-10 {
+  right: 2.5rem;
 }
 
 .top-0 {
@@ -1071,6 +1079,10 @@ video {
 .hover\:bg-yellow-400:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(250 204 21 / var(--tw-bg-opacity));
+}
+
+.disabled\:opacity-40:disabled {
+  opacity: 0.4;
 }
 
 @media (min-width: 1024px) {

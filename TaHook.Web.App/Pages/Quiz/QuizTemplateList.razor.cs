@@ -17,6 +17,8 @@ namespace TaHook.Web.App.Pages.Quiz
         List<QuizTemplateListModel>? QuizTemplates { get; set; }
 
         private bool _showDeleteModal = false;
+        private bool _showCreateTemplate = false;
+        private string templateTitle { get; set; } = String.Empty;
         private Guid _toDelete;
 
         protected override async Task OnInitializedAsync()
@@ -55,7 +57,32 @@ namespace TaHook.Web.App.Pages.Quiz
 
         protected void OnEditTemplate(Guid quizId)
         {
-            //TODO: Navigate to edit
+            Navigation!.NavigateTo($"/quiz-edit/{quizId}");
+        }
+        
+        protected void OnCreateTemplateButton(MouseEventArgs e)
+        {
+            _showCreateTemplate = true;
+        }
+        
+        protected void CreateTemplateCancel()
+        {
+            _showCreateTemplate = false;
+        }
+
+        protected async void OnConfirmCreateTemplate()
+        {
+            if (string.IsNullOrEmpty(templateTitle))
+            {
+                return;
+            }
+            _showCreateTemplate = false;
+            await Facade!.CreateTemplateAsync(templateTitle);
+            Console.WriteLine("Create");
+            QuizTemplates = await Facade!.GetAllAsync();
+            InvokeAsync(StateHasChanged);
+            templateTitle = string.Empty;
+
         }
     }
 }

@@ -1,6 +1,6 @@
 ﻿@namespace TaHook.Web.App
 
-<button @onclick="@OnClickEvent" class="@ButtonClasses">
+<button @onclick="@OnClickEvent" class="@ButtonClasses" disabled="@(IsDisabled)" >
     @if (Icon is not null)
     {
         <i class="@Icon"></i>
@@ -20,14 +20,18 @@
     public int Variant { get; set; } = 0;
 
     [Parameter]
+    public bool IsDisabled { get; set; } = false;
+
+    [Parameter]
     public string? Icon { get; set; }
 
     private string ButtonClasses
     {
         get
         {
-            string baseClasses = "text-white font-bold py-2 px-4 border-b-4 rounded font-nunito ";
+            string baseClasses = "text-white font-bold py-2 px-4 border-b-4 rounded font-nunito disabled:opacity-40 ";
             
+
             switch (Variant)
             {
                 case 1:
