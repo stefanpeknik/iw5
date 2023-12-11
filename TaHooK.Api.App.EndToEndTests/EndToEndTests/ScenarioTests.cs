@@ -23,8 +23,11 @@ public class ScenarioTests : EndToEndTestsBase
         var scoreSeed = ScoreSeeds.DefaultScore;
         var scoreSeedModel = Mapper.Map<ScoreCreateUpdateModel>(scoreSeed);
         // quiz
-        var quizSeed = QuizSeeds.DefaultQuiz;
-        var quizSeedModel = Mapper.Map<QuizCreateUpdateModel>(quizSeed);
+        var quizSeed = QuizTemplateSeeds.DefaultQuiz;
+        var quizSeedModel = Mapper.Map<QuizTemplateCreateUpdateModel>(quizSeed);
+        // quiz game
+        var quizGameSeed = QuizSeeds.DefaultQuiz;
+        var quizGameSeedModel = Mapper.Map<QuizCreateUpdateModel>(quizGameSeed);
         // question
         var questionSeed = QuestionSeeds.DefaultQuestion;
         var questionSeedModel = Mapper.Map<QuestionCreateUpdateModel>(questionSeed);
@@ -39,12 +42,12 @@ public class ScenarioTests : EndToEndTestsBase
         var userResponse = await Client.Value.PostAsJsonAsync("/api/users", userSeedModel);
         userResponse.EnsureSuccessStatusCode();
         var userId = await userResponse.Content.ReadFromJsonAsync<IdModel>();
-        // quiz
-        var quizResponse = await Client.Value.PostAsJsonAsync("/api/quizzes", quizSeedModel);
+        // quiz template
+        var quizResponse = await Client.Value.PostAsJsonAsync("/api/templates", quizSeedModel);
         quizResponse.EnsureSuccessStatusCode();
         var quizId = await quizResponse.Content.ReadFromJsonAsync<IdModel>();
         // question
-        questionSeedModel.QuizId = quizId!.Id;
+        questionSeedModel.QuizTemplateId = quizId!.Id;
         var questionResponse = await Client.Value.PostAsJsonAsync("/api/questions", questionSeedModel);
         questionResponse.EnsureSuccessStatusCode();
         var questionId = await questionResponse.Content.ReadFromJsonAsync<IdModel>();
@@ -57,8 +60,12 @@ public class ScenarioTests : EndToEndTestsBase
         var answerResponse2 = await Client.Value.PostAsJsonAsync("/api/answers", answerSeedModel2);
         answerResponse2.EnsureSuccessStatusCode();
         var answerId2 = await answerResponse2.Content.ReadFromJsonAsync<IdModel>();
+        // quiz game
+        var quizGameResponse = await Client.Value.PostAsJsonAsync("/api/quizzes", quizGameSeedModel);
+        quizGameResponse.EnsureSuccessStatusCode();
+        var quizGameId = await quizGameResponse.Content.ReadFromJsonAsync<IdModel>();
         // score
-        scoreSeedModel.QuizId = quizId.Id;
+        scoreSeedModel.QuizId = quizGameId.Id;
         scoreSeedModel.UserId = userId!.Id;
         var scoreResponse = await Client.Value.PostAsJsonAsync("/api/scores", scoreSeedModel);
         scoreResponse.EnsureSuccessStatusCode();
@@ -73,9 +80,9 @@ public class ScenarioTests : EndToEndTestsBase
         Assert.NotNull(userGet);
         Assert.Equal(userId.Id, userGet.Id);
         // quiz
-        var quizGetResponse = await Client.Value.GetAsync($"/api/quizzes/{quizId.Id}");
+        var quizGetResponse = await Client.Value.GetAsync($"/api/templates/{quizId.Id}");
         quizGetResponse.EnsureSuccessStatusCode();
-        var quizGet = await quizGetResponse.Content.ReadFromJsonAsync<QuizDetailModel>();
+        var quizGet = await quizGetResponse.Content.ReadFromJsonAsync<QuizTemplateDetailModel>();
         Assert.NotNull(quizGet);
         Assert.Equal(quizId.Id, quizGet.Id);
         // question

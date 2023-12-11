@@ -23,7 +23,7 @@ public static class ScoreSeeds
 
     public static readonly ScoreEntity ScoreInQuizToDelete = DefaultScore with
     {
-        Id = Guid.Parse("E0D0D40E-298F-4958-885A-1EFCF89DA83F"), QuizId = QuizSeeds.QuizToDelete.Id
+        Id = Guid.Parse("E0D0D40E-298F-4958-885A-1EFCF89DA83F"), QuizId = QuizSeeds.DefaultQuiz.Id
     };
 
     public static readonly ScoreEntity ScoreWithUserToDelete = DefaultScore with

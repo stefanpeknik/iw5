@@ -27,6 +27,8 @@ public class ScoreController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetScoreById", "Returns a score based on the GUID on input.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(ScoreDetailModel))]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<ScoreDetailModel>> GetScoreById(Guid id)
     {
         var result = await _scoreFacade.GetByIdAsync(id);
@@ -41,6 +43,8 @@ public class ScoreController : ControllerBase
 
     [HttpPost]
     [OpenApiOperation("CreateScore", "Creates a new score.")]
+    [SwaggerResponse(HttpStatusCode.Created, typeof(IdModel))]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel))]
     public async Task<ActionResult<IdModel>> CreateScore(ScoreCreateUpdateModel score)
     {
         var result = await _scoreFacade.CreateAsync(score);
@@ -49,6 +53,9 @@ public class ScoreController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateScoreById", "Updates an existing score.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel))]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel))]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<IdModel>> UpdateScoreById(ScoreCreateUpdateModel score, Guid id)
     {
         try
@@ -64,6 +71,8 @@ public class ScoreController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteScore", "Deletes a score based on the input ID.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(void))]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult> DeleteScore(Guid id)
     {
         try

@@ -8,8 +8,8 @@ public static class QuestionSeeds
     public static readonly QuestionEntity DefaultQuestion = new()
     {
         Id = Guid.Parse("574E8D70-47A1-4D76-B971-CAFB314540FD"),
-        Quiz = null!,
-        QuizId = Guid.Parse("EF2E391C-EA09-490B-9935-BBC7E7099A42"),
+        QuizTemplate = null!,
+        QuizTemplateId = QuizTemplateSeeds.DefaultQuiz.Id,
         Text = "Test Question"
     };
 
@@ -21,7 +21,7 @@ public static class QuestionSeeds
 
     public static readonly QuestionEntity QuestionInQuizToDelete = DefaultQuestion with
     {
-        Id = Guid.Parse("51DC8540-1865-48D6-BA49-9696B9A431E0"), QuizId = QuizSeeds.QuizToDelete.Id
+        Id = Guid.Parse("51DC8540-1865-48D6-BA49-9696B9A431E0"), QuizTemplateId = QuizTemplateSeeds.QuizToDelete.Id
     };
 
     public static void Seed(this ModelBuilder modelBuilder)

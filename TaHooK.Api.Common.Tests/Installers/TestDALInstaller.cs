@@ -15,6 +15,8 @@ public class TestDALInstaller : IInstaller
         serviceCollection.AddSingleton<IDbContextFactory<TaHooKDbContext>>(provider =>
             new DbContextTestingFactory(Guid.NewGuid().ToString(), true));
         serviceCollection.AddSingleton<IDbMigrator, TestDbMigrator>();
+        serviceCollection.AddSingleton<LiveQuizStates>();
+        serviceCollection.AddTransient<ILiveQuizStateRepository, LiveLiveQuizStateRepository>();
 
         serviceCollection.Scan(selector =>
             selector.FromAssemblyOf<TestDALInstaller>()

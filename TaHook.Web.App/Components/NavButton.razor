@@ -1,0 +1,15 @@
+﻿@namespace TaHook.Web.App
+
+<NavLink href="@href">
+    <div class="p-2.5 mt-3 rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+        <span class="text-[15px] text-center text-gray-200 font-bold">@Title</span>
+    </div>
+</NavLink>
+
+@code {
+    [Parameter]
+    public string? href { get; set; }
+
+    [Parameter]
+    public string? Title { get; set; }
+}

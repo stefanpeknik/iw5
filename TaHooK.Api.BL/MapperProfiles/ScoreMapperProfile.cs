@@ -12,7 +12,8 @@ public class ScoreMapperProfile : Profile
     {
         CreateMap<ScoreEntity, ScoreDetailModel>();
 
-        CreateMap<ScoreEntity, ScoreListModel>();
+        CreateMap<ScoreEntity, ScoreListModel>()
+            .MapMember(dst => dst.UserName, src => src.User!.Name);
 
         CreateMap<ScoreEntity, ScoreCreateUpdateModel>();
 

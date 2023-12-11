@@ -77,7 +77,7 @@ public class QuestionControllerTests : EndToEndTestsBase
         // Arrange
         var questionSeed = QuestionSeeds.DefaultQuestion;
         var questionSeedModel = Mapper.Map<QuestionDetailModel>(questionSeed);
-        questionSeedModel.QuizId = Guid.NewGuid();
+        questionSeedModel.QuizTemplateId = Guid.NewGuid();
 
         // Act
         var post = await Client.Value.PostAsJsonAsync("/api/questions", questionSeedModel);
@@ -126,7 +126,7 @@ public class QuestionControllerTests : EndToEndTestsBase
         // Arrange
         var questionSeed = QuestionSeeds.QuestionToUpdate;
         var questionSeedModelUpdated = Mapper.Map<QuestionDetailModel>(questionSeed);
-        questionSeedModelUpdated.QuizId = Guid.NewGuid();
+        questionSeedModelUpdated.QuizTemplateId = Guid.NewGuid();
 
         // Act
         var put = await Client.Value.PutAsJsonAsync($"/api/questions/{questionSeedModelUpdated.Id}",

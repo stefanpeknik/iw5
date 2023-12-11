@@ -88,7 +88,7 @@ public class QuizControllerTests : EndToEndTestsBase
     public async Task UpdateQuizById_Returns_Updated_Quiz_Id()
     {
         // Arrange
-        var quizSeed = QuizSeeds.QuizToUpdate;
+        var quizSeed = QuizSeeds.DefaultQuiz;
         var quizSeedModel = Mapper.Map<QuizDetailModel>(quizSeed);
         var quizSeedModelUpdated = Mapper.Map<QuizCreateUpdateModel>(quizSeed);
         quizSeedModelUpdated.Title = "Updated text";
@@ -108,7 +108,7 @@ public class QuizControllerTests : EndToEndTestsBase
     public async Task UpdateQuizById_Returns_NotFound_When_Quiz_Does_Not_Exist()
     {
         // Arrange
-        var quizSeed = QuizSeeds.QuizToUpdate;
+        var quizSeed = QuizSeeds.DefaultQuiz;
         var quizSeedModelUpdated = Mapper.Map<QuizDetailModel>(quizSeed);
         quizSeedModelUpdated.Title = "Updated text";
         var nonExistentId = Guid.NewGuid();
@@ -124,7 +124,7 @@ public class QuizControllerTests : EndToEndTestsBase
     public async Task UpdateQuizByIdWithGarbage_Returns_BadRequest()
     {
         // Arrange
-        var quizSeed = QuizSeeds.QuizToUpdate;
+        var quizSeed = QuizSeeds.DefaultQuiz;
         var quizSeedModelUpdated = Mapper.Map<QuizDetailModel>(quizSeed);
         var garbage = new { Garbage = "Garbage" };
 
@@ -139,7 +139,7 @@ public class QuizControllerTests : EndToEndTestsBase
     public async Task DeleteQuizById_Returns_Ok()
     {
         // Arrange
-        var quizSeed = QuizSeeds.QuizToDelete;
+        var quizSeed = QuizSeeds.DefaultQuiz;
         var quizSeedModel = Mapper.Map<QuizDetailModel>(quizSeed);
 
         // Act
