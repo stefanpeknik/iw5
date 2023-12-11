@@ -89,6 +89,8 @@ public class LiveQuizFacade: ILiveQuizFacade
 
         if (quizState.NextQuestionIndex >= quiz?.Template.Questions.Count)
         {
+            quiz.Finished = true;
+            await uow.CommitAsync();
             return null;
         }
         
@@ -192,5 +194,25 @@ public class LiveQuizFacade: ILiveQuizFacade
         var scores = await scoreRepository.Get().Where(s => s.QuizId == quizId).Include(u => u.User).ToListAsync();
         var scoreList = _mapper.Map<List<ScoreListModel>>(scores);
         return scoreList;
+    }
+    
+    public bool AllUsersAnswered(Guid quizId)
+    {
+        var quizState = _liveQuizStateRepository.GetQuizState(quizId);
+        return quizState.UsersAnswers.Count == quizState.Users.Count;
+    }
+    
+    public async Task FinishQuiz(Guid quizId)
+    {
+        var uow = _unitOfWorkFactory.Create();
+        var quizRepository = uow.GetRepository<QuizEntity>();
+        var quiz = await quizRepository.Get().Where(q => q.Id == quizId).FirstOrDefaultAsync();
+        if (quiz == null)
+        {
+            return;
+        }
+        
+        quiz.Finished = true;
+        await uow.CommitAsync();
     }
 }

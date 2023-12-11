@@ -23,4 +23,8 @@ public interface ILiveQuizFacade
     Task InitializeQuiz(Guid quizId);
 
     Task<List<ScoreListModel>> CalculateResult(Guid quizId);
+
+    bool AllUsersAnswered(Guid quizId);
+
+    Task FinishQuiz(Guid quizId);
 }

@@ -6,23 +6,11 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace TaHooK.Api.DAL.Migrations
 {
     /// <inheritdoc />
-    public partial class InitialMigrations : Migration
+    public partial class InitialMigration : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
-            migrationBuilder.CreateTable(
-                name: "QuizTemplates",
-                columns: table => new
-                {
-                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
-                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false)
-                },
-                constraints: table =>
-                {
-                    table.PrimaryKey("PK_QuizTemplates", x => x.Id);
-                });
-
             migrationBuilder.CreateTable(
                 name: "Users",
                 columns: table => new
@@ -35,6 +23,25 @@ namespace TaHooK.Api.DAL.Migrations
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Users", x => x.Id);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "QuizTemplates",
+                columns: table => new
+                {
+                    Id = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
+                    Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_QuizTemplates", x => x.Id);
+                    table.ForeignKey(
+                        name: "FK_QuizTemplates_Users_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -64,7 +71,8 @@ namespace TaHooK.Api.DAL.Migrations
                     Title = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     TemplateId = table.Column<Guid>(type: "uniqueidentifier", nullable: false),
                     StartedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    Finished = table.Column<bool>(type: "bit", nullable: false)
+                    Finished = table.Column<bool>(type: "bit", nullable: false),
+                    CreatorId = table.Column<Guid>(type: "uniqueidentifier", nullable: false)
                 },
                 constraints: table =>
                 {
@@ -75,6 +83,12 @@ namespace TaHooK.Api.DAL.Migrations
                         principalTable: "QuizTemplates",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Quizes_Users_CreatorId",
+                        column: x => x.CreatorId,
+                        principalTable: "Users",
+                        principalColumn: "Id",
+                        onDelete: ReferentialAction.SetNull);
                 });
 
             migrationBuilder.CreateTable(
@@ -136,9 +150,19 @@ namespace TaHooK.Api.DAL.Migrations
                 column: "QuizTemplateId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Quizes_CreatorId",
+                table: "Quizes",
+                column: "CreatorId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Quizes_TemplateId",
                 table: "Quizes",
                 column: "TemplateId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_QuizTemplates_CreatorId",
+                table: "QuizTemplates",
+                column: "CreatorId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Scores_QuizId",
@@ -167,10 +191,10 @@ namespace TaHooK.Api.DAL.Migrations
                 name: "Quizes");
 
             migrationBuilder.DropTable(
-                name: "Users");
+                name: "QuizTemplates");
 
             migrationBuilder.DropTable(
-                name: "QuizTemplates");
+                name: "Users");
         }
     }
 }

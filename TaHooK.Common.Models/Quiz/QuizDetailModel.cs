@@ -10,6 +10,10 @@ public record QuizDetailModel : IWithId
     public required bool Finished { get; set; }
 
     public required Guid TemplateId { get; set; }
+    
+    public required Guid CreatorId { get; set; }
+    
+    public string CreatorName { get; set; } = string.Empty;
 
     public ICollection<ScoreListModel> Scores { get; set; } = new List<ScoreListModel>();
     public ICollection<QuestionListModel> Questions { get; set; } = new List<QuestionListModel>();

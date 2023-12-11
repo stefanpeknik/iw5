@@ -11,15 +11,18 @@ public class QuizTemplateMapperProfile : Profile
     public QuizTemplateMapperProfile()
     {
         CreateMap<QuizTemplateEntity, QuizTemplateDetailModel>()
-            .MapMember(dst => dst.Questions, src => src.Questions);
+            .MapMember(dst => dst.Questions, src => src.Questions)
+            .MapMember(dst => dst.CreatorName, src => src.Creator!.Name);
 
-        CreateMap<QuizTemplateEntity, QuizTemplateListModel>();
+        CreateMap<QuizTemplateEntity, QuizTemplateListModel>()
+            .MapMember(dst => dst.CreatorName, src => src.Creator!.Name);
 
         CreateMap<QuizTemplateEntity, QuizTemplateCreateUpdateModel>();
 
         CreateMap<QuizTemplateCreateUpdateModel, QuizTemplateEntity>()
             .Ignore(dst => dst.Id)
-            .Ignore(dst => dst.Questions);
+            .Ignore(dst => dst.Questions)
+            .Ignore(dst => dst.Creator);
 
         CreateMap<QuizTemplateEntity, IdModel>();
     }

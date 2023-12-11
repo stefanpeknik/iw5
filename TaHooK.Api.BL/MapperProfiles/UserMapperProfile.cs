@@ -21,7 +21,9 @@ public class UserMapperProfile : Profile
 
         CreateMap<UserCreateUpdateModel, UserEntity>()
             .Ignore(dst => dst.Id)
-            .Ignore(dst => dst.Scores);
+            .Ignore(dst => dst.Scores)
+            .Ignore(dst => dst.Quizes)
+            .Ignore(dst => dst.QuizTemplates);
 
         CreateMap<UserEntity, IdModel>();
 
