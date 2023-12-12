@@ -19,7 +19,11 @@
             <h3>@Data.Questions.Count questions</h3>
         }
         <div class="flex flex-row gap-5 my-5">
-            <Button Text="Edit Template" OnClickEvent="@OnEditQuizTemplate" Variant="0"></Button>
+            @if (Data.CreatorId == _userId)
+            {
+                <Button Text="Edit Template" OnClickEvent="@OnEditQuizTemplate" Variant="0"></Button> 
+            }
+            
             @if (Data.Questions.Count > 0)
             {
                 <Button Text="Create Lobby" OnClickEvent="@OnLobbyCreateButton" Variant="1"></Button>

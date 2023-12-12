@@ -1,4 +1,5 @@
 ﻿using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using TaHooK.Common.Models.Question;
 using TaHooK.Common.Models.Quiz;
@@ -15,11 +16,16 @@ namespace TaHook.Web.App.Pages.Quiz
 
         [Inject] private QuizTemplateFacade? TemplateFacade { get; set; }
         [Inject] private QuizFacade? Facade { get; set; }
+        [Inject] private AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
 
         public QuizTemplateDetailModel? Data { get; set; }
+        
+        private Guid _userId = Guid.Empty;
 
         protected override async Task OnInitializedAsync()
         {
+            var authState = await AuthenticationStateProvider!.GetAuthenticationStateAsync();
+            _userId = Guid.Parse(authState.User.Claims.First(c => c.Type.ToLower() == "id").Value);
             Data = await TemplateFacade!.GetByIdAsync(Id);
             await base.OnInitializedAsync();
         }
@@ -32,7 +38,7 @@ namespace TaHook.Web.App.Pages.Quiz
 
         protected void OnEditQuizTemplate(MouseEventArgs e)
         {
-            //TODO: Navigate to edit view
+            Navigation!.NavigateTo($"/quiz-edit/{Id}");
         }
 
         //private async Task LoadData()
