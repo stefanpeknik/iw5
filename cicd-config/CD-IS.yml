@@ -19,7 +19,7 @@ steps:
       command: 'publish'
       publishWebProjects: false
       projects: '**/TaHooK.IdentityProvider.App.csproj'
-      arguments: '--configuration $(BuildConfiguration) --framework $(dotNetFramework) --output $(Build.ArtifactStagingDirectory)/api'
+      arguments: '--configuration $(BuildConfiguration) --framework $(dotNetFramework) --output $(Build.ArtifactStagingDirectory)/identity'
       modifyOutputPath: false
 
   - task: PublishBuildArtifacts@1
