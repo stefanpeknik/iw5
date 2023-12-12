@@ -3,7 +3,7 @@
 
 <div class="flex flex-col items-center h-screen w-full items-stretch">
     <div class="absolute top-0 right-0 m-10">
-        <Button OnClickEvent="() => _showPast = !_showPast" Text="History" Icon="fa fa-clock-rotate-left"></Button>
+        <Button OnClickEvent="() => _showPast = !_showPast" Text="@(_showPast ? "Active" : "History")" Icon="fa fa-clock-rotate-left"></Button>
     </div>
     @if (!_showPast)
     {

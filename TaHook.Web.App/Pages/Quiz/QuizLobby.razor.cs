@@ -7,6 +7,7 @@ using Microsoft.AspNetCore.SignalR.Client;
 using TaHooK.Common.Models.Answer;
 using TaHooK.Common.Models.Question;
 using TaHooK.Common.Models.Quiz;
+using TaHooK.Common.Models.Score;
 using TaHooK.Common.Models.User;
 using TaHooK.Web.BL.Facades;
 
@@ -24,6 +25,7 @@ namespace TaHook.Web.App.Pages.Quiz
         public QuestionDetailModel? Question { get; set; }
         public List<UserListModel> Users { get; set; } = new ();
         public List<AnswerDistributionModel> Distribution { get; set; } = new();
+        public List<ScoreListModel> Scores { get; set; } = new();
 
         private int _currentQuestion = 0;
         private int _questionCount;
@@ -33,6 +35,7 @@ namespace TaHook.Web.App.Pages.Quiz
         private HubConnection? _hubConnection;
 
         private QuizState _state = QuizState.Lobby;
+        private bool _allScores = false;
 
         private enum QuizState
         {
@@ -66,6 +69,8 @@ namespace TaHook.Web.App.Pages.Quiz
                 (List<AnswerDistributionModel> distribution) => OnAnswerDistribution(distribution));
             _hubConnection.On("QuestionResult",
                 (QuestionResult result) => OnAnswerDistribution(result.AnswerDistribution));
+            _hubConnection.On("QuizResult",
+                (List<ScoreListModel> scores) => OnQuizResult(scores));
 
 
             await _hubConnection.StartAsync();
@@ -73,13 +78,18 @@ namespace TaHook.Web.App.Pages.Quiz
 
             await base.OnInitializedAsync();
         }
+
+        protected async ValueTask OnQuizResult(List<ScoreListModel> scores)
+        {
+            Console.WriteLine("Received Quiz Results");
+            _state = QuizState.QuizResult;
+            Scores = scores.OrderByDescending(o => o.Score).ToList();
+            await InvokeAsync(StateHasChanged);
+        }
+
         protected void OnNextQuestion(QuestionDetailModel? question)
         {
             _state = QuizState.Question;
-            if (_currentQuestion == _questionCount)
-            {
-                _state = QuizState.QuizResult;
-            }
 
             _currentQuestion++;
             Question = question;
@@ -120,6 +130,15 @@ namespace TaHook.Web.App.Pages.Quiz
             if (_hubConnection is not null)
             {
                 await _hubConnection.SendAsync("GetNextQuestion", Id);
+            }
+        }
+
+        protected async void FinishAndShowResults()
+        {
+            if (_hubConnection is not null)
+            {
+                await _hubConnection.SendAsync("QuizFinished", Id);
+                Console.WriteLine("Sent Finished quiz");
             }
         }
 
