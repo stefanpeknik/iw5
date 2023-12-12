@@ -21,6 +21,7 @@ namespace TaHook.Web.App.Pages.Quiz
         public QuizTemplateDetailModel? Data { get; set; }
         
         private Guid _userId = Guid.Empty;
+        private bool _showQuestions = false;
 
         protected override async Task OnInitializedAsync()
         {

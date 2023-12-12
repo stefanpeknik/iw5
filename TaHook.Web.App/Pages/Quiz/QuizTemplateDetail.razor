@@ -21,15 +21,23 @@
         <div class="flex flex-row gap-5 my-5">
             @if (Data.CreatorId == _userId)
             {
-                <Button Text="Edit Template" OnClickEvent="@OnEditQuizTemplate" Variant="0"></Button> 
+                <Button Text="Edit Template" OnClickEvent="@OnEditQuizTemplate" Variant="2"></Button> 
             }
             
             @if (Data.Questions.Count > 0)
             {
+                <Button Text="Show Questions" OnClickEvent="() => _showQuestions = !_showQuestions" Variant="0"></Button>
                 <Button Text="Create Lobby" OnClickEvent="@OnLobbyCreateButton" Variant="1"></Button>
             }
         </div>
-
+        
+        @if (_showQuestions)
+        {
+            @foreach (var question in @Data.Questions)
+            {
+                <h3>@question.Text</h3>
+            }
+        }
 
     </div>
 }
