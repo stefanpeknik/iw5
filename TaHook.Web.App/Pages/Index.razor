@@ -16,9 +16,6 @@ Welcome to your new app.
 
 @code {
     private ClaimsPrincipal? user;
-
-    private string idreturned = "";
-    
     private async ValueTask Call()
     {
         if (user == null) return;
@@ -40,11 +37,9 @@ Welcome to your new app.
         {
             
             Email = user.Claims.First(c => c.Type.ToLower() == "email").Value,
-            Name = user.Claims.First(c => c.Type.ToLower() == "displayname").Value,
-            Photo = new Uri("https://media.istockphoto.com/id/1337144146/cs/vektor/v%C3%BDchoz%C3%AD-vektor-ikony-profilu-avatara.jpg?s=2048x2048&w=is&k=20&c=diCfuahjWHOGGfMly2iM-q4VgkHl35O9HLu7J6Qr01M=")
+            Name = user.Claims.First(c => c.Type.ToLower() == "displayname").Value
         };
         var x = await UserApiClient.UsersPostAsync(u);
-        idreturned = x.Id.ToString();
     }
     
     protected override async Task OnInitializedAsync()
