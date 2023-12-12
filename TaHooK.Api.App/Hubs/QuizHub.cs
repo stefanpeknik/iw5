@@ -139,7 +139,7 @@ public class QuizHub: Hub<IQuizClient>
                 Results = results,
                 AnswerDistribution = answerDistribution
             };
-            await Clients.Client(Context.ConnectionId).QuestionResult(questionResult);
+            await Clients.Group(quizId.ToString()).QuestionResult(questionResult);
         }
     }
 }
