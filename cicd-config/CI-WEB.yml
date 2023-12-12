@@ -1,0 +1,14 @@
+trigger:
+  - dev
+
+pool:
+  vmImage: windows-latest
+
+variables:
+  buildConfiguration: 'Release'
+  dotNetFramework: 'net7.0'
+  dotNetVersion: '7.0.x'
+  targetRuntime: 'win-x64'
+
+extends:
+  template: build-WEB.yml
