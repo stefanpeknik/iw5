@@ -22,10 +22,12 @@ public partial class Search
     private string _query = "";
     private int _page = 1;
     private int _size = 10;
-    
+
+    private string _opacity = "opacity-0";
     
     private async Task SearchAsync()
     {
+        _opacity = "opacity-0";
         if (string.IsNullOrEmpty(_query)) // cant search for empty query
         {
             _questions = new List<SearchListItemModel>();
@@ -36,7 +38,12 @@ public partial class Search
         } 
         if (SearchFacade == null) return; // cant search without facade
         var searched = await SearchFacade.SearchAsync(_query, _page, _size);
-        await SortSearchResultsAsync(searched);  
+        await SortSearchResultsAsync(searched);
+        Task.Delay(100).ContinueWith(_ =>
+        {
+            _opacity = "";
+            InvokeAsync(StateHasChanged);
+        });
         await InvokeAsync(StateHasChanged);
     }
     

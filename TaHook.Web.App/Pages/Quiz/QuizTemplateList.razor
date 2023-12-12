@@ -11,7 +11,7 @@
             {
                 <div class="border rounded shadow-lg flex flex-row justify-between items-center px-10 py-5">
                     <h3 class="font-semibold">@quizTemplate.Title</h3>
-                    <div>
+                    <div class="flex gap-1">
                         @if (quizTemplate.CreatorId == _userId)
                         {
                             <Button OnClickEvent="() => OnDeleteTemplate(quizTemplate.Id)" Variant="3" Icon="fa fa-trash-can"></Button>
