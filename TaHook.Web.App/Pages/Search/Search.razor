@@ -1,0 +1,56 @@
+﻿@page "/Search"
+@inherits PageBase
+
+<div class="flex flex-col items-center min-h-screen w-full">
+    <h3 class="font-bold text-3xl text-center my-10">Search</h3>
+
+    <input type="text" value="@_query" @oninput="UpdateQuery" placeholder="Enter your search query..." class="w-[70%] p-2 mb-4">
+
+    <div class="w-[70%] flex flex-col gap-5 overflow-y-auto mb-5 p-5 border-y">
+        <div class="mb-4">
+            <h4 class="mb-2">Answers</h4>
+            @foreach (var answer in _answers)
+            {
+                <div class="border rounded shadow-lg flex flex-row justify-between items-center px-4 py-2">
+                    <p class="text-green-500">@answer.Name</p>
+                    <div class="flex items-center space-x-4">
+                        <Button OnClickEvent="() => OnShowQuizTemplateDetail(answer.Id)" Text="Go to Quiz Template"></Button>
+                    </div>
+                </div>          
+            }
+        </div>
+
+        <div class="mb-4">
+            <h4 class="mb-2">Questions</h4>
+            @foreach (var question in _questions)
+            {
+                <div class="border rounded shadow-lg flex flex-row justify-between items-center px-4 py-2">
+                    <p class="text-blue-500">@question.Name</p>
+                    <div class="flex items-center space-x-4">
+                        <Button OnClickEvent="() => OnShowQuizTemplateDetail(question.Id)" Text="Go to Quiz Template"></Button>
+                    </div>
+                </div>            
+            }
+        </div>
+
+        <div class="mb-4">
+            <h4 class="mb-2">Users</h4>
+            @foreach (var user in _users)
+            {
+                <div class="border rounded shadow-lg flex flex-row justify-between items-center px-4 py-2">
+                    <p class="text-purple-500">@user.Name</p>
+                    <div class="flex items-center space-x-4">
+                        <Button OnClickEvent="() => OnShowUserDetail(user.Id)" Text="Go to User"></Button>
+                    </div>
+                </div>
+                
+            }
+        </div>
+    </div>
+
+    <div class="mt-auto flex justify-center space-x-4">
+        <button hidden="@(_page == 1)" @onclick="() => ChangePage(-1)" class="px-4 py-2 bg-blue-500 text-white rounded"> &lt; </button>
+        <span class="text-xl">@_page</span>
+        <button hidden="@(_answers.Count + _questions.Count + _users.Count < _size)" @onclick="() => ChangePage(1)" class="px-4 py-2 bg-blue-500 text-white rounded"> &gt; </button>
+    </div>
+</div>

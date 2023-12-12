@@ -2,6 +2,7 @@
 using System.Runtime.CompilerServices;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
+using Microsoft.AspNetCore.Components.Authorization;
 using Microsoft.AspNetCore.Components.Web;
 using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.SignalR.Client;
@@ -20,8 +21,6 @@ namespace TaHook.Web.App.Pages.Quiz
         [Parameter]
         public Guid Id { get; set; }
 
-        public Guid User { get; set; } = Guid.Parse("A7F6F50A-3B1A-4065-8274-62EDD210CD1A"); // TODO: temp hardcoded
-
         public QuizDetailModel? QuizModel { get; set; }
         public QuestionDetailModel? Question { get; set; }
         public List<UserListModel> Users { get; set; } = new ();
@@ -34,10 +33,12 @@ namespace TaHook.Web.App.Pages.Quiz
         [Inject] private QuizFacade? Facade { get; set; }
         [Inject] private NavigationManager? Navigation { get; set; }
         [Inject] private IAccessTokenProvider? TokenProvider { get; set; }
+        [Inject] private AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
         private HubConnection? _hubConnection;
 
         private QuizState _state = QuizState.Lobby;
         private bool _allScores = false;
+        private Guid _userId = Guid.Empty;
 
         private enum QuizState
         {
@@ -60,6 +61,8 @@ namespace TaHook.Web.App.Pages.Quiz
         {
             QuizModel = await Facade!.GetByIdAsync(Id);
             _questionCount = QuizModel.Questions.Count;
+            var authState = await AuthenticationStateProvider!.GetAuthenticationStateAsync();
+            _userId = Guid.Parse(authState.User.Claims.First(c => c.Type.ToLower() == "id").Value);
             var accessTokenResult = await TokenProvider!.RequestAccessToken();
 
             if (accessTokenResult.TryGetToken(out var accessToken))
@@ -78,7 +81,7 @@ namespace TaHook.Web.App.Pages.Quiz
             _hubConnection.On("AnswerDistribution",
                 (List<AnswerDistributionModel> distribution) => OnAnswerDistribution(distribution));
             _hubConnection.On("QuestionResult",
-                (QuestionResult result) => OnAnswerDistribution(result.AnswerDistribution));
+                (QuestionResult result) => OnQuestionResult(result));
             _hubConnection.On("QuizResult",
                 (List<ScoreListModel> scores) => OnQuizResult(scores));
 
@@ -116,6 +119,14 @@ namespace TaHook.Web.App.Pages.Quiz
         {
             _state = QuizState.QuestionAnswered;
             Distribution = answerDistribution;
+            UpdateChart();
+            InvokeAsync(StateHasChanged);
+        }
+        
+        protected void OnQuestionResult(QuestionResult result)
+        {
+            _state = QuizState.QuestionResult;
+            Distribution = result.AnswerDistribution;
             UpdateChart();
             InvokeAsync(StateHasChanged);
         }

@@ -28,5 +28,10 @@ namespace TaHook.Web.App.Pages.Quiz
         {
             Navigation!.NavigateTo($"/lobby/{quizGameId}");
         }
+        
+        protected void OnShowDetail(Guid quizId)
+        {
+            Navigation!.NavigateTo($"/quiz/{quizId}");
+        }
     }
 }

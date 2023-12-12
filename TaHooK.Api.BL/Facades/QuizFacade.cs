@@ -38,6 +38,7 @@ public class QuizFacade : CrudFacadeBase<QuizEntity, QuizListModel, QuizDetailMo
     public override List<string> NavigationPathDetails => new()
     {
         $"{nameof(QuizEntity.Scores)}",
-        $"{nameof(QuizEntity.Template)}.{nameof(QuizTemplateEntity.Questions)}"
+        $"{nameof(QuizEntity.Template)}.{nameof(QuizTemplateEntity.Questions)}",
+        $"{nameof(QuizEntity.Creator)}"
     };
 }
