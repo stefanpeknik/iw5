@@ -14,6 +14,7 @@ namespace TaHook.Web.App.Pages.Quiz
 
         [Inject] private NavigationManager? Navigation { get; set; }
         [Inject] private QuizTemplateFacade? Facade { get; set; }
+        [Inject] private QuestionFacade? QuestionFacade { get; set; }
         [Inject] private AuthenticationStateProvider? AuthenticationStateProvider { get; set; }
 
         List<QuizTemplateListModel>? QuizTemplates { get; set; }
@@ -83,8 +84,13 @@ namespace TaHook.Web.App.Pages.Quiz
                 return;
             }
             _showCreateTemplate = false;
-            await Facade!.CreateTemplateAsync(templateTitle);
-            Console.WriteLine("Create");
+            var id = await Facade!.CreateTemplateAsync(templateTitle);
+            var question = new QuestionCreateUpdateModel
+            {
+                Text = "",
+                QuizTemplateId = id.Id
+            };
+            await QuestionFacade!.CreateQuestionAsync(question);
             QuizTemplates = await Facade!.GetAllAsync();
             InvokeAsync(StateHasChanged);
             templateTitle = string.Empty;

@@ -1,26 +1,15 @@
-﻿using System.Net.Mime;
-using Microsoft.AspNetCore.Components;
-using Microsoft.AspNetCore.Components.Web;
-using TaHooK.Common.Enums;
+﻿using Microsoft.AspNetCore.Components;
 using TaHooK.Common.Models.Question;
-using TaHooK.Common.Models.Quiz;
 using TaHooK.Common.Models.Answer;
 using TaHooK.Web.BL.Facades;
 
 namespace TaHook.Web.App.Pages.Quiz;
 
-public class Answer
-{
-    public string? Text { get; set; }
-    // Add image property if needed
-}
-
 public enum EntityState
 {
     Unchanged,
     New,
-    Updated,
-    Deleted
+    Updated
 }
 
 public class QuestionModel
@@ -31,37 +20,19 @@ public class QuestionModel
     public List<AnswerListModel> Answers { get; set; } = new List<AnswerListModel>();
 }
 
-public class AnswerModel
-{
-    public Guid Id { get; set; }
-    public string Text { get; set; }
-    public bool IsCorrect { get; set; }
-    public AnswerType Type { get; set; }
-    public string Picture { get; set; }
-    
-    
-}
-
 public partial class QuizEdit
 {
     private string QuestionText { get; set; }
     private const int MaxAnswers = 4;
-    private List<Answer> Answers = new List<Answer>();
     private bool _notfirstquestion = false;
     private int _currentQuestion = 1;
     private Guid currentQuestionId { get; set; } = Guid.Empty;
 
     private string quizTitle { get; set; } = String.Empty;
-    private ICollection<QuestionListModel> QuestionsModel { get; set; } = new List<QuestionListModel>();
-    private ICollection<AnswerListModel> AnswersModel { get; set; } = new List<AnswerListModel>();
-
-    private List<QuestionCreateUpdateModel> Questions { get; set; } = new List<QuestionCreateUpdateModel>();
-
     private string imageUrl { get; set; } = string.Empty;
     private bool imagePopup { get; set; } = false;
     private int currentImageAnswerIndex { get; set; } = 0;
     private List<QuestionModel> FetchQuestionsModelList { get; set; } = new List<QuestionModel>();
-    private List<AnswerDetailModel> AnswersDetailModel { get; set; } = new List<AnswerDetailModel>();
 
     [Parameter] public Guid Id { get; set; }
 
@@ -71,9 +42,6 @@ public partial class QuizEdit
     [Inject] private QuestionFacade? QuestionFacade { get; set; }
 
     [Inject] private AnswerFacade? AnswerFacade { get; set; }
-
-
-    private QuizTemplateDetailModel? Data { get; set; }
 
     protected override async Task OnInitializedAsync()
     {
@@ -87,7 +55,6 @@ public partial class QuizEdit
         var questions = Data.Questions;
         foreach (var question in questions)
         {
-            Console.WriteLine($"Question: {question.Text}");
             var questionModel = new QuestionModel
             {
                 Id = question.Id,
@@ -96,14 +63,10 @@ public partial class QuizEdit
 
             };
             
-            Console.WriteLine($"Question: {question.Text}");
-            Console.WriteLine($"QuestionId: {question.Id}");
-            
             var answers = await AnswerFacade!.GetByQuestionIdAsync(question.Id);
             
             foreach (var answer in answers)
             {
-                Console.WriteLine($"Answer: {answer.Text}");
                 questionModel.Answers.Add(new AnswerListModel
                 {
                     Id = answer.Id,
@@ -113,9 +76,6 @@ public partial class QuizEdit
                     Picture = answer.Picture,
                     QuestionId = answer.QuestionId
                 });
-                
-                Console.WriteLine($"AnswerId: {answer.Id}");
-                Console.WriteLine($"Text: {answer.Text}");
             }
             
             FetchQuestionsModelList.Add(questionModel);
@@ -147,8 +107,6 @@ public partial class QuizEdit
 
     protected bool CheckIfCreateQuestions(int newIndex)
     {
-        Console.WriteLine(newIndex);
-        Console.WriteLine(FetchQuestionsModelList.Count);
         if (newIndex > FetchQuestionsModelList.Count)
         {
             return true;
@@ -185,9 +143,6 @@ public partial class QuizEdit
     
     protected async Task UpdateQuestionUpdateModelAsync()
     {
-
-        Console.WriteLine($"template id: {Id}");
-        
         foreach (var question in FetchQuestionsModelList)
         {
             if (question.State == EntityState.New)
@@ -215,6 +170,7 @@ public partial class QuizEdit
             if (question.State == EntityState.Updated)
             {
                 var answers = question.Answers;
+                answers.ForEach(x => x.QuestionId = question.Id);
             
                 var questionCreateUpdateModel = new QuestionCreateUpdateModel
                 {
@@ -239,6 +195,7 @@ public partial class QuizEdit
                 IsCorrect = false,
                 Type = TaHooK.Common.Enums.AnswerType.Text,
             });
+            FetchQuestionsModelList[_currentQuestion-1].State = EntityState.Updated;
         }
         InvokeAsync(StateHasChanged);
     }
@@ -252,6 +209,7 @@ public partial class QuizEdit
         } else if(FetchQuestionsModelList.ElementAt(_currentQuestion-1).Answers.Count == 1) {
             FetchQuestionsModelList.ElementAt(_currentQuestion-1).Answers.RemoveAt(0);
         }
+        FetchQuestionsModelList[_currentQuestion-1].State = EntityState.Updated;
         InvokeAsync(StateHasChanged);
     }
 
@@ -261,21 +219,23 @@ public partial class QuizEdit
         {
            
             FetchQuestionsModelList[_currentQuestion-1].Answers[index].Text = text;
-            Console.WriteLine($"contentbefore: {FetchQuestionsModelList[_currentQuestion-1].Answers[index].Text}");
+            FetchQuestionsModelList[_currentQuestion-1].State = EntityState.Updated;
             StateHasChanged();
         }
     }
 
     private void UpdateQuestionText(string text)
     {
-    FetchQuestionsModelList[_currentQuestion - 1].Text = text;
-    StateHasChanged();
+        FetchQuestionsModelList[_currentQuestion - 1].Text = text;
+        FetchQuestionsModelList[_currentQuestion-1].State = EntityState.Updated;
+        StateHasChanged();
     }
 
     private void OnToggle(int index)
     {
         if (index >= 0 && index < FetchQuestionsModelList[_currentQuestion-1].Answers.Count())
         {
+            FetchQuestionsModelList[_currentQuestion-1].State = EntityState.Updated;
             FetchQuestionsModelList[_currentQuestion-1].Answers[index].IsCorrect = !FetchQuestionsModelList[_currentQuestion-1].Answers[index].IsCorrect;
             StateHasChanged();
         }
@@ -285,6 +245,7 @@ public partial class QuizEdit
     {
         if (index >= 0 && index < FetchQuestionsModelList[_currentQuestion-1].Answers.Count())
         {
+            FetchQuestionsModelList[_currentQuestion-1].State = EntityState.Updated;
             FetchQuestionsModelList[_currentQuestion-1].Answers[index].Type = FetchQuestionsModelList[_currentQuestion-1].Answers[index].Type == TaHooK.Common.Enums.AnswerType.Text ? TaHooK.Common.Enums.AnswerType.Picture : TaHooK.Common.Enums.AnswerType.Text;
             StateHasChanged();
         }
@@ -304,6 +265,7 @@ public partial class QuizEdit
     private void OnConfirmImage()
     {
         FetchQuestionsModelList[_currentQuestion-1].Answers[currentImageAnswerIndex].Picture = new Uri(imageUrl);
+        FetchQuestionsModelList[_currentQuestion-1].State = EntityState.Updated;
         imagePopup = false;
         InvokeAsync(StateHasChanged);
         imageUrl = string.Empty;
@@ -319,7 +281,6 @@ public partial class QuizEdit
     {
         _notfirstquestion = true;
         _currentQuestion++;
-        Console.WriteLine($"Number of questions: {FetchQuestionsModelList.Count}");
         if (CheckIfCreateQuestions(_currentQuestion))
         {
             CreateNewEmptyQuestion();
@@ -341,7 +302,6 @@ public partial class QuizEdit
 
         _currentQuestion--;
         InvokeAsync(StateHasChanged);
-        Console.WriteLine($"Number of questions: {FetchQuestionsModelList.Count}");
         GetCurrentQuestion(_currentQuestion);
         
         
