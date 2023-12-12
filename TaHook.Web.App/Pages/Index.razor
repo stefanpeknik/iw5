@@ -8,14 +8,25 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1 class="bg-offWhite text-offWhite">Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?"/>
+<div class="flex flex-col justify-center items-center h-screen w-full">
+    <h1 class="text-center text-5xl font-bold m-5">TaHooK!</h1>
+    @if (user != null)
+    {
+        <h2 class="text-center text-xl font-bold m-5">Welcome, @name!</h2>
+    }
+    else
+    {
+        <NavLink href="authentication/login">
+            <div class="p-2.5 mt-3 rounded-md px-4 duration-300 bg-navBlue cursor-pointer hover:bg-blue-600 text-white">
+                <span class="text-[15px] text-center text-gray-200 font-bold">Log In</span>
+            </div>
+        </NavLink>
+    }
+</div>
 
 @code {
     private ClaimsPrincipal? user;
+    private string? name;
     private async ValueTask Call()
     {
         if (user == null) return;
@@ -33,6 +44,7 @@ Welcome to your new app.
 
         if(!notFound) return;
 
+        
         var u = new UserCreateUpdateModel
         {
             
@@ -45,7 +57,9 @@ Welcome to your new app.
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        
         user = authState.User;
+        name = user.Claims.First(c => c.Type.ToLower() == "displayname").Value;
         await Call();
     }
 }
