@@ -15,6 +15,9 @@ public class AnswerMapperProfile : Profile
         CreateMap<AnswerEntity, AnswerDetailModel>();
 
         CreateMap<AnswerEntity, AnswerListModel>();
+        
+        CreateMap<AnswerListModel, AnswerEntity>()
+            .Ignore(dst => dst.Question);
 
         CreateMap<AnswerEntity, AnswerCreateUpdateModel>();
 
