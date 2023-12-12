@@ -26,7 +26,14 @@ public partial class Search
     
     private async Task SearchAsync()
     {
-        if (string.IsNullOrEmpty(_query)) return; // cant search for empty query
+        if (string.IsNullOrEmpty(_query)) // cant search for empty query
+        {
+            _questions = new List<SearchListItemModel>();
+            _answers = new List<SearchListItemModel>();
+            _users = new List<SearchListItemModel>();
+            await InvokeAsync(StateHasChanged);
+            return;
+        } 
         if (SearchFacade == null) return; // cant search without facade
         var searched = await SearchFacade.SearchAsync(_query, _page, _size);
         await SortSearchResultsAsync(searched);  
@@ -36,6 +43,11 @@ public partial class Search
     protected void OnShowQuizTemplateDetail(Guid quizId)
     {
         Navigation!.NavigateTo($"/quiz/{quizId}");
+    }
+    
+    protected void OnShowUserDetail(Guid userId)
+    {
+        Navigation!.NavigateTo($"/user/{userId}");
     }
     
     private async Task SortSearchResultsAsync(SearchListModel searchResults)

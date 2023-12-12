@@ -671,6 +671,14 @@ video {
   margin-top: 1.25rem !important;
 }
 
+.mt-auto {
+  margin-top: auto !important;
+}
+
+.block {
+  display: block !important;
+}
+
 .flex {
   display: flex !important;
 }
@@ -705,6 +713,10 @@ video {
 
 .h-screen {
   height: 100vh !important;
+}
+
+.min-h-screen {
+  min-height: 100vh !important;
 }
 
 .w-\[100px\] {
@@ -987,6 +999,10 @@ video {
      object-fit: cover !important;
 }
 
+.p-1 {
+  padding: 0.25rem !important;
+}
+
 .p-2 {
   padding: 0.5rem !important;
 }
@@ -1063,6 +1079,11 @@ video {
   font-size: 15px !important;
 }
 
+.text-sm {
+  font-size: 0.875rem !important;
+  line-height: 1.25rem !important;
+}
+
 .text-xl {
   font-size: 1.25rem !important;
   line-height: 1.75rem !important;
@@ -1101,6 +1122,14 @@ video {
   color: rgb(168 85 247 / var(--tw-text-opacity)) !important;
 }
 
+<<<<<<< Updated upstream
+=======
+.text-red-500 {
+  --tw-text-opacity: 1 !important;
+  color: rgb(239 68 68 / var(--tw-text-opacity)) !important;
+}
+
+>>>>>>> Stashed changes
 .text-white {
   --tw-text-opacity: 1 !important;
   color: rgb(255 255 255 / var(--tw-text-opacity)) !important;

@@ -1,7 +1,7 @@
 ﻿@page "/Search"
 @inherits PageBase
 
-<div class="flex flex-col items-center h-screen w-full items-stretch">
+<div class="flex flex-col items-center min-h-screen w-full">
     <h3 class="font-bold text-3xl text-center my-10">Search</h3>
 
     <input type="text" value="@_query" @oninput="UpdateQuery" placeholder="Enter your search query..." class="w-[70%] p-2 mb-4">
@@ -16,7 +16,7 @@
                     <div class="flex items-center space-x-4">
                         <Button OnClickEvent="() => OnShowQuizTemplateDetail(answer.Id)" Text="Go to Quiz Template"></Button>
                     </div>
-                </div>
+                </div>          
             }
         </div>
 
@@ -29,7 +29,7 @@
                     <div class="flex items-center space-x-4">
                         <Button OnClickEvent="() => OnShowQuizTemplateDetail(question.Id)" Text="Go to Quiz Template"></Button>
                     </div>
-                </div>
+                </div>            
             }
         </div>
 
@@ -40,14 +40,15 @@
                 <div class="border rounded shadow-lg flex flex-row justify-between items-center px-4 py-2">
                     <p class="text-purple-500">@user.Name</p>
                     <div class="flex items-center space-x-4">
-                        @* TODO navigate to user detail *@
+                        <Button OnClickEvent="() => OnShowUserDetail(user.Id)" Text="Go to User"></Button>
                     </div>
                 </div>
+                
             }
         </div>
     </div>
 
-    <div class="flex justify-center space-x-4">
+    <div class="mt-auto flex justify-center space-x-4">
         <button hidden="@(_page == 1)" @onclick="() => ChangePage(-1)" class="px-4 py-2 bg-blue-500 text-white rounded"> &lt; </button>
         <span class="text-xl">@_page</span>
         <button hidden="@(_answers.Count + _questions.Count + _users.Count < _size)" @onclick="() => ChangePage(1)" class="px-4 py-2 bg-blue-500 text-white rounded"> &gt; </button>
