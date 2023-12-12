@@ -67,6 +67,13 @@ public class UserController : ControllerBase
         {
             return BadRequest(new ErrorModel {Error = "JWT ID has invalid format."});
         }
+        
+        var existingUser = await _userFacade.GetByIdAsync(id);
+        if (existingUser == null)
+        {
+            user.Photo =
+                new Uri("https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg");
+        }
 
         var result = await _userFacade.CreateOrUpdateAsync(user, id);
         return Created($"/api/users/{result}",result);
