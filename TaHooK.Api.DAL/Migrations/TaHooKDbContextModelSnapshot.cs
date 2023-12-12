@@ -22,7 +22,7 @@ namespace TaHooK.Api.DAL.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("TaHooK.Api.DAL.Common.Entities.AnswerEntity", b =>
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.AnswerEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -51,13 +51,13 @@ namespace TaHooK.Api.DAL.Migrations
                     b.ToTable("Answers");
                 });
 
-            modelBuilder.Entity("TaHooK.Api.DAL.Common.Entities.QuestionEntity", b =>
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuestionEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<Guid>("QuizId")
+                    b.Property<Guid>("QuizTemplateId")
                         .HasColumnType("uniqueidentifier");
 
                     b.Property<string>("Text")
@@ -66,26 +66,63 @@ namespace TaHooK.Api.DAL.Migrations
 
                     b.HasKey("Id");
 
-                    b.HasIndex("QuizId");
+                    b.HasIndex("QuizTemplateId");
 
                     b.ToTable("Questions");
                 });
 
-            modelBuilder.Entity("TaHooK.Api.DAL.Common.Entities.QuizEntity", b =>
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("uniqueidentifier");
 
-                    b.Property<DateTime>("Schedule")
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<bool>("Finished")
+                        .HasColumnType("bit");
+
+                    b.Property<DateTime>("StartedAt")
                         .HasColumnType("datetime2");
 
+                    b.Property<Guid>("TemplateId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
                     b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.HasIndex("TemplateId");
 
                     b.ToTable("Quizes");
                 });
 
-            modelBuilder.Entity("TaHooK.Api.DAL.Common.Entities.ScoreEntity", b =>
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizTemplateEntity", b =>
+                {
+                    b.Property<Guid>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<Guid?>("CreatorId")
+                        .HasColumnType("uniqueidentifier");
+
+                    b.Property<string>("Title")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.HasIndex("CreatorId");
+
+                    b.ToTable("QuizTemplates");
+                });
+
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.ScoreEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -109,7 +146,7 @@ namespace TaHooK.Api.DAL.Migrations
                     b.ToTable("Scores");
                 });
 
-            modelBuilder.Entity("TaHooK.Api.DAL.Common.Entities.UserEntity", b =>
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.UserEntity", b =>
                 {
                     b.Property<Guid>("Id")
                         .ValueGeneratedOnAdd()
@@ -123,10 +160,6 @@ namespace TaHooK.Api.DAL.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
                     b.Property<string>("Photo")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -136,9 +169,9 @@ namespace TaHooK.Api.DAL.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("TaHooK.Api.DAL.Common.Entities.AnswerEntity", b =>
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.AnswerEntity", b =>
                 {
-                    b.HasOne("TaHooK.Api.DAL.Common.Entities.QuestionEntity", "Question")
+                    b.HasOne("TaHooK.Api.DAL.Entities.QuestionEntity", "Question")
                         .WithMany("Answers")
                         .HasForeignKey("QuestionId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -147,26 +180,54 @@ namespace TaHooK.Api.DAL.Migrations
                     b.Navigation("Question");
                 });
 
-            modelBuilder.Entity("TaHooK.Api.DAL.Common.Entities.QuestionEntity", b =>
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuestionEntity", b =>
                 {
-                    b.HasOne("TaHooK.Api.DAL.Common.Entities.QuizEntity", "Quiz")
+                    b.HasOne("TaHooK.Api.DAL.Entities.QuizTemplateEntity", "QuizTemplate")
                         .WithMany("Questions")
-                        .HasForeignKey("QuizId")
+                        .HasForeignKey("QuizTemplateId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("Quiz");
+                    b.Navigation("QuizTemplate");
                 });
 
-            modelBuilder.Entity("TaHooK.Api.DAL.Common.Entities.ScoreEntity", b =>
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizEntity", b =>
                 {
-                    b.HasOne("TaHooK.Api.DAL.Common.Entities.QuizEntity", "Quiz")
+                    b.HasOne("TaHooK.Api.DAL.Entities.UserEntity", "Creator")
+                        .WithMany("Quizes")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.HasOne("TaHooK.Api.DAL.Entities.QuizTemplateEntity", "Template")
+                        .WithMany()
+                        .HasForeignKey("TemplateId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Creator");
+
+                    b.Navigation("Template");
+                });
+
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizTemplateEntity", b =>
+                {
+                    b.HasOne("TaHooK.Api.DAL.Entities.UserEntity", "Creator")
+                        .WithMany("QuizTemplates")
+                        .HasForeignKey("CreatorId")
+                        .OnDelete(DeleteBehavior.SetNull);
+
+                    b.Navigation("Creator");
+                });
+
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.ScoreEntity", b =>
+                {
+                    b.HasOne("TaHooK.Api.DAL.Entities.QuizEntity", "Quiz")
                         .WithMany("Scores")
                         .HasForeignKey("QuizId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("TaHooK.Api.DAL.Common.Entities.UserEntity", "User")
+                    b.HasOne("TaHooK.Api.DAL.Entities.UserEntity", "User")
                         .WithMany("Scores")
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -177,20 +238,27 @@ namespace TaHooK.Api.DAL.Migrations
                     b.Navigation("User");
                 });
 
-            modelBuilder.Entity("TaHooK.Api.DAL.Common.Entities.QuestionEntity", b =>
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuestionEntity", b =>
                 {
                     b.Navigation("Answers");
                 });
 
-            modelBuilder.Entity("TaHooK.Api.DAL.Common.Entities.QuizEntity", b =>
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizEntity", b =>
                 {
-                    b.Navigation("Questions");
-
                     b.Navigation("Scores");
                 });
 
-            modelBuilder.Entity("TaHooK.Api.DAL.Common.Entities.UserEntity", b =>
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.QuizTemplateEntity", b =>
                 {
+                    b.Navigation("Questions");
+                });
+
+            modelBuilder.Entity("TaHooK.Api.DAL.Entities.UserEntity", b =>
+                {
+                    b.Navigation("QuizTemplates");
+
+                    b.Navigation("Quizes");
+
                     b.Navigation("Scores");
                 });
 #pragma warning restore 612, 618

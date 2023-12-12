@@ -1,0 +1,35 @@
+﻿@page "/user/{id:guid}"
+@inherits PageBase
+
+@if (User != null)
+{
+    @if (_userId == User.Id)
+    {
+        <h1 class="text-2xl font-bold">My Profile</h1>
+    }
+    <div class="mt-4">
+        <label class="block text-sm font-semibold">Name:</label>
+        <span class="block text-md">@User.Name</span>
+    </div>
+    
+    <div class="mt-4">
+        <label class="block text-sm font-semibold">Email:</label>
+        <span class="block text-md">@User.Email</span>
+    </div>
+    
+    <div class="mt-4">
+    <label class="block text-sm font-semibold">Photo:</label>
+    <img src="@User.Photo" class="mt-2 rounded shadow"/>
+    @if (_userId == User.Id)
+    {   
+        <div class="mt-2">
+            <input @bind="@_photoUrl" class="border rounded p-1">
+            <button @onclick="ChangePhoto" class="mt-2 bg-blue-500 text-white px-4 py-2 rounded">Change Photo</button>
+            @if (_badPhotoMessage != String.Empty)
+            {
+                <span class="text-red-500">@_badPhotoMessage</span>
+            }
+        </div>
+    }
+    </div>
+}

@@ -17,6 +17,7 @@ public class TaHooKDbContext : DbContext
     public DbSet<AnswerEntity> Answers { get; set; } = null!;
     public DbSet<QuestionEntity> Questions { get; set; } = null!;
     public DbSet<QuizEntity> Quizes { get; set; } = null!;
+    public DbSet<QuizTemplateEntity> QuizTemplates { get; set; } = null!;
     public DbSet<ScoreEntity> Scores { get; set; } = null!;
     public DbSet<UserEntity> Users { get; set; } = null!;
 
@@ -24,12 +25,15 @@ public class TaHooKDbContext : DbContext
     {
         base.OnModelCreating(modelBuilder);
 
-        modelBuilder.Entity<QuizEntity>(entity =>
+        modelBuilder.Entity<QuizTemplateEntity>(entity =>
         {
             entity.HasMany(i => i.Questions)
-                .WithOne(i => i.Quiz)
+                .WithOne(i => i.QuizTemplate)
                 .OnDelete(DeleteBehavior.Cascade);
+        });
 
+        modelBuilder.Entity<QuizEntity>(entity =>
+        {
             entity.HasMany(i => i.Scores)
                 .WithOne(i => i.Quiz)
                 .OnDelete(DeleteBehavior.Cascade);
@@ -47,15 +51,30 @@ public class TaHooKDbContext : DbContext
             entity.HasMany(i => i.Scores)
                 .WithOne(i => i.User)
                 .OnDelete(DeleteBehavior.Cascade);
-        });
 
-        if (_seedDemoData)
+            entity.HasMany(i => i.Quizes)
+                .WithOne(i => i.Creator)
+                .OnDelete(DeleteBehavior.SetNull);
+
+            entity.HasMany(i => i.QuizTemplates)
+                .WithOne(i => i.Creator)
+                .OnDelete(DeleteBehavior.SetNull);
+        });
+    }
+    
+    public async Task SeedDatabaseAsync()
+    {
+        if (!_seedDemoData)
         {
-            UserSeeds.Seed(modelBuilder);
-            QuizSeeds.Seed(modelBuilder);
-            QuestionSeeds.Seed(modelBuilder);
-            AnswerSeeds.Seed(modelBuilder);
-            ScoreSeeds.Seed(modelBuilder);
+            return;
         }
+        UserSeeds.Seed(this);
+        QuizTemplateSeeds.Seed(this);
+        QuizSeeds.Seed(this);
+        QuestionSeeds.Seed(this);
+        AnswerSeeds.Seed(this);
+        ScoreSeeds.Seed(this);
+        
+        await SaveChangesAsync();
     }
 }

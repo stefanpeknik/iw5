@@ -22,11 +22,12 @@ public class QuestionMapperProfile : Profile
         CreateMap<QuestionCreateUpdateModel, QuestionEntity>()
             .Ignore(dst => dst.Id)
             .Ignore(dst => dst.Answers)
-            .Ignore(dst => dst.Quiz);
+            .Ignore(dst => dst.QuizTemplate);
 
         CreateMap<QuestionEntity, IdModel>();
 
         CreateMap<QuestionEntity, SearchListItemModel>()
+            .MapMember(dst => dst.Id, src=> src.QuizTemplateId)
             .MapMember(dst => dst.Name, src => src.Text)
             .MapMember(dst => dst.Type, src => SearchEntityType.Question);
     }

@@ -13,13 +13,13 @@ public class QuestionValidator : AbstractValidator<QuestionCreateUpdateModel>
     {
         _unitOfWorkFactory = unitOfWorkFactory;
 
-        RuleFor(x => x.QuizId).Must(QuizExists).WithMessage(x => $"Quiz with Id={x.QuizId} doesn't exist!");
+        RuleFor(x => x.QuizTemplateId).Must(QuizExists).WithMessage(x => $"Quiz with Id={x.QuizTemplateId} doesn't exist!");
     }
 
     private bool QuizExists(Guid quizId)
     {
         var uow = _unitOfWorkFactory.Create();
 
-        return uow.GetRepository<QuizEntity>().Exists(quizId);
+        return uow.GetRepository<QuizTemplateEntity>().Exists(quizId);
     }
 }

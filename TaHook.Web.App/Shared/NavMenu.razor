@@ -1,0 +1,59 @@
+﻿@using Microsoft.AspNetCore.Components.Authorization
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject AuthenticationStateProvider AuthenticationStateProvider
+
+
+<div class="sidebar fixed top-0 bottom-0 lg:left-0 p-2 w-[250px] overflow-y-auto text-center bg-navBlue">
+    <div class="text-gray-100 text-xl">
+        <div class="p-2.5 mt-1">
+            <h1 class="font-bold text-center text-gray-200 text-[15px]">TaHoooK!</h1>
+        </div>
+        <div class="my-2 bg-gray-600 h-[1px]"></div>
+    </div>
+
+    <NavButton href="" Title="Home" />
+    
+    @if (_isUserAuthenticated)
+    {
+        <NavButton href="/search" Title="Search" />
+        <NavButton href="/games" Title="Join Quiz" />
+        <NavButton href="/templates" Title="Start Quiz" />
+        <NavButton href=@_userProfile Title="Profile" />
+        <LogoutButton />
+    }
+    else
+    {
+        <NavButton href="authentication/login" Title="Log In" />
+    }
+</div>
+
+@code {
+    private bool _isUserAuthenticated;
+    private string _userProfile;
+
+    protected override async Task OnInitializedAsync()
+    {
+        var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        _isUserAuthenticated = authState.User.Identity.IsAuthenticated;
+        
+        // Subscribe to the authentication state changes
+        AuthenticationStateProvider.AuthenticationStateChanged += AuthenticationStateChangedHandler;
+    }
+    
+    private async void AuthenticationStateChangedHandler(Task<AuthenticationState> task)
+    {
+        var authState = await task;
+        var user = authState.User;
+        _isUserAuthenticated = user.Identity.IsAuthenticated;
+        var userId = Guid.Parse(user.Claims.First(c => c.Type.ToLower() == "id").Value);
+        _userProfile = $"/user/{userId}";
+        // User is authenticated, update your state and re-render the component
+        StateHasChanged();
+    }
+    
+    public void Dispose()
+    {
+        // Unsubscribe from the event when the component is disposed
+        AuthenticationStateProvider.AuthenticationStateChanged -= AuthenticationStateChangedHandler;
+    }
+}

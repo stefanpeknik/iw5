@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using TaHooK.Api.BL.Facades;
@@ -7,6 +8,7 @@ using TaHooK.Common.Models.Search;
 namespace TaHooK.Api.App.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/search")]
 public class SearchController : ControllerBase
 {
@@ -19,7 +21,6 @@ public class SearchController : ControllerBase
 
     [HttpGet]
     [OpenApiOperation("GetSearch", "Returns a list of found entities based on the searched query.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(SearchListModel), Description = "Successful search.")]
     public SearchListModel GetSearch([FromQuery] SearchParams searchParams)
     {
         return _searchFacade.GetSearched(searchParams.Query, searchParams.Page, searchParams.PageSize);

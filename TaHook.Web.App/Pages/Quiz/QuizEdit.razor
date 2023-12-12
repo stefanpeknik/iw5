@@ -1,0 +1,116 @@
+﻿@page "/quiz-edit/{id:guid}"
+@inherits PageBase
+
+@if (FetchQuestionsModelList.Count > 0)
+{
+    <div class="flex flex-col justify-around items-stretch h-screen">
+        <div class="flex flex-col items-center  items-stretch">
+            <h1 class="font-bold text-3xl text-center my-10">@(quizTitle)</h1>
+        </div>
+        <div class="flex flex-col items-center bg-white shadow-lg rounded-lg mx-[10%] p-8">
+            <div class="flex items-center border-2 border-black p-5 w-full max-w-lg">
+                <input type="text" value="@FetchQuestionsModelList[_currentQuestion - 1].Text"
+                       @oninput="@(e => UpdateQuestionText(e.Value.ToString()))"
+                       placeholder="Enter your question here"
+                       class="flex-grow text-center font-bold text-2xl "/>
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-5 w-full max-w-lg">
+                @for (int i = 0; i < MaxAnswers; i++)
+                {
+                    int localIndex = i;
+                    <div class="p-5 bg-gray-400 rounded shadow">
+
+                        @if (localIndex < FetchQuestionsModelList[_currentQuestion - 1].Answers.Count())
+                        {
+                            <input type="text"
+                                   value="@FetchQuestionsModelList[_currentQuestion - 1].Answers[localIndex].Text"
+                                   @oninput="@(e => UpdateAnswerText(localIndex, e.Value.ToString()))"
+                                   placeholder="Text for your answer"
+                                   class="p-2 border-gray-300 rounded"/>
+                        }
+                        <div class="flex flex-row">
+                            @if (FetchQuestionsModelList[_currentQuestion - 1].Answers.Count() >= localIndex + 1)
+                            {
+                                @if (@FetchQuestionsModelList[_currentQuestion - 1].Answers[localIndex].IsCorrect)
+                                {
+                                    <Button Text="Correct" OnClickEvent="@(e => OnToggle(localIndex))" IsDisabled="false" Variant="1"></Button>
+                                }
+                                else
+                                {
+                                    <Button Text="Correct" OnClickEvent="@(e => OnToggle(localIndex))" IsDisabled="false" Variant="3"></Button>
+                                }
+                            }
+                            @if (FetchQuestionsModelList[_currentQuestion - 1].Answers.Count() >= localIndex + 1)
+                            {
+                                @if (@FetchQuestionsModelList[_currentQuestion - 1].Answers[localIndex].Type == 0)
+                                {
+                                    <Button Text="Text" OnClickEvent="@(e => OnToggleQuestionVariant(localIndex))" IsDisabled="false" Variant="2"></Button>
+                                }
+                                else
+                                {
+                                    <Button Text="Picture" OnClickEvent="@(e => OnToggleQuestionVariant(localIndex))" IsDisabled="false" Variant="4"></Button>
+                                }
+                                <Button Text="Add Image" OnClickEvent="@(e => ImagePopup(localIndex))" IsDisabled="false" Variant="4"></Button>
+                            }
+
+                        </div>
+                    </div>
+                }
+            </div>
+
+            <div class="grid grid-cols-2 gap-4 mt-5 w-full max-w-lg">
+                @if (FetchQuestionsModelList[_currentQuestion - 1].Answers.Count() < MaxAnswers)
+                {
+                    <Button Text="Add Answer" OnClickEvent="@AddAnswer" IsDisabled="false" Variant="1"></Button>
+                }
+                else
+                {
+                    <Button Text="Add Answer" OnClickEvent="@AddAnswer" IsDisabled="true" Variant="1"></Button>
+                }
+                @if (FetchQuestionsModelList[_currentQuestion - 1].Answers.Count() > 0)
+                {
+                    <Button Text="Remove Answer" OnClickEvent="@RemoveAnswer" IsDisabled="false" Variant="3"></Button>
+                }
+                else
+                {
+                    <Button Text="Remove Answer" OnClickEvent="@RemoveAnswer" IsDisabled="true" Variant="3"></Button>
+                }
+            </div>
+        </div>
+        <div class="flex flex-row justify-around">
+            @if (_currentQuestion > 1)
+            {
+                <div class="">
+                    <Button OnClickEvent="OnPreviousQuestion" Text="Previous" Variant="3"></Button>
+                </div>
+            }
+            <div class="">
+                <Button OnClickEvent="UpdateQuestionUpdateModelAsync" Text="Complete" Variant="4"></Button>
+            </div>
+            <div class="">
+                <Button OnClickEvent="OnNextQuestion" Text="Next" Variant="1"></Button>
+            </div>
+        </div>
+    </div>
+
+
+@if (imagePopup)
+{
+    <div class="h-screen w-screen bg-gray-500/50 absolute top-0 left-0 z-10 flex items-center">
+        <div class="mx-auto w-[20%] bg-offWhite p-5 rounded-lg border-b-4 flex flex-col">
+            <h3 class="text-center font-bold">Add New Image</h3>
+            <div class="mt-10 mb-5">
+                <input type="text"
+                       @bind="imageUrl"
+                       class="w-full p-2 border-2 border-gray-300 rounded"
+                       placeholder="Image URL"/>
+            </div>
+            <div class="flex justify-around">
+                <Button OnClickEvent="OnConfirmImage" Text="Add" Variant="4"></Button>
+                <Button OnClickEvent="CreateTemplateCancel" Text="Cancel" Variant="3"></Button>
+            </div>
+        </div>
+    </div>
+}
+}

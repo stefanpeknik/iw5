@@ -1,0 +1,12 @@
+@namespace TaHook.Web.App
+@using Microsoft.AspNetCore.Components.WebAssembly.Authentication
+@inject NavigationManager Navigation
+    <div class="p-2.5 mt-3 rounded-md px-4 duration-300 cursor-pointer hover:bg-blue-600 text-white">
+        <button class="text-[15px] text-center text-gray-200 font-bold" @onclick="BeginLogOut">Log Out</button>
+    </div>
+@code {
+    private void BeginLogOut()
+    {
+        Navigation.NavigateToLogout("authentication/logout");
+    }
+}

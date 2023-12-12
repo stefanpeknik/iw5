@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using TaHooK.Api.BL.Facades;
@@ -8,6 +9,7 @@ using TaHooK.Common.Models.Responses;
 namespace TaHooK.Api.App.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/answers")]
 public class AnswerController : ControllerBase
 {
@@ -20,7 +22,6 @@ public class AnswerController : ControllerBase
 
     [HttpGet]
     [OpenApiOperation("GetAnswers", "Returns a list of all answers.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(IEnumerable<AnswerListModel>), Description = "Successful operation.")]
     public async Task<IEnumerable<AnswerListModel>> GetAnswers()
     {
         return await _answerFacade.GetAllAsync();
@@ -28,21 +29,24 @@ public class AnswerController : ControllerBase
 
     [HttpGet("{id:guid}")]
     [OpenApiOperation("GetAnswerById", "Returns an answer based on the GUID on input.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(AnswerDetailModel), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "Answer not found.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(AnswerDetailModel))]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<AnswerDetailModel>> GetAnswerById(Guid id)
     {
         var result = await _answerFacade.GetByIdAsync(id);
 
-        if (result == null) return NotFound(new ErrorModel { Error = $"Answer with Id = {id} was not found" });
+        if (result == null)
+        {
+            return NotFound(new ErrorModel { Error = $"Answer with Id = {id} was not found" });
+        }
 
         return result;
     }
 
     [HttpPost]
     [OpenApiOperation("CreateAnswer", "Creates a new answer.")]
-    [SwaggerResponse(HttpStatusCode.Created, typeof(IdModel), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
+    [SwaggerResponse(HttpStatusCode.Created, typeof(IdModel))]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel))]
     public async Task<ActionResult<IdModel>> CreateAnswer(AnswerCreateUpdateModel answer)
     {
         var result = await _answerFacade.CreateAsync(answer);
@@ -51,10 +55,9 @@ public class AnswerController : ControllerBase
 
     [HttpPut("{id:guid}")]
     [OpenApiOperation("UpdateAnswerById", "Updates an existing answer.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel), Description = "Incorrect input model.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel),
-        Description = "Answer with the given ID was not found.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(IdModel))]
+    [SwaggerResponse(HttpStatusCode.BadRequest, typeof(BadRequestModel))]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult<IdModel>> UpdateAnswerById(AnswerCreateUpdateModel answer, Guid id)
     {
         try
@@ -70,8 +73,8 @@ public class AnswerController : ControllerBase
 
     [HttpDelete("{id:guid}")]
     [OpenApiOperation("DeleteAnswer", "Deletes an answer based on the input ID.")]
-    [SwaggerResponse(HttpStatusCode.OK, typeof(void), Description = "Successful operation.")]
-    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel), Description = "Answer with input ID was not found.")]
+    [SwaggerResponse(HttpStatusCode.OK, typeof(void))]
+    [SwaggerResponse(HttpStatusCode.NotFound, typeof(ErrorModel))]
     public async Task<ActionResult> DeleteAnswer(Guid id)
     {
         try

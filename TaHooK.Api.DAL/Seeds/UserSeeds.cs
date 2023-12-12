@@ -20,12 +20,19 @@ public static class UserSeeds
         Name = "Brouk Pytlík",
         Photo = new Uri("https://vltava.rozhlas.cz/sites/default/files/images/00865327.jpeg")
     };
-
-    public static void Seed(this ModelBuilder modelBuilder)
+    
+    public static void Seed(this TaHooKDbContext dbContext)
     {
-        modelBuilder.Entity<UserEntity>().HasData(
-            DefaultUser with { Scores = Array.Empty<ScoreEntity>() },
-            DefaultUser2 with { Scores = Array.Empty<ScoreEntity>() }
-        );
+        
+        if (!dbContext.Users.Any())
+        {
+            var users = new List<UserEntity>()
+            {
+                DefaultUser with { Scores = new List<ScoreEntity>(), Quizes = new List<QuizEntity>(), QuizTemplates = new List<QuizTemplateEntity>()},
+                DefaultUser2 with { Scores = new List<ScoreEntity>(), Quizes = new List<QuizEntity>(), QuizTemplates = new List<QuizTemplateEntity>()}
+            };
+            
+            dbContext.Users.AddRange(users);
+        }
     }
 }

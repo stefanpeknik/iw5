@@ -1,0 +1,164 @@
+﻿@page "/lobby/{id:guid}"
+@using TaHooK.Common.Enums
+
+@if (QuizModel is null)
+{
+    return;
+}
+
+@switch (_state)
+{
+    case QuizState.Lobby:
+
+        <div class="flex flex-col justify-between items-center h-screen w-full">
+            <h1 class="text-center text-3xl font-bold m-5">@QuizModel!.Title lobby</h1>
+            @if (QuizModel.CreatorId == _userId)
+            {
+                <Button Text="Start Quiz" OnClickEvent="@OnStartQuizButton" Variant="1"></Button>    
+            }
+            <div class="flex flex-row flex-wrap justify-around mx-[10%] basis-2/3">
+                @foreach (var user in @Users)
+                {
+                    <div class="mx-5">
+                        <img src="@user.Photo" class="rounded-full w-[100px] h-[100px] border border-navBlue" />
+                        <p class="text-center font-semibold mt-2">@user.Name</p>
+                    </div>
+                }
+            </div>
+        </div>
+
+        break;
+    case QuizState.Question:
+
+        <div class="absolute top-0 right-0 mr-10 mt-10 text-2xl font-semibold">
+            <p>@_currentQuestion/@_questionCount</p>
+        </div>
+        <div class="flex items-center h-screen">
+            <div class="flex flex-col w-full">
+                <h1 class="text-5xl mb-10 text-center font-bold">@Question.Text</h1>
+                <div class="flex flex-row justify-around flex-wrap mt-10 items-stretch">
+                    @foreach (var answer in @Question.Answers)
+                    {
+                        @if (answer.Type == AnswerType.Picture)
+                        {
+                            <div @onclick="() => OnAnswerQuestion(answer)" class="flex flex-col flex-1 mx-5 max-w-[33%] border-2 border-navBlue bg-lightBlue rounded-lg shadow-2xl hover:cursor-pointer transition ease-in-out delay-50 hover:scale-110">
+                            
+                                <img src="@answer.Picture" class="rounded-t-lg grow object-cover border-b-2 border-navBlue"/>
+                                <div class="p-5">
+                                    <h3 class="text-center text-white font-bold align-middle">@answer.Text</h3>
+                                </div>
+                            </div>
+                        }
+                        @if (answer.Type == AnswerType.Text)
+                        {
+                            <div @onclick="() => OnAnswerQuestion(answer)" class="flex flex-col flex-1 mx-5 max-w-[33%] min-h-[33%] border-2 border-navBlue bg-lightBlue rounded-lg shadow-2xl hover:cursor-pointer transition ease-in-out delay-50 hover:scale-110">
+                                <div class="p-5">
+                                    <h3 class="text-center text-white font-bold align-middle">@answer.Text</h3>
+                                </div>
+                            </div>
+                        }
+                    }
+                </div>
+            </div>
+        </div>
+
+        break;
+    case QuizState.QuestionAnswered:
+
+        <div class="absolute top-0 right-0 mr-10 mt-10 text-2xl font-semibold">
+            <p>@_currentQuestion/@_questionCount</p>
+        </div>
+        <div class="flex items-center h-screen">
+            <div class="flex flex-col w-full">
+                <h1 class="text-5xl mb-10 text-center font-bold">@Question.Text</h1>
+                <div class="flex flex-row justify-around flex-wrap mt-10 items-stretch">
+                    <div class="w-full mx-[40%] p-5 border border-b-4 rounded-lg">
+                        <h3 class="text-center font-semibold mb-3">Answer Distrubution</h3>
+                        <BlazorBootstrap.PieChart @ref="_pieChart" Class="mb-4" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        break;
+    case QuizState.QuestionResult:
+
+        <div class="absolute top-0 right-0 mr-10 mt-10 text-2xl font-semibold">
+            <p>@_currentQuestion/@_questionCount</p>
+        </div>
+        <div class="flex items-center h-screen">
+            <div class="flex flex-col w-full">
+                <h1 class="text-5xl mb-10 text-center font-bold">@Question.Text</h1>
+                @if (QuizModel.CreatorId == _userId)
+                {
+                    <div class="self-center">
+                        @if (_currentQuestion != _questionCount)
+                        {
+                            <Button OnClickEvent="OnGetNextQuestionButton" Text="Next Question" Variant="1"></Button>
+                        }
+                        @if (_currentQuestion == _questionCount)
+                        {
+                            <Button OnClickEvent="FinishAndShowResults" Text="Show Results" Variant="1"></Button>
+                        }
+                    </div>
+                }
+                <div class="flex flex-row justify-around flex-wrap mt-10 items-stretch">
+                    <div class="w-full mx-[40%] p-5 border border-b-4 rounded-lg">
+                        <h3 class="text-center font-semibold mb-3">Answer Distrubution</h3>
+                        <BlazorBootstrap.PieChart @ref="_pieChart" Class="mb-4" />
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        break;
+    case QuizState.QuizResult:
+
+        <div class="flex flex-col justify-between overflow-hidden items-center h-screen w-full">
+            <div class="flex flex-col items-center">
+                <h1 class="text-center text-3xl font-bold m-10">@QuizModel!.Title results</h1>
+                <div>
+                <Button OnClickEvent="() => _allScores = !_allScores" Text="@((_allScores) ? "Show top 3" : "Show all scores")"></Button>
+                </div>
+            </div>
+            
+            <div class="basis-1/2">
+                @if (!_allScores)
+                {
+                    <div class="flex align-items-end animate-rise">
+                        @if (Scores.Count > 1)
+                        {
+                            <div class="bg-blue-500 w-[200px] h-[400px] rounded-t-lg">
+                                <p class="text-center text-white font-bold mt-5">@Scores[1].UserName</p>
+                                <p class="text-center text-white font-bold mt-5">@Scores[1].Score</p>
+                            </div>
+                        }
+                        <div class="bg-blue-500 w-[200px] h-[500px] rounded-t-lg mx-5">
+                            <p class="text-center text-white font-bold mt-5">@Scores[0].UserName</p>
+                            <p class="text-center text-white font-bold mt-5">@Scores[0].Score</p>
+                        </div>
+                        @if (Scores.Count > 2)
+                        {
+                            <div class="bg-blue-500 w-[200px] h-[300px] rounded-t-lg">
+                                <p class="text-center text-white font-bold mt-5">@Scores[2].UserName</p>
+                                <p class="text-center text-white font-bold mt-5">@Scores[2].Score</p>
+                            </div>
+                        }
+                    </div>
+                }
+                @if (_allScores)
+                {
+                    @foreach (var score in Scores)
+                    {
+                        <div>
+                            <p class="font-bold text-center">@score.UserName</p>
+                            <p class="font-semibold text-center">@score.Score</p>
+                        </div>
+
+                    }
+                }
+            </div>
+        </div>
+
+        break;
+}

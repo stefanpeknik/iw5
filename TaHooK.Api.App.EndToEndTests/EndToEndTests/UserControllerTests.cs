@@ -67,7 +67,7 @@ public class UserControllerTests : EndToEndTestsBase
         var getId = (await get.Content.ReadFromJsonAsync<UserDetailModel>())!.Id;
 
         // Assert
-        Assert.Equal(HttpStatusCode.Accepted, post.StatusCode);
+        Assert.Equal(HttpStatusCode.Created, post.StatusCode);
         Assert.Equal(postId.Id, getId);
     }
 
