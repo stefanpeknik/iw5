@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using TaHooK.Api.BL.Facades;
@@ -8,6 +9,7 @@ using TaHooK.Common.Models.User;
 namespace TaHooK.Api.App.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/users")]
 public class UserController : ControllerBase
 {
@@ -66,6 +68,13 @@ public class UserController : ControllerBase
         catch (FormatException e)
         {
             return BadRequest(new ErrorModel {Error = "JWT ID has invalid format."});
+        }
+        
+        var existingUser = await _userFacade.GetByIdAsync(id);
+        if (existingUser == null)
+        {
+            user.Photo =
+                new Uri("https://www.bsn.eu/wp-content/uploads/2016/12/user-icon-image-placeholder-300-grey.jpg");
         }
 
         var result = await _userFacade.CreateOrUpdateAsync(user, id);

@@ -2,7 +2,6 @@
 
 public enum SearchEntityType
 {
-    Question,
-    Answer,
+    QuizTemplate,
     User
 }

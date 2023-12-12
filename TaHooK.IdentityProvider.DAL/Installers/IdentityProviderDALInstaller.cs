@@ -6,6 +6,7 @@ using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using TaHooK.IdentityProvider.DAL.Migrators;
+using TaHooK.IdentityProvider.DAL.Seeds;
 
 namespace TaHooK.IdentityProvider.DAL.Installers;
 
@@ -18,6 +19,7 @@ public class IdentityProviderDALInstaller
         serviceCollection.AddSingleton<IDbMigrator, SqlDbMigrator>();
         serviceCollection.AddScoped<IUserStore<AppUserEntity>, UserStore<AppUserEntity, AppRoleEntity, IdentityProviderDbContext, Guid, AppUserClaimEntity, AppUserRoleEntity, AppUserLoginEntity, AppUserTokenEntity, AppRoleClaimEntity>>();
         serviceCollection.AddScoped<IRoleStore<AppRoleEntity>, RoleStore<AppRoleEntity, IdentityProviderDbContext, Guid, AppUserRoleEntity, AppRoleClaimEntity>>();
+        serviceCollection.AddScoped<AppUserSeeds>();
 
         serviceCollection.AddTransient(serviceProvider =>
         {

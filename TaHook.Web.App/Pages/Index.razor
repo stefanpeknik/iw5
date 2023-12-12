@@ -14,32 +14,28 @@ Welcome to your new app.
 
 <SurveyPrompt Title="How is Blazor working for you?"/>
 
-
-<h3>User Information</h3>
-@if (user != null)
-{
-    @foreach(var claim in user.Claims)
-    {
-        <p>@claim.Type: @claim.Value</p>
-    }    
-}
-
-
-<button onclick="@Call">try to create user</button>
-
-<div>
-    <p>ID: @idreturned</p>
-</div>
-
 @code {
     private ClaimsPrincipal? user;
 
     private string idreturned = "";
     
-    private async void Call()
+    private async ValueTask Call()
     {
         if (user == null) return;
-        
+
+        var id = user.Claims.First(c => c.Type.ToLower() == "id").Value;
+        bool notFound = false;
+        try
+        {
+            await UserApiClient.UsersGetAsync(Guid.Parse(id));
+        }
+        catch (Exception e)
+        {
+            notFound = true;
+        }
+
+        if(!notFound) return;
+
         var u = new UserCreateUpdateModel
         {
             
@@ -55,5 +51,6 @@ Welcome to your new app.
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         user = authState.User;
+        await Call();
     }
 }

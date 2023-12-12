@@ -7,6 +7,7 @@ using TaHooK.IdentityProvider.DAL.Installers;
 using Serilog;
 using TaHooK.IdentityProvider.DAL.Extensions;
 using TaHooK.IdentityProvider.DAL.Migrators;
+using TaHooK.IdentityProvider.DAL.Seeds;
 
 Log.Logger = new LoggerConfiguration()
     .WriteTo.Console()
@@ -46,6 +47,8 @@ try
     {
         scope.ServiceProvider.GetRequiredService<IDbMigrator>().Migrate(false);
     }
+    var seeder = scope.ServiceProvider.GetRequiredService<AppUserSeeds>();
+    seeder.SeedAsync().Wait();
     
     app.Run();
 }

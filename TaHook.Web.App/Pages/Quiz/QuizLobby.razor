@@ -49,7 +49,7 @@
                     }
                     @if (_currentQuestion == _questionCount)
                     {
-                        <Button OnClickEvent="OnGetNextQuestionButton" Text="Show Results" Variant="1"></Button>
+                        <Button OnClickEvent="FinishAndShowResults" Text="Show Results" Variant="1"></Button>
                     }
                 </div>
                 <div class="flex flex-row justify-around flex-wrap mt-10 items-stretch">
@@ -82,7 +82,7 @@
                     }
                     @if (_currentQuestion == _questionCount)
                     {
-                        <Button OnClickEvent="OnGetNextQuestionButton" Text="Show Results" Variant="1"></Button>
+                        <Button OnClickEvent="FinishAndShowResults" Text="Show Results" Variant="1"></Button>
                     }
                 </div>
                 <div class="flex flex-row justify-around flex-wrap mt-10 items-stretch">
@@ -102,8 +102,50 @@
         break;
     case QuizState.QuizResult:
 
-        <div class="flex flex-col justify-between items-center h-screen w-full">
-            <h1 class="text-center text-3xl font-bold m-10">@QuizModel!.Title results</h1>
+        <div class="flex flex-col justify-between overflow-hidden items-center h-screen w-full">
+            <div class="flex flex-col items-center">
+                <h1 class="text-center text-3xl font-bold m-10">@QuizModel!.Title results</h1>
+                <div>
+                <Button OnClickEvent="() => _allScores = !_allScores" Text="@((_allScores) ? "Show top 3" : "Show all scores")"></Button>
+                </div>
+            </div>
+            
+            <div class="basis-1/2">
+                @if (!_allScores)
+                {
+                    <div class="flex align-items-end animate-rise">
+                        @if (Scores.Count > 1)
+                        {
+                            <div class="bg-blue-500 w-[200px] h-[400px] rounded-t-lg">
+                                <p class="text-center text-white font-bold mt-5">@Scores[1].UserName</p>
+                                <p class="text-center text-white font-bold mt-5">@Scores[1].Score</p>
+                            </div>
+                        }
+                        <div class="bg-blue-500 w-[200px] h-[500px] rounded-t-lg mx-5">
+                            <p class="text-center text-white font-bold mt-5">@Scores[0].UserName</p>
+                            <p class="text-center text-white font-bold mt-5">@Scores[0].Score</p>
+                        </div>
+                        @if (Scores.Count > 2)
+                        {
+                            <div class="bg-blue-500 w-[200px] h-[300px] rounded-t-lg">
+                                <p class="text-center text-white font-bold mt-5">@Scores[2].UserName</p>
+                                <p class="text-center text-white font-bold mt-5">@Scores[2].Score</p>
+                            </div>
+                        }
+                    </div>
+                }
+                @if (_allScores)
+                {
+                    @foreach (var score in Scores)
+                    {
+                        <div>
+                            <p class="font-bold text-center">@score.UserName</p>
+                            <p class="font-semibold text-center">@score.Score</p>
+                        </div>
+
+                    }
+                }
+            </div>
         </div>
 
         break;

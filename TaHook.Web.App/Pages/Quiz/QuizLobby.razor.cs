@@ -3,10 +3,12 @@ using System.Runtime.CompilerServices;
 using BlazorBootstrap;
 using Microsoft.AspNetCore.Components;
 using Microsoft.AspNetCore.Components.Web;
+using Microsoft.AspNetCore.Components.WebAssembly.Authentication;
 using Microsoft.AspNetCore.SignalR.Client;
 using TaHooK.Common.Models.Answer;
 using TaHooK.Common.Models.Question;
 using TaHooK.Common.Models.Quiz;
+using TaHooK.Common.Models.Score;
 using TaHooK.Common.Models.User;
 using TaHooK.Web.BL.Facades;
 
@@ -24,15 +26,18 @@ namespace TaHook.Web.App.Pages.Quiz
         public QuestionDetailModel? Question { get; set; }
         public List<UserListModel> Users { get; set; } = new ();
         public List<AnswerDistributionModel> Distribution { get; set; } = new();
+        public List<ScoreListModel> Scores { get; set; } = new();
 
         private int _currentQuestion = 0;
         private int _questionCount;
 
         [Inject] private QuizFacade? Facade { get; set; }
         [Inject] private NavigationManager? Navigation { get; set; }
+        [Inject] private IAccessTokenProvider? TokenProvider { get; set; }
         private HubConnection? _hubConnection;
 
         private QuizState _state = QuizState.Lobby;
+        private bool _allScores = false;
 
         private enum QuizState
         {
@@ -55,15 +60,27 @@ namespace TaHook.Web.App.Pages.Quiz
         {
             QuizModel = await Facade!.GetByIdAsync(Id);
             _questionCount = QuizModel.Questions.Count;
+            var accessTokenResult = await TokenProvider!.RequestAccessToken();
 
-            _hubConnection = new HubConnectionBuilder()
-                .WithUrl($"https://localhost:7273/quizhub?userId={User}")
-                .Build();
+            if (accessTokenResult.TryGetToken(out var accessToken))
+            {
+                _hubConnection = new HubConnectionBuilder()
+                    .WithUrl($"https://localhost:7273/quizhub", options =>
+                    {
+                        options.AccessTokenProvider = () => Task.FromResult(accessToken.Value);
+                    })
+                    .Build();
+            }
+ 
 
             _hubConnection.On("NextQuestion", (QuestionDetailModel? question) => OnNextQuestion(question));
             _hubConnection.On("UsersInLobby", (IEnumerable<UserListModel> users) => OnUsersUpdate(users));
             _hubConnection.On("AnswerDistribution",
                 (List<AnswerDistributionModel> distribution) => OnAnswerDistribution(distribution));
+            _hubConnection.On("QuestionResult",
+                (QuestionResult result) => OnAnswerDistribution(result.AnswerDistribution));
+            _hubConnection.On("QuizResult",
+                (List<ScoreListModel> scores) => OnQuizResult(scores));
 
 
             await _hubConnection.StartAsync();
@@ -71,13 +88,18 @@ namespace TaHook.Web.App.Pages.Quiz
 
             await base.OnInitializedAsync();
         }
+
+        protected async ValueTask OnQuizResult(List<ScoreListModel> scores)
+        {
+            Console.WriteLine("Received Quiz Results");
+            _state = QuizState.QuizResult;
+            Scores = scores.OrderByDescending(o => o.Score).ToList();
+            await InvokeAsync(StateHasChanged);
+        }
+
         protected void OnNextQuestion(QuestionDetailModel? question)
         {
             _state = QuizState.Question;
-            if (_currentQuestion == _questionCount)
-            {
-                _state = QuizState.QuizResult;
-            }
 
             _currentQuestion++;
             Question = question;
@@ -118,6 +140,15 @@ namespace TaHook.Web.App.Pages.Quiz
             if (_hubConnection is not null)
             {
                 await _hubConnection.SendAsync("GetNextQuestion", Id);
+            }
+        }
+
+        protected async void FinishAndShowResults()
+        {
+            if (_hubConnection is not null)
+            {
+                await _hubConnection.SendAsync("QuizFinished", Id);
+                Console.WriteLine("Sent Finished quiz");
             }
         }
 
