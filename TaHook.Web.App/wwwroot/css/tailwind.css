@@ -540,6 +540,18 @@ video {
   --tw-backdrop-sepia:  ;
 }
 
+.sr-only {
+  position: absolute !important;
+  width: 1px !important;
+  height: 1px !important;
+  padding: 0 !important;
+  margin: -1px !important;
+  overflow: hidden !important;
+  clip: rect(0, 0, 0, 0) !important;
+  white-space: nowrap !important;
+  border-width: 0 !important;
+}
+
 .fixed {
   position: fixed !important;
 }
@@ -675,6 +687,10 @@ video {
   display: grid !important;
 }
 
+.h-6 {
+  height: 1.5rem !important;
+}
+
 .h-\[100px\] {
   height: 100px !important;
 }
@@ -697,6 +713,10 @@ video {
 
 .h-screen {
   height: 100vh !important;
+}
+
+.w-11 {
+  width: 2.75rem !important;
 }
 
 .w-\[100px\] {
@@ -915,6 +935,11 @@ video {
   background-color: rgb(59 130 246 / var(--tw-bg-opacity)) !important;
 }
 
+.bg-gray-200 {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(229 231 235 / var(--tw-bg-opacity)) !important;
+}
+
 .bg-gray-400 {
   --tw-bg-opacity: 1 !important;
   background-color: rgb(156 163 175 / var(--tw-bg-opacity)) !important;
@@ -1112,6 +1137,70 @@ video {
   transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
 }
 
+.after\:absolute::after {
+  content: var(--tw-content) !important;
+  position: absolute !important;
+}
+
+.after\:left-\[2px\]::after {
+  content: var(--tw-content) !important;
+  left: 2px !important;
+}
+
+.after\:top-0::after {
+  content: var(--tw-content) !important;
+  top: 0px !important;
+}
+
+.after\:top-0\.5::after {
+  content: var(--tw-content) !important;
+  top: 0.125rem !important;
+}
+
+.after\:h-5::after {
+  content: var(--tw-content) !important;
+  height: 1.25rem !important;
+}
+
+.after\:w-5::after {
+  content: var(--tw-content) !important;
+  width: 1.25rem !important;
+}
+
+.after\:rounded-full::after {
+  content: var(--tw-content) !important;
+  border-radius: 9999px !important;
+}
+
+.after\:border::after {
+  content: var(--tw-content) !important;
+  border-width: 1px !important;
+}
+
+.after\:border-gray-300::after {
+  content: var(--tw-content) !important;
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(209 213 219 / var(--tw-border-opacity)) !important;
+}
+
+.after\:bg-white::after {
+  content: var(--tw-content) !important;
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(255 255 255 / var(--tw-bg-opacity)) !important;
+}
+
+.after\:transition-all::after {
+  content: var(--tw-content) !important;
+  transition-property: all !important;
+  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
+  transition-duration: 150ms !important;
+}
+
+.after\:content-\[\'\'\]::after {
+  --tw-content: '' !important;
+  content: var(--tw-content) !important;
+}
+
 .hover\:scale-110:hover {
   --tw-scale-x: 1.1 !important;
   --tw-scale-y: 1.1 !important;
@@ -1169,6 +1258,41 @@ video {
 
 .disabled\:opacity-40:disabled {
   opacity: 0.4 !important;
+}
+
+.peer:checked ~ .peer-checked\:bg-blue-600 {
+  --tw-bg-opacity: 1 !important;
+  background-color: rgb(37 99 235 / var(--tw-bg-opacity)) !important;
+}
+
+.peer:checked ~ .peer-checked\:after\:translate-x-full::after {
+  content: var(--tw-content) !important;
+  --tw-translate-x: 100% !important;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
+}
+
+.peer:checked ~ .peer-checked\:after\:border-white::after {
+  content: var(--tw-content) !important;
+  --tw-border-opacity: 1 !important;
+  border-color: rgb(255 255 255 / var(--tw-border-opacity)) !important;
+}
+
+:is([dir="rtl"] .peer:checked ~ .rtl\:peer-checked\:after\:-translate-x-full)::after {
+  content: var(--tw-content) !important;
+  --tw-translate-x: -100% !important;
+  transform: translate(var(--tw-translate-x), var(--tw-translate-y)) rotate(var(--tw-rotate)) skewX(var(--tw-skew-x)) skewY(var(--tw-skew-y)) scaleX(var(--tw-scale-x)) scaleY(var(--tw-scale-y)) !important;
+}
+
+@media (prefers-color-scheme: dark) {
+  .dark\:border-gray-600 {
+    --tw-border-opacity: 1 !important;
+    border-color: rgb(75 85 99 / var(--tw-border-opacity)) !important;
+  }
+
+  .dark\:bg-gray-700 {
+    --tw-bg-opacity: 1 !important;
+    background-color: rgb(55 65 81 / var(--tw-bg-opacity)) !important;
+  }
 }
 
 @media (min-width: 1024px) {

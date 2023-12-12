@@ -37,4 +37,5 @@ public class QuizFacade : IWebAppFacade
         
         return await _apiClient.QuizzesPostAsync(model);
     }
+
 }

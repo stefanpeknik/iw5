@@ -28,20 +28,29 @@ public class QuestionFacade : IWebAppFacade
         return await _apiClient.QuestionsGetAsync(id);
     }
     
-    public async Task<IdModel> CreateQuestionAsync(QuestionCreateUpdateModel model)
+    public async Task<IdModel> UpdateQuestionAsync(QuestionCreateUpdateModel model)
     {
         return await _apiClient.QuestionsPostAsync(model);
     }
     
-    public async Task<IdModel> UpdateQuestionAsync(Guid questionId, string questionText, Guid templateId)
+    // public async Task<IdModel> UpdateQuestionAsync(Guid questionId, string questionText, Guid templateId)
+    // {
+    //     
+    //     var model = new QuestionCreateUpdateModel
+    //     {
+    //         Text = questionText,
+    //         QuizTemplateId = templateId
+    //     };
+    //     
+    //     return await _apiClient.QuestionsPutAsync(questionId, model);
+    // }
+    public async Task<IdModel> CreateQuestionAsync(QuestionCreateUpdateModel model)
     {
-        
-        var model = new QuestionCreateUpdateModel
-        {
-            Text = questionText,
-            QuizTemplateId = templateId
-        };
-        
+        return await _apiClient.QuestionsPostAsync(model);
+    }
+
+    public async Task<IdModel> UpdateQuestionAsync(QuestionCreateUpdateModel model, Guid questionId)
+    {
         return await _apiClient.QuestionsPutAsync(questionId, model);
     }
     
