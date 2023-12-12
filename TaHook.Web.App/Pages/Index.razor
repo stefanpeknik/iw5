@@ -8,52 +8,61 @@
 
 <PageTitle>Index</PageTitle>
 
-<h1 class="bg-offWhite text-offWhite">Hello, world!</h1>
-
-Welcome to your new app.
-
-<SurveyPrompt Title="How is Blazor working for you?"/>
-
-
-<h3>User Information</h3>
-@if (user != null)
-{
-    @foreach(var claim in user.Claims)
+<div class="flex flex-col justify-center items-center h-screen w-full">
+    <h1 class="text-center text-5xl font-bold m-5">TaHooK!</h1>
+    @if (user != null && name != "")
     {
-        <p>@claim.Type: @claim.Value</p>
-    }    
-}
-
-
-<button onclick="@Call">try to create user</button>
-
-<div>
-    <p>ID: @idreturned</p>
+        <h2 class="text-center text-xl font-bold m-5">Welcome, @name!</h2>
+    }
+    else
+    {
+        <NavLink href="authentication/login">
+            <div class="p-2.5 mt-3 rounded-md px-4 duration-300 bg-navBlue cursor-pointer hover:bg-blue-600 text-white">
+                <span class="text-[15px] text-center text-gray-200 font-bold">Log In</span>
+            </div>
+        </NavLink>
+    }
 </div>
 
 @code {
     private ClaimsPrincipal? user;
-
-    private string idreturned = "";
-    
-    private async void Call()
+    private string name = "";
+    private async ValueTask Call()
     {
-        if (user == null) return;
+        if (user == null || !user.Claims.Any()) return;
+
+        var id = user.Claims.First(c => c.Type.ToLower() == "id").Value;
+        bool notFound = false;
+        try
+        {
+            await UserApiClient.UsersGetAsync(Guid.Parse(id));
+        }
+        catch (Exception e)
+        {
+            notFound = true;
+        }
+
+        if(!notFound) return;
+
         
         var u = new UserCreateUpdateModel
         {
             
             Email = user.Claims.First(c => c.Type.ToLower() == "email").Value,
-            Name = user.Claims.First(c => c.Type.ToLower() == "displayname").Value,
-            Photo = new Uri("https://media.istockphoto.com/id/1337144146/cs/vektor/v%C3%BDchoz%C3%AD-vektor-ikony-profilu-avatara.jpg?s=2048x2048&w=is&k=20&c=diCfuahjWHOGGfMly2iM-q4VgkHl35O9HLu7J6Qr01M=")
+            Name = user.Claims.First(c => c.Type.ToLower() == "displayname").Value
         };
         var x = await UserApiClient.UsersPostAsync(u);
-        idreturned = x.Id.ToString();
     }
     
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
+        
         user = authState.User;
+        if (user is not null && user.Claims.Any())
+        {
+            name = user.Claims.First(c => c.Type.ToLower() == "displayname").Value;
+            await Call();
+        }
     }
 }

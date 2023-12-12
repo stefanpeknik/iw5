@@ -11,6 +11,7 @@ builder.RootComponents.Add<HeadOutlet>("head::after");
 
 string apiBaseUrl = builder.Configuration.GetValue<string>("ApiBaseUrl")!;
 
+builder.Services.AddBlazorBootstrap();
 builder.Services.AddInstaller<WebBLInstaller>(apiBaseUrl);
 builder.Services.AddHttpClient("api", client => client.BaseAddress = new Uri(apiBaseUrl))
     .AddHttpMessageHandler(serviceProvider

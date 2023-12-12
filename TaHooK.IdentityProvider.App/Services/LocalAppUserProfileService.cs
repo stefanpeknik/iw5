@@ -9,14 +9,11 @@ namespace TaHooK.IdentityProvider.App.Services;
 public class LocalAppUserProfileService : IProfileService
 {
     private readonly IAppUserFacade appUserFacade;
-    private readonly IAppUserClaimsFacade appUserClaimsFacade;
 
     public LocalAppUserProfileService(
-        IAppUserFacade appUserFacade,
-        IAppUserClaimsFacade appUserClaimsFacade)
+        IAppUserFacade appUserFacade)
     {
         this.appUserFacade = appUserFacade;
-        this.appUserClaimsFacade = appUserClaimsFacade;
     }
 
     public async Task GetProfileDataAsync(ProfileDataRequestContext context)
@@ -31,16 +28,6 @@ public class LocalAppUserProfileService : IProfileService
                 new (nameof(user.Email), user.Email),
                 new (nameof(user.DisplayName), user.DisplayName)
             };
-            // var appUserClaims = await appUserClaimsFacade.GetAppUserClaimsByUserIdAsync(user.Id);
-            // var claims = appUserClaims.Select(claim =>
-            // {
-            //     if (claim.ClaimType is not null
-            //         && claim.ClaimValue is not null)
-            //     {
-            //         return new Claim(claim.ClaimType, claim.ClaimValue);
-            //     }
-            //     return null;
-            // }).ToList();
             context.RequestedClaimTypes = claims.Select(claim => claim.Type);
             context.AddRequestedClaims(claims);
         }

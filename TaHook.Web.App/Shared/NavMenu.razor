@@ -11,10 +11,14 @@
         <div class="my-2 bg-gray-600 h-[1px]"></div>
     </div>
 
-    <NavButton href="" Title="Home"/>
-    <NavButton href="quiz/ABA1F111-E4CA-47BB-803C-4D6F12EBF526" Title="TEMP: Quiz" />
+    <NavButton href="" Title="Home" />
+    
     @if (_isUserAuthenticated)
     {
+        <NavButton href="/search" Title="Search" />
+        <NavButton href="/games" Title="Join Quiz" />
+        <NavButton href="/templates" Title="Start Quiz" />
+        <NavButton href=@_userProfile Title="Profile" />
         <LogoutButton />
     }
     else
@@ -25,10 +29,31 @@
 
 @code {
     private bool _isUserAuthenticated;
+    private string _userProfile;
 
     protected override async Task OnInitializedAsync()
     {
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         _isUserAuthenticated = authState.User.Identity.IsAuthenticated;
+        
+        // Subscribe to the authentication state changes
+        AuthenticationStateProvider.AuthenticationStateChanged += AuthenticationStateChangedHandler;
+    }
+    
+    private async void AuthenticationStateChangedHandler(Task<AuthenticationState> task)
+    {
+        var authState = await task;
+        var user = authState.User;
+        _isUserAuthenticated = user.Identity.IsAuthenticated;
+        var userId = Guid.Parse(user.Claims.First(c => c.Type.ToLower() == "id").Value);
+        _userProfile = $"/user/{userId}";
+        // User is authenticated, update your state and re-render the component
+        StateHasChanged();
+    }
+    
+    public void Dispose()
+    {
+        // Unsubscribe from the event when the component is disposed
+        AuthenticationStateProvider.AuthenticationStateChanged -= AuthenticationStateChangedHandler;
     }
 }

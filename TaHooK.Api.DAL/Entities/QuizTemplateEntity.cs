@@ -8,7 +8,7 @@ public record QuizTemplateEntity : EntityBase
 
     public ICollection<QuestionEntity> Questions { get; set; } = new List<QuestionEntity>();
     
-    public Guid CreatorId { get; set; }
+    public Guid? CreatorId { get; set; }
     
     public UserEntity? Creator { get; set; }
 

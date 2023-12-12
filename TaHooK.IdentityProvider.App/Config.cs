@@ -34,10 +34,15 @@ namespace TaHooK.IdentityProvider.App
                     AllowOfflineAccess = true,
                     RedirectUris = new List<string>
                     {
-                        "https://oauth.pstmn.io/v1/callback",
+                        "https://oauth.pstmn.io/v1/callback", 
                         "https://localhost:7289/authentication/login-callback",
+                       "https://app-iw5-2023-team-xpekni01-web.azurewebsites.net/authentication/login-callback"
                     },
-                    PostLogoutRedirectUris = new List<string>{ "https://localhost:7289/" },
+                    PostLogoutRedirectUris = new List<string>
+                    {
+                        "https://localhost:7289/",
+                        "https://app-iw5-2023-team-xpekni01-web.azurewebsites.net/"
+                    },
                     AllowedGrantTypes = new List<string>
                     {
                         GrantType.ClientCredentials,
@@ -52,7 +57,7 @@ namespace TaHooK.IdentityProvider.App
                     },
                     ClientSecrets =
                     {
-                        new Secret("secret".Sha256()) // TODO: Change this to a real secret
+                        new Secret("secret".Sha256())
                     },
                     RequireClientSecret = false
                 }

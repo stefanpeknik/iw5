@@ -1,4 +1,5 @@
 ﻿using System.Net;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Mvc;
 using NSwag.Annotations;
 using TaHooK.Api.BL.Facades;
@@ -8,6 +9,7 @@ using TaHooK.Common.Models.Responses;
 namespace TaHooK.Api.App.Controllers;
 
 [ApiController]
+[Authorize]
 [Route("api/answers")]
 public class AnswerController : ControllerBase
 {

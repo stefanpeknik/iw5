@@ -15,6 +15,9 @@ public class AnswerMapperProfile : Profile
         CreateMap<AnswerEntity, AnswerDetailModel>();
 
         CreateMap<AnswerEntity, AnswerListModel>();
+        
+        CreateMap<AnswerListModel, AnswerEntity>()
+            .Ignore(dst => dst.Question);
 
         CreateMap<AnswerEntity, AnswerCreateUpdateModel>();
 
@@ -25,6 +28,7 @@ public class AnswerMapperProfile : Profile
         CreateMap<AnswerEntity, IdModel>();
 
         CreateMap<AnswerEntity, SearchListItemModel>()
+            .MapMember(dst => dst.Id, src => src.Question!.QuizTemplateId)
             .MapMember(dst => dst.Name, src => src.Text)
             .MapMember(dst => dst.Type, src => SearchEntityType.Answer);
     }

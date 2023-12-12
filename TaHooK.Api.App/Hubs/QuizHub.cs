@@ -1,9 +1,11 @@
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.SignalR;
 using TaHooK.Api.BL.Facades.Interfaces;
 using TaHooK.Common.Models.Question;
 
 namespace TaHooK.Api.App.Hubs;
 
+[Authorize]
 public class QuizHub: Hub<IQuizClient>
 {
     private readonly ILiveQuizFacade _liveQuizManager;
@@ -15,12 +17,15 @@ public class QuizHub: Hub<IQuizClient>
 
     public override async Task OnConnectedAsync()
     {
-        var httpContext = Context.GetHttpContext();
-        var userId = httpContext?.Request.Query["userId"].ToString();
-        
-        if (userId != null && userId != Guid.Empty.ToString())
+        var idClaim = Context.User?.Claims.First(claim => claim.Type.Equals("Id")).Value;
+        if (idClaim == null)
         {
-            _liveQuizManager.AddUserConnection(Context.ConnectionId, Guid.Parse(userId));
+            return;
+        }
+        
+        if (idClaim != Guid.Empty.ToString())
+        {
+            _liveQuizManager.AddUserConnection(Context.ConnectionId, Guid.Parse(idClaim));
         }
         
         // Use the userId as needed
@@ -134,7 +139,7 @@ public class QuizHub: Hub<IQuizClient>
                 Results = results,
                 AnswerDistribution = answerDistribution
             };
-            await Clients.Client(Context.ConnectionId).QuestionResult(questionResult);
+            await Clients.Group(quizId.ToString()).QuestionResult(questionResult);
         }
     }
 }

@@ -1,0 +1,54 @@
+﻿@page "/games"
+@inherits PageBase
+
+<div class="flex flex-col items-center h-screen w-full items-stretch">
+    <div class="absolute top-0 right-0 m-10">
+        <Button OnClickEvent="() => _showPast = !_showPast" Text="@(_showPast ? "Active" : "History")" Icon="fa fa-clock-rotate-left"></Button>
+    </div>
+    @if (!_showPast)
+    {
+        <h1 class="font-bold text-3xl text-center my-10">Active Quiz Games</h1>
+
+        @if (QuizGames is not null)
+        {
+            <div class="mx-[10%] grow flex flex-col gap-5 overflow-y-auto mb-5 p-5 border-y">
+                @foreach (var quizGame in QuizGames)
+                {
+                    @if (quizGame.Finished is false && quizGame.StartedAt > DateTime.Now)
+                    {
+                        <div class="border rounded shadow-lg flex flex-row justify-between px-10 py-5">
+                            <div>
+                                <h3 class="font-semibold">@quizGame.Title</h3>
+                                <p>About to start!</p>
+                            </div>
+                            <Button OnClickEvent="() => OnJoinQuiz(quizGame.Id)" Text="Join Quiz"></Button>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    }
+
+    @if (_showPast)
+    {
+        <h1 class="font-bold text-3xl text-center my-10">Past Quiz Games</h1>
+        @if (QuizGames is not null)
+        {
+            <div class="mx-[10%] grow flex flex-col gap-5 overflow-y-auto mb-5 p-5 border-y">
+                @foreach (var quizGame in QuizGames)
+                {
+                    @if (quizGame.Finished)
+                    {
+                        <div class="border rounded shadow-lg flex flex-row justify-between px-10 py-5">
+                            <div>
+                                <h3 class="font-semibold">@quizGame.Title</h3>
+                                <p>Started at: @quizGame.StartedAt</p>
+                            </div>
+                            <Button OnClickEvent="() => OnShowDetail(quizGame.Id)" Icon="fa fa-circle-info"></Button>
+                        </div>
+                    }
+                }
+            </div>
+        }
+    }
+</div>

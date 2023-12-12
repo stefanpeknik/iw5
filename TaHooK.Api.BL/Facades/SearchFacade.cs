@@ -1,6 +1,7 @@
 ﻿using AutoMapper;
 using AutoMapper.QueryableExtensions;
 using FuzzySharp;
+using Microsoft.EntityFrameworkCore;
 using TaHooK.Api.BL.Facades.Interfaces;
 using TaHooK.Api.DAL.Entities;
 using TaHooK.Api.DAL.Entities.Interfaces;
@@ -41,7 +42,7 @@ public class SearchFacade : ISearchFacade
             .ProjectTo<SearchListItemModel>(_mapper.ConfigurationProvider);
         var questionsQueried = questions.Take(page * pageSize)
             .ProjectTo<SearchListItemModel>(_mapper.ConfigurationProvider);
-        var answersQueried = answers.Take(page * pageSize)
+        var answersQueried = answers.Take(page * pageSize).Include(i => i.Question)
             .ProjectTo<SearchListItemModel>(_mapper.ConfigurationProvider);
 
         // combine queries and select the page items

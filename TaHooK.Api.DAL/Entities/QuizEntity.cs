@@ -12,7 +12,7 @@ public record QuizEntity : EntityBase
     public required bool Finished { get; set; }
     public ICollection<ScoreEntity> Scores { get; set; } = new List<ScoreEntity>();
     
-    public Guid CreatorId { get; set; }
+    public Guid? CreatorId { get; set; }
     
     public UserEntity? Creator { get; set; }
 
