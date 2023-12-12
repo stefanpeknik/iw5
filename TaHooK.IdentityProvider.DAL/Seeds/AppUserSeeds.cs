@@ -40,6 +40,11 @@ public async Task SeedAsync()
         
         foreach (var user in users)
         {
+            var existingUser = await _userManager.FindByNameAsync(user.UserName);
+            if (existingUser != null)
+            {
+                continue;
+            }
             await _userManager.CreateAsync(user, "test123");
         }
     }
