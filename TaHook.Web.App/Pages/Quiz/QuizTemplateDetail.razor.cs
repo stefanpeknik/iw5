@@ -40,10 +40,5 @@ namespace TaHook.Web.App.Pages.Quiz
         {
             Navigation!.NavigateTo($"/quiz-edit/{Id}");
         }
-
-        //private async Task LoadData()
-        //{
-        //    //TODO: Load data from facade
-        //}
     }
 }
