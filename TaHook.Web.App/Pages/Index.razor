@@ -10,7 +10,7 @@
 
 <div class="flex flex-col justify-center items-center h-screen w-full">
     <h1 class="text-center text-5xl font-bold m-5">TaHooK!</h1>
-    @if (user != null)
+    @if (user != null && name != "")
     {
         <h2 class="text-center text-xl font-bold m-5">Welcome, @name!</h2>
     }
@@ -26,10 +26,10 @@
 
 @code {
     private ClaimsPrincipal? user;
-    private string? name;
+    private string name = "";
     private async ValueTask Call()
     {
-        if (user == null) return;
+        if (user == null || !user.Claims.Any()) return;
 
         var id = user.Claims.First(c => c.Type.ToLower() == "id").Value;
         bool notFound = false;
@@ -59,7 +59,10 @@
         var authState = await AuthenticationStateProvider.GetAuthenticationStateAsync();
         
         user = authState.User;
-        name = user.Claims.First(c => c.Type.ToLower() == "displayname").Value;
-        await Call();
+        if (user is not null && user.Claims.Any())
+        {
+            name = user.Claims.First(c => c.Type.ToLower() == "displayname").Value;
+            await Call();
+        }
     }
 }

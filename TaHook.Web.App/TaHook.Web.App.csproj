@@ -6,6 +6,13 @@
         <ImplicitUsings>enable</ImplicitUsings>
     </PropertyGroup>
 
+    <ItemGroup>
+      <Compile Remove="Pages\Answer\**" />
+      <Content Remove="Pages\Answer\**" />
+      <EmbeddedResource Remove="Pages\Answer\**" />
+      <None Remove="Pages\Answer\**" />
+    </ItemGroup>
+
 
 
     <ItemGroup>
@@ -20,10 +27,6 @@
     <ItemGroup>
       <ProjectReference Include="..\TaHooK.Common.Models\TaHooK.Common.Models.csproj" />
       <ProjectReference Include="..\TaHooK.Web.BL\TaHooK.Web.BL.csproj" />
-    </ItemGroup>
-
-    <ItemGroup>
-      <Folder Include="Pages\Answer" />
     </ItemGroup>
   
   <Target Name="NpxTailwindBuild" BeforeTargets="BeforeBuild">

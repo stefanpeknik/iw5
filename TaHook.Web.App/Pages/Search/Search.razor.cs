@@ -76,6 +76,7 @@ public partial class Search
     private async Task UpdateQuery(ChangeEventArgs e)
     {
         _query = e.Value!.ToString()!;
+        _page = 1;
         await SearchAsync();
     }
     
