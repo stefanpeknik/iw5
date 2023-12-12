@@ -1,15 +1,5 @@
 ﻿@page "/lobby/{id:guid}"
 
-@* Debug only *@
-<div class="absolute top-0">
-    <select @bind="@User">
-        <option value={@Guid.Parse("A7F6F50A-3B1A-4065-8274-62EDD210CD1A")}>Ferda</option>
-        <option value={@Guid.Parse("14B1DEFA-2350-46C9-9C1C-01E4C63ACD79")}>Brouk Pytlík</option>
-    </select>
-    <button @onclick="OnInitializedAsync">Reconnect</button>
-</div>
-@* ---------- *@
-
 @if (QuizModel is null)
 {
     return;
@@ -21,7 +11,10 @@
 
         <div class="flex flex-col justify-between items-center h-screen w-full">
             <h1 class="text-center text-3xl font-bold m-5">@QuizModel!.Title lobby</h1>
-            <Button Text="Start Quiz" OnClickEvent="@OnStartQuizButton" Variant="1"></Button>
+            @if (QuizModel.CreatorId == _userId)
+            {
+                <Button Text="Start Quiz" OnClickEvent="@OnStartQuizButton" Variant="1"></Button>    
+            }
             <div class="flex flex-row flex-wrap justify-around mx-[10%] basis-2/3">
                 @foreach (var user in @Users)
                 {
@@ -42,16 +35,6 @@
         <div class="flex items-center h-screen">
             <div class="flex flex-col w-full">
                 <h1 class="text-5xl mb-10 text-center font-bold">@Question.Text</h1>
-                <div class="self-center">
-                    @if (_currentQuestion != _questionCount)
-                    {
-                        <Button OnClickEvent="OnGetNextQuestionButton" Text="Next Question" Variant="1"></Button>
-                    }
-                    @if (_currentQuestion == _questionCount)
-                    {
-                        <Button OnClickEvent="FinishAndShowResults" Text="Show Results" Variant="1"></Button>
-                    }
-                </div>
                 <div class="flex flex-row justify-around flex-wrap mt-10 items-stretch">
                     @foreach (var answer in @Question.Answers)
                     {
@@ -75,16 +58,6 @@
         <div class="flex items-center h-screen">
             <div class="flex flex-col w-full">
                 <h1 class="text-5xl mb-10 text-center font-bold">@Question.Text</h1>
-                <div class="self-center">
-                    @if (_currentQuestion != _questionCount)
-                    {
-                        <Button OnClickEvent="OnGetNextQuestionButton" Text="Next Question" Variant="1"></Button>
-                    }
-                    @if (_currentQuestion == _questionCount)
-                    {
-                        <Button OnClickEvent="FinishAndShowResults" Text="Show Results" Variant="1"></Button>
-                    }
-                </div>
                 <div class="flex flex-row justify-around flex-wrap mt-10 items-stretch">
                     <div class="w-full mx-[40%] p-5 border border-b-4 rounded-lg">
                         <h3 class="text-center font-semibold mb-3">Answer Distrubution</h3>
@@ -97,7 +70,33 @@
         break;
     case QuizState.QuestionResult:
 
-        @*TODO*@
+        <div class="absolute top-0 right-0 mr-10 mt-10 text-2xl font-semibold">
+            <p>@_currentQuestion/@_questionCount</p>
+        </div>
+        <div class="flex items-center h-screen">
+            <div class="flex flex-col w-full">
+                <h1 class="text-5xl mb-10 text-center font-bold">@Question.Text</h1>
+                @if (QuizModel.CreatorId == _userId)
+                {
+                    <div class="self-center">
+                        @if (_currentQuestion != _questionCount)
+                        {
+                            <Button OnClickEvent="OnGetNextQuestionButton" Text="Next Question" Variant="1"></Button>
+                        }
+                        @if (_currentQuestion == _questionCount)
+                        {
+                            <Button OnClickEvent="FinishAndShowResults" Text="Show Results" Variant="1"></Button>
+                        }
+                    </div>
+                }
+                <div class="flex flex-row justify-around flex-wrap mt-10 items-stretch">
+                    <div class="w-full mx-[40%] p-5 border border-b-4 rounded-lg">
+                        <h3 class="text-center font-semibold mb-3">Answer Distrubution</h3>
+                        <BlazorBootstrap.PieChart @ref="_pieChart" Class="mb-4" />
+                    </div>
+                </div>
+            </div>
+        </div>
 
         break;
     case QuizState.QuizResult:

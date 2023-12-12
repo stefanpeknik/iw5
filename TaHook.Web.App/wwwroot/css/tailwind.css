@@ -1068,19 +1068,9 @@ video {
   color: rgb(229 231 235 / var(--tw-text-opacity)) !important;
 }
 
-.text-offWhite {
-  --tw-text-opacity: 1 !important;
-  color: rgb(249 249 249 / var(--tw-text-opacity)) !important;
-}
-
 .text-white {
   --tw-text-opacity: 1 !important;
   color: rgb(255 255 255 / var(--tw-text-opacity)) !important;
-}
-
-.text-black {
-  --tw-text-opacity: 1 !important;
-  color: rgb(0 0 0 / var(--tw-text-opacity)) !important;
 }
 
 .shadow {
