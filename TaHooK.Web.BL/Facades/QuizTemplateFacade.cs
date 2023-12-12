@@ -33,7 +33,7 @@ public class QuizTemplateFacade : IWebAppFacade
         await _apiClient.TemplatesDeleteAsync(id);
     }
     
-    public async Task<IdModel> CreateTemplateAsync(String title)
+    public async Task<IdModel> CreateTemplateAsync(string title)
     {
         var model = new QuizTemplateCreateUpdateModel
         {
