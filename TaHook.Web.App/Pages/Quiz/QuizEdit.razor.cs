@@ -110,7 +110,6 @@ public partial class QuizEdit
                     Text = answer.Text,
                     IsCorrect = answer.IsCorrect,
                     Type = answer.Type,
-                    State = EntityState.Unchanged
                 });
                 
                 Console.WriteLine($"AnswerId: {answer.Id}");
@@ -193,12 +192,11 @@ public partial class QuizEdit
         }
     }
     
-    protected void OnCompleteButtonClick()
+    protected async void OnCompleteButtonClick()
     {
         Console.WriteLine($"{currentQuestionId} {QuestionText}");
-        UpdateQuestionUpdateModel();
-        UpdateQuizData(Questions.ElementAt(0), currentQuestionId);
-        InvokeAsync(StateHasChanged);
+        await UpdateQuestionUpdateModelAsync();
+        await InvokeAsync(StateHasChanged);
     }
     
     protected async Task UpdateQuestionUpdateModelAsync()
@@ -256,7 +254,6 @@ public partial class QuizEdit
                 Text = "",
                 IsCorrect = false,
                 Type = TaHooK.Common.Enums.AnswerType.Text,
-                State = EntityState.New
             });
         }
         InvokeAsync(StateHasChanged);

@@ -42,7 +42,7 @@ public partial class Search
     
     protected void OnShowQuizTemplateDetail(Guid quizId)
     {
-        Navigation!.NavigateTo($"/quiz/{quizId}");
+        Navigation!.NavigateTo($"/quiz-template/{quizId}");
     }
     
     protected void OnShowUserDetail(Guid userId)
