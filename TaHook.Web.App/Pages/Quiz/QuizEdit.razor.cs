@@ -28,7 +28,7 @@ public class QuestionModel
     public Guid Id { get; set; }
     public string Text { get; set; }
     public EntityState State { get; set; }
-    public List<AnswerModel> Answers { get; set; } = new List<AnswerModel>();
+    public List<AnswerListModel> Answers { get; set; } = new List<AnswerListModel>();
 }
 
 public class AnswerModel
@@ -104,12 +104,14 @@ public partial class QuizEdit
             foreach (var answer in answers)
             {
                 Console.WriteLine($"Answer: {answer.Text}");
-                questionModel.Answers.Add(new AnswerModel
+                questionModel.Answers.Add(new AnswerListModel
                 {
                     Id = answer.Id,
                     Text = answer.Text,
                     IsCorrect = answer.IsCorrect,
                     Type = answer.Type,
+                    Picture = answer.Picture,
+                    QuestionId = answer.QuestionId
                 });
                 
                 Console.WriteLine($"AnswerId: {answer.Id}");
@@ -128,7 +130,7 @@ public partial class QuizEdit
             Id = Guid.NewGuid(),
             Text = String.Empty,
             State = EntityState.New,
-            Answers = new List<AnswerModel>
+            Answers = new List<AnswerListModel>
             {
 
             }
@@ -139,13 +141,15 @@ public partial class QuizEdit
     {
         if (isQuestionEmpty(index))
         {
-            FetchQuestionsModelList.RemoveAt(index);
+            FetchQuestionsModelList.RemoveAt(index-1);
         }
     }
 
     protected bool CheckIfCreateQuestions(int newIndex)
     {
-        if (newIndex >= FetchQuestionsModelList.Count)
+        Console.WriteLine(newIndex);
+        Console.WriteLine(FetchQuestionsModelList.Count);
+        if (newIndex > FetchQuestionsModelList.Count)
         {
             return true;
         }
@@ -154,7 +158,7 @@ public partial class QuizEdit
         
     protected bool isQuestionEmpty(int index)
     {
-        if (FetchQuestionsModelList.ElementAt(index).Text == String.Empty)
+        if (FetchQuestionsModelList.ElementAt(index-1).Text == String.Empty)
         {
             return true;
         }
@@ -179,26 +183,6 @@ public partial class QuizEdit
         InvokeAsync(StateHasChanged);
     }
     
-
-    protected async Task FetchAnswersByQuestionId(Guid questionId)
-    {
-        AnswersDetailModel = await AnswerFacade!.GetByQuestionIdAsync(questionId);
-        InvokeAsync(StateHasChanged);
-        // print all answers
-        foreach (var answer in AnswersDetailModel)
-        {
-            Console.WriteLine($"Answer: {answer.Text}");
-            Answers.Add(new Answer {Text = answer.Text});
-        }
-    }
-    
-    protected async void OnCompleteButtonClick()
-    {
-        Console.WriteLine($"{currentQuestionId} {QuestionText}");
-        await UpdateQuestionUpdateModelAsync();
-        await InvokeAsync(StateHasChanged);
-    }
-    
     protected async Task UpdateQuestionUpdateModelAsync()
     {
 
@@ -212,35 +196,35 @@ public partial class QuizEdit
                 {
                     Text = question.Text,
                     QuizTemplateId = Id,
-                    
+                    Answers = new List<AnswerListModel>()
                 };
                 
-                await QuestionFacade!.CreateQuestionAsync(questionmodel);
+                var id = await QuestionFacade!.CreateQuestionAsync(questionmodel);
+                question.Answers.ForEach(x => x.QuestionId = id.Id);
+                
+                var questionCreateUpdateModel = new QuestionCreateUpdateModel
+                {
+                    Text = question.Text,
+                    QuizTemplateId = Id,
+                    Answers = question.Answers
+                };
+                
+                await QuestionFacade.UpdateQuestionAsync(questionCreateUpdateModel, id.Id);
             }
             
             if (question.State == EntityState.Updated)
             {
-                var questionmodel = new QuestionCreateUpdateModel
+                var answers = question.Answers;
+            
+                var questionCreateUpdateModel = new QuestionCreateUpdateModel
                 {
                     Text = question.Text,
                     QuizTemplateId = Id,
-                    
+                    Answers = answers
                 };
-                
-                await QuestionFacade!.UpdateQuestionAsync(questionmodel, question.Id);
-            }
-            
-            var answers = question.Answers;
-            
-            var questionCreateUpdateModel = new QuestionCreateUpdateModel
-            {
-                Text = question.Text,
-                QuizTemplateId = Id,
-                Answers = new List<AnswerListModel>()
-            };
 
-            await QuestionFacade.UpdateQuestionAsync(questionCreateUpdateModel, question.Id);
-            
+                await QuestionFacade.UpdateQuestionAsync(questionCreateUpdateModel, question.Id);
+            }
         }
         
     }
@@ -249,7 +233,7 @@ public partial class QuizEdit
     {
         if (FetchQuestionsModelList[_currentQuestion-1].Answers.Count() < MaxAnswers)
         {
-            FetchQuestionsModelList[_currentQuestion-1].Answers.Add(new AnswerModel
+            FetchQuestionsModelList[_currentQuestion-1].Answers.Add(new AnswerListModel
             {
                 Text = "",
                 IsCorrect = false,
@@ -319,7 +303,7 @@ public partial class QuizEdit
     
     private void OnConfirmImage()
     {
-        FetchQuestionsModelList[_currentQuestion-1].Answers[currentImageAnswerIndex].Picture = imageUrl;
+        FetchQuestionsModelList[_currentQuestion-1].Answers[currentImageAnswerIndex].Picture = new Uri(imageUrl);
         imagePopup = false;
         InvokeAsync(StateHasChanged);
         imageUrl = string.Empty;
