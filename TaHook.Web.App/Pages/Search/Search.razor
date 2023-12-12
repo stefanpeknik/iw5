@@ -22,7 +22,9 @@
                             <Button OnClickEvent="() => OnShowQuizTemplateDetail(answer.Id)" Text="Go to Quiz Template"></Button>
                         </div>
                     </div>
-                    @(index++)
+                    {
+                        index++;
+                    }
                 }
             </div>
         </div>
@@ -38,7 +40,9 @@
                             <Button OnClickEvent="() => OnShowQuizTemplateDetail(question.Id)" Text="Go to Quiz Template"></Button>
                         </div>
                     </div>
-                    @(index++)
+                    {
+                        index++;
+                    }
                 }
             </div>
         </div>
@@ -54,7 +58,9 @@
                             <Button OnClickEvent="() => OnShowUserDetail(user.Id)" Text="Go to User"></Button>
                         </div>
                     </div>
-                    @(index++)
+                    {
+                        index++;
+                    }
                 }
             </div>
         </div>
