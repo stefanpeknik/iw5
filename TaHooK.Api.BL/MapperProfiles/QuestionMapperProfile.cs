@@ -29,6 +29,6 @@ public class QuestionMapperProfile : Profile
         CreateMap<QuestionEntity, SearchListItemModel>()
             .MapMember(dst => dst.Id, src=> src.QuizTemplateId)
             .MapMember(dst => dst.Name, src => src.Text)
-            .MapMember(dst => dst.Type, src => SearchEntityType.QuizTemplate);
+            .MapMember(dst => dst.Type, src => SearchEntityType.Question);
     }
 }

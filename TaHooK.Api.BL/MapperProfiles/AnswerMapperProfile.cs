@@ -30,6 +30,6 @@ public class AnswerMapperProfile : Profile
         CreateMap<AnswerEntity, SearchListItemModel>()
             .MapMember(dst => dst.Id, src => src.Question!.QuizTemplateId)
             .MapMember(dst => dst.Name, src => src.Text)
-            .MapMember(dst => dst.Type, src => SearchEntityType.QuizTemplate);
+            .MapMember(dst => dst.Type, src => SearchEntityType.Answer);
     }
 }
