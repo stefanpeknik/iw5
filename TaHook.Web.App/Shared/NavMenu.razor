@@ -18,6 +18,7 @@
         <NavButton href="/search" Title="Search" />
         <NavButton href="/games" Title="Join Quiz" />
         <NavButton href="/templates" Title="Start Quiz" />
+        <NavButton href=@_userProfile Title="Profile" />
         <LogoutButton />
     }
     else
@@ -28,6 +29,7 @@
 
 @code {
     private bool _isUserAuthenticated;
+    private string _userProfile;
 
     protected override async Task OnInitializedAsync()
     {
@@ -43,6 +45,8 @@
         var authState = await task;
         var user = authState.User;
         _isUserAuthenticated = user.Identity.IsAuthenticated;
+        var userId = Guid.Parse(user.Claims.First(c => c.Type.ToLower() == "id").Value);
+        _userProfile = $"/user/{userId}";
         // User is authenticated, update your state and re-render the component
         StateHasChanged();
     }
