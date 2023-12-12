@@ -138,7 +138,7 @@ public class LiveQuizFacade: ILiveQuizFacade
             return;
         }
         
-        quiz.StartedAt = DateTime.UtcNow;
+        quiz.StartedAt = DateTime.Now;
 
         foreach (var user in quizState.Users)
         {

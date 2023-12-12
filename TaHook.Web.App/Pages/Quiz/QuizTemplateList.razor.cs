@@ -35,7 +35,7 @@ namespace TaHook.Web.App.Pages.Quiz
 
         protected void OnShowDetail(Guid quizId)
         {
-            Navigation!.NavigateTo($"/quiz/{quizId}");
+            Navigation!.NavigateTo($"/quiz-template/{quizId}");
         }
 
         protected void OnDeleteTemplate(Guid quizId)
