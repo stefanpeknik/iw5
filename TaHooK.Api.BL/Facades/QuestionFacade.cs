@@ -33,7 +33,7 @@ public class QuestionFacade :
 
         if (!await repository.ExistsAsync(id))
         {
-            return null;
+            throw new InvalidOperationException($"Question with id {id} does not exist.");
         }
 
         entity.Id = id;
