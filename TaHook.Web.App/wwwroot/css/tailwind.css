@@ -584,14 +584,6 @@ video {
   top: 0px !important;
 }
 
-.left-10 {
-  left: 2.5rem !important;
-}
-
-.left-\[250px\] {
-  left: 250px !important;
-}
-
 .z-10 {
   z-index: 10 !important;
 }
@@ -739,6 +731,10 @@ video {
   height: 100vh !important;
 }
 
+.min-h-\[33\%\] {
+  min-height: 33% !important;
+}
+
 .min-h-screen {
   min-height: 100vh !important;
 }
@@ -861,24 +857,20 @@ video {
   justify-content: space-around !important;
 }
 
-.gap-4 {
-  gap: 1rem !important;
-}
-
-.gap-5 {
-  gap: 1.25rem !important;
-}
-
-.gap-10 {
-  gap: 2.5rem !important;
+.gap-1 {
+  gap: 0.25rem !important;
 }
 
 .gap-2 {
   gap: 0.5rem !important;
 }
 
-.gap-1 {
-  gap: 0.25rem !important;
+.gap-4 {
+  gap: 1rem !important;
+}
+
+.gap-5 {
+  gap: 1.25rem !important;
 }
 
 .space-x-4 > :not([hidden]) ~ :not([hidden]) {
@@ -1209,18 +1201,8 @@ video {
   transition-duration: 150ms !important;
 }
 
-.transition-transform {
-  transition-property: transform !important;
-  transition-timing-function: cubic-bezier(0.4, 0, 0.2, 1) !important;
-  transition-duration: 150ms !important;
-}
-
-.delay-100 {
-  transition-delay: 100ms !important;
-}
-
-.delay-500 {
-  transition-delay: 500ms !important;
+.delay-\[1000ms\] {
+  transition-delay: 1000ms !important;
 }
 
 .delay-\[100ms\] {
@@ -1249,10 +1231,6 @@ video {
 
 .delay-\[700ms\] {
   transition-delay: 700ms !important;
-}
-
-.delay-\[1000ms\] {
-  transition-delay: 1000ms !important;
 }
 
 .delay-\[800ms\] {
